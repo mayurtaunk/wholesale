@@ -1,0 +1,73 @@
+[class^="picons16-"],
+[class*=" picons16-"] {
+	background-image:url("images/picons-16.png");
+	background-repeat:no-repeat;
+	display:inline-block;
+	width:20px;
+	height:16px;
+	line-height:16px;
+	vertical-align:text-top;
+	*margin-right:.3em
+}
+[class^="picons16-"]:last-child,
+[class*=" picons16-"]:last-child { 
+	*margin-left:0 
+}
+.picons16-white {
+ 	background-image:url("images/picons-16-white.png");
+}
+
+.picons16-cake 			{ background-position:0 -180px }
+.picons16-zipfile 		{ background-position:0 -396px }
+.picons16-contents	 	{ background-position:0 -720px }
+.picons16-sms 			{ background-position:0 -756px }
+.picons16-useradd	 	{ background-position:0 -1350px }
+.picons16-groups 		{ background-position:0 -1386px }
+.picons16-printer	 	{ background-position:0 -1530px }
+.picons16-settings 		{ background-position:0 -1926px }
+.picons16-barcode-scanner { background-position:0 -2232px }
+.picons16-star			{ background-position:0 -2304px }
+.picons16-bookopen, 	{ background-position:0 -2430px }
+.picons16-car 			{ background-position:0 -2540px }
+.picons16-dashboard 	{ background-position:0 -2682px }
+.picons16-hi 			{ background-position:0 -3168px }
+.picons16-truck			{ background-position:0 -3240px }
+.picons16-charts 		{ background-position:0 -3330px }
+.picons16-tools 		{ background-position:0 -4086px }
+.picons16-help 			{ background-position:0 -4806px }
+.picons16-searchplus 	{ background-position:0 -5148px }
+.picons16-todo 			{ background-position:0 -5328px }
+.picons16-users 		{ background-position:0 -5402px }
+.picons16-usertree 		{ background-position:0 -5760px }
+.picons16-paperclip		{ background-position:0 -6570px }
+.picons16-floppy 		{ background-position:0 -6660px }
+.picons16-page 			{ background-position:0 -6786px }
+.picons16-logout 		{ background-position:0 -6876px }
+.picons16-adminuser 	{ background-position:0 -8370px }
+.picons16-lock 			{ background-position:0 -8424px }
+.picons16-user 			{ background-position:0 -8748px }
+.picons16-reply			{ background-position:0 -8944px }
+.picons16-key 			{ background-position:0 -9128px }
+.picons16-book 			{ background-position:0 -10098px }
+.picons16-barcode 		{ background-position:0 -10368px }
+
+
+[class^="picons24-"],
+[class*=" picons24-"] {
+	background-image:url("images/picons-24.png");
+	background-repeat:no-repeat;
+	display:inline-block;
+	width:24px;
+	height:24px;
+	line-height:24px;
+	vertical-align:text-top;
+	*margin-right:.3em
+}
+[class^="picons24-"]:last-child,
+[class*=" picons24-"]:last-child { 
+	*margin-left:0;
+}
+.picons24-white {
+ 	background-image:url("images/picons-24-white.png");
+}
+.picons24-001 { background-position:0 0 }

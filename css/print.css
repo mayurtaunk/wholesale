@@ -1,0 +1,62 @@
+body {
+	margin: 10px;
+	font-family: sans-serif;
+	font-size: <?php echo (defined('WINDOWS') ? '1.4em' : '1em') ?>;
+}
+
+.big    { font-size: 1.2em !important; }
+.bold	{ font-weight: bold; }
+.tiny	{ font-size: 8pt; }
+
+.aligncenter { text-align: center !important; }
+.alignright  { text-align: right !important; }
+.aligntop 	 { vertical-align: top !important; }
+.alignmiddle { vertical-align: middle !important; }
+
+.nowrap { white-space: nowrap; }
+
+span.box_label {
+	font-size: 0.8em;
+	color: #555;
+}
+
+.header {
+	width: 100%;
+	border-spacing: 0;
+	border-top: solid 1px #999;
+	border-left: solid 1px #999;
+	font-size: 0.9em;
+}
+.header td {
+	padding: 3px;
+	vertical-align: top;
+	border-right: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-bottom: solid 1px #999;
+}
+
+
+.details {
+	width: 100%;
+	border-spacing: 0;
+	border-left: solid 1px #999;
+	font-size: 0.9em;
+}
+.details th {
+	padding: 5px;
+	vertical-align: top;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	border-bottom: solid 1px #999;
+	vertical-align: middle;
+	font-weight: normal;
+	font-size: 0.9em;
+	color: #555;
+}
+.details td { 
+	padding: 3px;
+	vertical-align: top;
+	border-right: solid 1px #999;
+	border-bottom: solid 1px #999;
+	border-bottom: solid 1px #999;
+}
