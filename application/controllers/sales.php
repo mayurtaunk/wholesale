@@ -42,7 +42,7 @@ class Sales extends CI_Controller {
 		$data['rows']=$query->result_array();
 		/*$this->firephp->info($data['rows']);exit;*/
 		$data['page'] = 'list';
-		$data['link'] = 'sales/edit/';
+		$data['link'] = "sales/edit/";
 		$data['fields']= array('id','datetime','less','amount');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'sales/edit/';
