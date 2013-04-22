@@ -1,9 +1,9 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+// PHP 5.2.3 Remove Time Warning Hack
+ini_set('date.timezone', 'Asia/Calcutta');
 
-
-
-define('DEBUG_CI', true);
+define('DEBUG_CI', TRUE);
 if (DEBUG_CI) {
 	ini_set('display_errors', '1');
 }
