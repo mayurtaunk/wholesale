@@ -38,8 +38,12 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 				<input type="text" class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
 			</div>
 		</div>
-		<td class="aligncenter">
-		<?php echo form_checkbox(array('name' => 'recieved','value'=>1, 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
+		<div class="control-group">
+			<label class="control-label">Recieved</label>	
+			<div class="controls">
+				<?php echo form_checkbox(array('name' => 'recieved','value'=>1, 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?>
+			</div>
+		</div>
 	</fieldset>
 
 	<div class="row-fluid">
@@ -66,6 +70,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="barcode[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['barcode'] ?>" /></td>
 								<td><input type="text" class="Numeric input-mini" name="mrp[<?php echo $pid['id'] ?>]" value="<?php echo $pid['mrp'] ?>" /></td>
+								<td><input type="text" class="Numeric input-mini" name="purchase_price[<?php echo $pid['id'] ?>]" value="<?php echo $pid['purchase_price'] ?>" />
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" />
 								</td>

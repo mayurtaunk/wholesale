@@ -26,7 +26,7 @@ class Purchase extends CI_Controller {
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'purchase/edit/';
 		$data['button_text']='Add New Purchase';
-		//$this->firephp->info($data);
+		$this->firephp->info($data);
 		$this->load->view('index',$data);
 	}
 
@@ -38,10 +38,10 @@ class Purchase extends CI_Controller {
 		$this->form_validation->set_rules('date', 'Date', 'trim|required');
 		$this->form_validation->set_rules('bill_no', 'Bill No', 'trim');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
-		$query = $this->db->query("SELECT Pu.id, Pu.party_id, P.name, Pu.date, Pu.bill_no, Pu.amount,pu.recieved	 
-								   FROM purchases Pu INNER JOIN parties P 
-								   ON Pu.party_id = P.id
-								   WHERE Pu.id = $id");
+		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, PU.amount,PU.recieved	
+								   FROM purchases PU INNER JOIN parties P 
+								   ON PU.party_id = P.id
+								   WHERE PU.id = $id");
 		$row = $query->result_array();
 		//$this->firephp->info($_POST);exit;
 		if($query->num_rows() == 0) {
@@ -51,7 +51,7 @@ class Purchase extends CI_Controller {
 				'date' => date('d-m-Y'),
 				'bill_no' => '',
 				'amount' => 0,
-				'recieved' =>0
+				'recieved' =>1
 				);
 			$data['id'] = 0;
 			$data['row'] =  $row; 
@@ -81,24 +81,14 @@ class Purchase extends CI_Controller {
 		else {
 			
 			//$this->firephp->info($_POST);exit;
-
-
-				if($this->input->post('recieved')== NULL)
-					{
-						$recieved = 0;
-					}
-					else
-					{
-						$recieved = 1;
-					}
-				$data = array(
-					'id'	=> $this->input->post('id'),
-					'party_id' => $this->input->post('party_id'),
-					'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
-					'bill_no' => $this->input->post('bill_no'),
-					'amount' => $this->input->post('amount'),
-					'recieved'=>$recieved
-				);
+			$data = array(
+				'id'	=> $this->input->post('id'),
+				'party_id' => $this->input->post('party_id'),
+				'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
+				'bill_no' => $this->input->post('bill_no'),
+				'amount' => $this->input->post('amount'),
+				'recieved'=>($this->input->post('recieved')) ? 1 : 0 
+			);
 				//$this->firephp->info($data); exit;
 				
 			

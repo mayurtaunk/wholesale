@@ -28,9 +28,11 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 				<input type="hidden" id ="purchase_autocomplete_id"  name="purchase_autocomplete_id"  />
 				<input type="text" class="span8" id="barcode" name="sel_barcode" placeholder="Please Hit the Barcode..."/>
 				<input type="text" class="span1" id="sel_qty" name="sel_qty" value="1" placeholder="Quantity"/>			
-					<button type="submit" name="submit" value="1" class="btn btn-success" id="Update">Update</button>
-				</div>
-	</div>
+					<button type="submit" name="submit" value="1" class="btn btn-success" id="Update">Update</button> 
+				<?php if($id > 0) : ?> 
+				&nbsp;&nbsp;<?php echo anchor("sales/preview/".$id."/0", 'Print', 'class="btn Preview Popup"') ?>
+				<?php  endif;  ?>		
+			</div>
 	<div class="row-fluid">
 		<div class="span12">
 			<fieldset>

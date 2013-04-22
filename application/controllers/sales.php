@@ -322,25 +322,8 @@ class Sales extends CI_Controller {
 		$data['max_items'] = 20;
 		$this->load->library('report');
 		//$this->report->set_printer(array('name' => Settings::get('printer_name')));
-		$this->report->render("sale_print", $data);
-		switch (1) {
-			case 2:
-				$this->load->library('wkpdf');
-				$this->wkpdf->set_page_size('A5');
-				$this->wkpdf->set_html('<html><body><pre>' . $this->report->getBuffer() . '</pre></body></html>');
-				$this->wkpdf->render();
-				$this->wkpdf->output('D', 'sale.pdf');
-				echo closeWindow();
-			break;
-			
-			case 1:
-				$this->report->output(Report::PREVIEW, 'sale.txt');
-				break;
-			
-			case 0:
-				$this->report->output(Report::PRINTFILE, 'sale.txt');
-				redirect();
-		}
+		$this->report->render("sales_print", $data);
+		$this->report->output(Report::PREVIEW, 'sale.txt');
 	}
 
 	function _getautocomplete($sql, $db = null) 
