@@ -29,10 +29,24 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 				<input type="text" class="span8" id="barcode" name="sel_barcode" placeholder="Please Hit the Barcode..."/>
 				<input type="text" class="span1" id="sel_qty" name="sel_qty" value="1" placeholder="Quantity"/>			
 					<button type="submit" name="submit" value="1" class="btn btn-success" id="Update">Update</button> 
-				<?php if($id > 0) : ?> 
-				&nbsp;&nbsp;<?php echo anchor("sales/preview/".$id."/0", 'Print', 'class="btn Preview Popup"') ?>
+				<?php if($id > 0) : 
+				?> 
+				&nbsp;&nbsp;<?php 
+				$atts = array(
+              	'width'      => '500',
+              	'height'     => '300',
+ 	            'scrollbars' => 'yes',
+    	        'status'     => 'yes',
+              	'resizable'  => 'yes',
+        	    'screenx'    => '0',
+            	'screeny'    => '0',
+            	'class'      =>'btn Preview Popup'
+            	);
+				echo anchor_popup(base_url('index.php/sales/preview/'.$id), 'Print') ?>
 				<?php  endif;  ?>		
 			</div>
+		</div>
+	</div>
 	<div class="row-fluid">
 		<div class="span12">
 			<fieldset>
@@ -44,6 +58,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 							<th>Barcode</th>
 							<th>MRP</th>
 							<th>Quantity</th>
+							<th>TOTAL</th>
 							<th width="24px" class="aligncenter"><a href="javascript: DeleteAll()"><i class="icon-trash"></i></a></th>
 						</tr>
 					</thead>
@@ -64,8 +79,10 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								<input type="text" class="Text span12" value="<?php echo $sid['name'] ?>" readonly/>
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="barcode[<?php echo $sid['id'] ?>]"  value="<?php echo $sid['barcode'] ?>" readonly/></td>
-								<td><input type="text" class="Numeric input-mini" name="price[<?php echo $sid['id'] ?>]" value="<?php echo $sid['price'] ?>" readonly/></td>
+								<td><input type="text" class="Numeric input-mini" name="mrp[<?php echo $sid['id'] ?>]" value="<?php echo $sid['mrp'] ?>" readonly/></td>
 								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $sid['id'] ?>]" value="<?php echo $sid['quantity'] ?>" readonly/></td>
+								<td><input type="text" class="Numeric input-mini" name="price[<?php echo $sid['id'] ?>]" value="<?php echo $sid['price'] ?>" readonly/></td>
+								
 								<td class="aligncenter"><?php echo form_checkbox(array('name' => 'delete_id['.$sid['id'].']', 'value' => $sid['id'], 'checked' => false, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
 							</tr>
 							<?php } ?> 

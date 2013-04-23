@@ -37,7 +37,7 @@ class Sales extends CI_Controller {
 								FROM sales');
 		$data['rows'] = $query->result_array();*/
 		$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) as amount',false);
-		$this->db->order_by("datetime", "asc"); 
+		$this->db->order_by("id", "desc"); 
 		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();
 		/*$this->firephp->info($data['rows']);exit;*/
@@ -63,6 +63,26 @@ class Sales extends CI_Controller {
 				$this->db->delete('sale_details', array('id' => $value));
 			}	
 		}
+		if ($id != 0) 
+			{
+				$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
+				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
+				$this->load->helper('date');
+				$format = 'DATE_ATOM';
+				$time = time();
+				$updatequery = array(
+				'id' => '',
+				'company_id' => 1,
+				'party_name' => $this->input->post('customer_name'),
+				'party_contact' => $this->input->post('customer_contact'),
+				'type' => 0,
+				'datetime' => standard_date($format, $time),
+				'less' => $this->input->post('discount'),
+				'amount' => $topayjustupd
+				);
+				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
+			}
+				
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('sel_barcode', 'sel_barcode', 'required');
@@ -72,7 +92,7 @@ class Sales extends CI_Controller {
 		$row = $query->result_array();
 		$total=0;
 		$item=0;
-		$query = $this->db->query("SELECT pr.name,pr.id,pd.barcode,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
+		$query = $this->db->query("SELECT pr.name,pr.id,pd.barcode,pd.mrp,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
 								   FROM sale_details sd INNER JOIN purchase_details pd 
 								   ON sd.purchase_Detail_id=pd.id 
 								   INNER JOIN products pr ON pd.product_id=pr.id 
@@ -143,8 +163,9 @@ class Sales extends CI_Controller {
 				$new_id = $query->row_array();
 				$id = $new_id['LAST_INSERT_ID()'];
 			}
-			else 
+			/*else 
 			{
+				//$this->firephp->info($_POST);exit;
 				$this->load->helper('date');
 				$format = 'DATE_ATOM';
 				$time = time();
@@ -156,11 +177,11 @@ class Sales extends CI_Controller {
 				'id2' => $this->input->post('id'),
 				'datetime' => standard_date($format, $time),
 				'less' => $this->input->post('discount'),
-				'amount' => $this->input->post('total')
+				'amount' => $this->input->post('topay')
 				);
-				$this->db->update('sales', $updatequery, "id = '" . $data['id'] . "'");
-				$id = $data['id'];	
-			}
+				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
+				$id = $this->input->post('id');	
+			}*/
 			$sales_detail_ids = $this->input->post('sales_detail_id');
 			$flag=0;
 			$tosell=$this->input->post('sel_qty');
@@ -310,15 +331,44 @@ class Sales extends CI_Controller {
 						
 					}			
 				}
-			}	
+			}
+			$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
+			$topay= $sumofprices['price']-$this->input->post('discount');
+			$updatequery = array(
+				'less' => $this->input->post('discount'),
+				'amount' => $topay
+				);
+				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
+				
+			//$this->firephp->info($_POST);exit;
+			/*currsaledata= $this->radhe->getrowarray('select * from sales where id ='.$this->input->post('id'));
+			$this->firephp->info($currsaledata);exit;
+				$this->load->helper('date');
+				$format = 'DATE_ATOM';
+				$time = time();
+				$updatequery = array(
+				'company_id' => 1,
+				'party_name' => $this->input->post('customer_name'),
+				'party_contact' => $this->input->post('customer_contact'),
+				'type' => 0,
+				'id2' => $this->input->post('id'),
+				'datetime' => standard_date($format, $time),
+				'less' => $this->input->post('discount'),
+				'amount' => $this->input->post('topay')
+				);
+				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
+				$id = $this->input->post('id');*/		
 			$this->load->view('index',$data);
 			redirect("sales/edit/".$id."");
 		}	
 		
 	}
 	function preview($id) {
-		$data['sale'] = $this->db->query('select * from sales where id='.$id);
-		$data['sale_details'] = $this->db->query('select * from sale_details where sale_id='.$id);
+		$this->load->library('radhe');
+		$data['sale'] = $this->radhe->getrowarray('select * from sales where id='.$id);
+		$data['sale_details'] = $this->radhe->getresultarray('select * from sale_details where sale_id='.$id);
+		$this->firephp->info($data['sale']);
+		$this->firephp->info($data['sale_details']);exit;
 		$data['max_items'] = 20;
 		$this->load->library('report');
 		//$this->report->set_printer(array('name' => Settings::get('printer_name')));
