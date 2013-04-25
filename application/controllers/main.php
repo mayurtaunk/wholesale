@@ -9,6 +9,7 @@ class Main extends CI_Controller {
 		$this->load->view('login');
 	}
 	public function logout(){
+		$this->session->sess_destroy();
 		redirect('main/login');
 	}
 	public function signup(){
@@ -68,7 +69,7 @@ class Main extends CI_Controller {
 	}
 	public function master(){
 		$sesdata=$this->firephp->info('SessionID');
-		$this->firephp->info($sesdata);exit;
+		$this->firephp->info($sesdata);
 		if($this->session->userdata('is_logged_in'))
 		{
 			$this->load->view('index');
