@@ -42,7 +42,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
             	'screeny'    => '0',
             	'class'      =>'btn Preview Popup'
             	);
-				echo anchor_popup(base_url('index.php/sales/preview/'.$id), 'Print') ?>
+				echo anchor_popup(base_url("index.php/sales/preview/".$id), 'Print') ?>
 				<?php  endif;  ?>		
 			</div>
 		</div>

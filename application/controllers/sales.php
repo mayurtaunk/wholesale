@@ -71,7 +71,6 @@ class Sales extends CI_Controller {
 				$format = 'DATE_ATOM';
 				$time = time();
 				$updatequery = array(
-				'id' => '',
 				'company_id' => 1,
 				'party_name' => $this->input->post('customer_name'),
 				'party_contact' => $this->input->post('customer_contact'),
@@ -86,10 +85,6 @@ class Sales extends CI_Controller {
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('sel_barcode', 'sel_barcode', 'required');
-		$query = $this->db->query("SELECT id, party_name, party_contact,less,amount
-									FROM sales 
-								   	WHERE id =".$id);
-		$row = $query->result_array();
 		$total=0;
 		$item=0;
 		$query = $this->db->query("SELECT pr.name,pr.id,pd.barcode,pd.mrp,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
@@ -104,6 +99,11 @@ class Sales extends CI_Controller {
 				$item=$item+$value['quantity'];
 		}
 		$data['noproavail']=0;
+		$query = $this->db->query("SELECT id, party_name, party_contact,less,amount
+									FROM sales 
+								   	WHERE id =".$id);
+		$row = $query->result_array();
+		//$this->firephp->info($_POST);exit;
 		if($query->num_rows() == 0) 
 		{
 			$row = array(
@@ -367,13 +367,14 @@ class Sales extends CI_Controller {
 		$this->load->library('radhe');
 		$data['sale'] = $this->radhe->getrowarray('select * from sales where id='.$id);
 		$data['sale_details'] = $this->radhe->getresultarray('select * from sale_details where sale_id='.$id);
-		$this->firephp->info($data['sale']);
-		$this->firephp->info($data['sale_details']);exit;
+		//$this->firephp->info($data['sale']);
+		//$this->firephp->info($data['sale_details']);exit;
 		$data['max_items'] = 20;
-		$this->load->library('report');
+		$this->load->view('sales_print',$data);
+		//$this->load->library('report');
 		//$this->report->set_printer(array('name' => Settings::get('printer_name')));
-		$this->report->render("sales_print", $data);
-		$this->report->output(Report::PREVIEW, 'sale.txt');
+		//$this->report->render("sales_print", $data);
+		//$this->report->output(Report::PREVIEW, 'sale.txt');
 	}
 
 	function _getautocomplete($sql, $db = null) 
