@@ -117,6 +117,9 @@
               <li>
                 <?php echo anchor('sales', 'Sales'); ?></li>
               </li>
+              <li>
+                <?php echo anchor('barcode', 'Print Barcode'); ?></li>
+              </li>
               <li class="nav-header">Reports</li>
               <li><a href="#">Link</a></li>
               <li><a href="#">Link</a></li>

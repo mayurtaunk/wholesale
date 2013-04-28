@@ -27,11 +27,7 @@ class Main extends CI_Controller {
 		$this->form_validation->set_rules('password','Password','required|md5|trim');
 		if($this->form_validation->run())
 		{
-			$data =array (
-					'username' => $this->input->post('username'),
-					'is_logged_in' => 1
-				);
-			$this->session->set_userdata($data);
+			
 			$this->master();
 		}	
 		else

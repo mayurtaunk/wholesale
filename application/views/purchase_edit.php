@@ -77,6 +77,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" />
 								</td>
+								
 								<td class="aligncenter"><?php echo form_checkbox(array('name' => 'delete_id['.$pid['id'].']', 'value' => $pid['id'], 'checked' => false, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
 							</tr>
 							<?php } ?> 
