@@ -9,6 +9,11 @@ class Party extends CI_Controller {
 
 
 	public function index() {
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		$data['list'] = array(
 			'heading' => array('ID', 'Name', 'Address', 'Contact'),
 			'link_col'=> "id" ,
@@ -27,7 +32,11 @@ class Party extends CI_Controller {
 	}
 
 	public function edit($id) {
-
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		$this->load->library(array('form_validation'));
 		
 		$this->form_validation->set_error_delimiters('', '');

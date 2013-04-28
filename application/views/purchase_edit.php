@@ -38,12 +38,15 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 				<input type="text" class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">Recieved</label>	
-			<div class="controls">
-				<?php echo form_checkbox(array('name' => 'recieved','value'=>1, 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?>
-			</div>
-		</div>
+		<?php if($this->session->userdata('key')==1) {?>
+				<?php echo form_checkbox(array('type'=>'hidden', 'name' => 'recieved', 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?>
+		<?php 
+		}
+		else
+		{
+		?>
+				<?php echo form_checkbox(array( 'type'=>'hidden','name' => 'recieved','value'=>1, 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?>
+		<?php } ?>
 	</fieldset>
 
 	<div class="row-fluid">

@@ -1,6 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Radhe {
+    public function canlogin()
+    {
+        $CI =& get_instance();
+        if($CI->session->userdata('is_logged_in')==1)
+        {
+            return 1;
+        } 
+        else
+        {
+            return 0;
+        }
+            
+    }
     public function getcommasepresultarray($query,$field)
     {
     	$purids='';
@@ -39,6 +52,18 @@ class Radhe {
         $totalavail=$tadata['TOTAL_AVAIL'];     
         $netavail=$totalavail-$totalsold;
         return $netavail;
+    }
+    public function getid($tbname,$field)
+    {
+        $tsdata=$this->getrowarray('select max('.$field.') as "max" from '.$tbname);
+        if ($tsdata['max']!=null)
+        {
+            return $tsdata['max']+1;
+        }
+        else
+        {
+            return 1;
+        }
     }
 }
 

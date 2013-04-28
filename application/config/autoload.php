@@ -53,7 +53,7 @@ $autoload['packages'] = array();
 */
 
 
-$autoload['libraries'] = array('database','session','firephp','javascript','pagination');
+$autoload['libraries'] = array('database','session','firephp','javascript','pagination','radhe');
 
 
 

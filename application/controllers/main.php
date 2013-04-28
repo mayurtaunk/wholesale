@@ -2,25 +2,31 @@
 
 class Main extends CI_Controller {
 	
-	public function index() {
+	public function index() 
+	{
 		$this->login();
 	}
-	public function login(){
+	public function login()
+	{
 		$this->load->view('login');
 	}
-	public function logout(){
+	public function logout()
+	{
 		$this->session->sess_destroy();
 		redirect('main/login');
 	}
-	public function signup(){
+	/*public function signup()
+	{
 		$this->load->view('signup');
-	}
-	public function login_validation(){
+	}*/
+	public function login_validation()
+	{
 		$this->load->library('form_validation');
 
 		$this->form_validation->set_rules('username','Username','required|trim|xss_clean|callback_validate_credentials');
 		$this->form_validation->set_rules('password','Password','required|md5|trim');
-		if($this->form_validation->run()){
+		if($this->form_validation->run())
+		{
 			$data =array (
 					'username' => $this->input->post('username'),
 					'is_logged_in' => 1
@@ -33,7 +39,8 @@ class Main extends CI_Controller {
 			$this->load->view('login');
 		}
 	}
-	public function signup_validation(){
+	public function signup_validation()
+	{
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('email',"Email",
 			'required!trim|valid_email|is_unique[users.email]');
@@ -55,7 +62,8 @@ class Main extends CI_Controller {
 			$this->load->view('signup');
 		}
 	}
-	public function validate_credentials(){
+	public function validate_credentials()
+	{
 		$this->load->model('model_users');
 		if($this->model_users->can_log_in()){
 			return true;
@@ -67,16 +75,18 @@ class Main extends CI_Controller {
 		}
 
 	}
-	public function master(){
-		$sesdata=$this->firephp->info('SessionID');
-		$this->firephp->info($sesdata);
-		if($this->session->userdata('is_logged_in'))
+	public function master()
+	{
+		$canlog=$this->radhe->canlogin();
+		/*$this->firephp->info($canlog);exit;
+*/		if($canlog==1)
 		{
-			$this->load->view('index');
+			redirect('sales');
+
 		}
 		else
 		{
-			$this->load->view('login');
+			$this->load->view("login");
 		}
 
 	}

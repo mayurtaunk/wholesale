@@ -90,7 +90,7 @@
           <a class="brand" href="#">Cloth Store Management</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-                <a href='main/logout'><button class="btn btn-primary"><i class="icon-off icon-white"></i>Logout</button></a>
+                <a href=<?php echo base_url("index.php/main/logout") ?>><button class="btn btn-primary"><i class="icon-off icon-white"></i>Logout</button></a>
             </p>
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>

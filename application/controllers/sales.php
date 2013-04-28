@@ -5,6 +5,11 @@ class Sales extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		$this->load->library('pagination');
 		$config['base_url'] = base_url().'index.php/sales/index/';
 		$config['total_rows'] = $this->db->count_all('sales');
@@ -51,6 +56,11 @@ class Sales extends CI_Controller {
 	}
 	public function edit($id)
 	{
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		$this->load->library('radhe');
 		$delete_ids  = $this->input->post('delete_id');
 		if($delete_ids!=null)
@@ -364,9 +374,16 @@ class Sales extends CI_Controller {
 		
 	}
 	function preview($id) {
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		$this->load->library('radhe');
 		$data['sale'] = $this->radhe->getrowarray('select * from sales where id='.$id);
-		$data['sale_details'] = $this->radhe->getresultarray('select * from sale_details where sale_id='.$id);
+		$data['sale_details'] = $this->radhe->getresultarray('select P.name,PD.product_id,PD.mrp,SD.quantity,SD.price from sale_details SD INNER JOIN purchase_details PD ON PD.id=SD.purchase_detail_id INNER JOIN products P ON P.id=PD.product_id where sale_id='.$id);
+		$data['total_qty']=$this->radhe->getrowarray('select sum(quantity) as qty from sale_details where sale_id='.$id);
+		$data['total_pay']=$this->radhe->getrowarray('select sum(price) as pay from sale_details where sale_id='.$id);
 		//$this->firephp->info($data['sale']);
 		//$this->firephp->info($data['sale_details']);exit;
 		$data['max_items'] = 20;

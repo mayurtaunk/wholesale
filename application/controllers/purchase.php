@@ -9,21 +9,36 @@ class Purchase extends CI_Controller {
 
 
 	public function index() {
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		$data['list'] = array(
 			'heading' => array('ID', 'Party Name', 'Date', 'Bill No', 'Amount'),
 			'link_col'=> "id" ,
 			'link_url'=> "purchase/edit/");
-		
-		$query = $this->db->query('SELECT Pu.id, P.name, Pu.date, Pu.bill_no, Pu.amount	 
+		if($this->session->userdata('key')==1)
+		{
+			
+			$query = $this->db->query('SELECT Pu.id,DATE_FORMAT(pu.date,"%W, %M %e, %Y") as  datetime,pu.bill_no,P.name, Pu.date, Pu.bill_no, Pu.amount	 
+								   FROM purchases Pu INNER JOIN parties P 
+								   ON Pu.party_id = P.id 
+									');
+		}
+		else
+		{
+			$query = $this->db->query('SELECT Pu.id,DATE_FORMAT(pu.date,"%W, %M %e, %Y") as  datetime,pu.bill_no,P.name, Pu.date, Pu.bill_no, Pu.amount	 
 								   FROM purchases Pu INNER JOIN parties P 
 								   ON Pu.party_id = P.id WHERE Pu.recieved=1
 									');
 
+		}
+		$data['fields']= array('id','name','date','bill_no','amount');
+		$data['link_col'] = 'id';
 		$data['rows'] = $query->result_array();
 		$data['page'] = "list";
 		$data['link'] = "purchase/edit/";
-		$data['fields']= array('id','name','date','bill_no','amount');
-		$data['link_col'] = 'id';
 		$data['link_url'] = 'purchase/edit/';
 		$data['button_text']='Add New Purchase';
 		$this->firephp->info($data);
@@ -31,6 +46,11 @@ class Purchase extends CI_Controller {
 	}
 
 	public function edit($id) {
+		$canlog=$this->radhe->canlogin();
+		if ($canlog!=1)
+		{
+			redirect('main/login');
+		}
 		//$this->firephp->info($_POST);exit;
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
@@ -51,7 +71,7 @@ class Purchase extends CI_Controller {
 				'date' => date('d-m-Y'),
 				'bill_no' => '',
 				'amount' => 0,
-				'recieved' =>1
+				'recieved' =>($this->session->userdata('key')==1) ? 0 : 1 
 				);
 			$data['id'] = 0;
 			$data['row'] =  $row; 
@@ -61,7 +81,7 @@ class Purchase extends CI_Controller {
 			$data['id'] =  $id;
 			$data['row'] = $row[0];
 		}
-
+		
 		$query = $this->db->query("SELECT PD.id, PD.product_id, P.name, PD.barcode, PD.mrp, 							  PD.purchase_price	, PD.quantity
 									   FROM purchase_details PD INNER JOIN products P
 									   ON PD.product_id = P.id
@@ -87,7 +107,8 @@ class Purchase extends CI_Controller {
 				'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
 				'bill_no' => $this->input->post('bill_no'),
 				'amount' => $this->input->post('amount'),
-				'recieved'=>($this->input->post('recieved')) ? 1 : 0 
+				'recieved'=>($this->input->post('recieved')) ? 1 : 0,
+				/*'id2'=> ($this->input->post('id')==0 && $this->input->post('recieved')==1) ? $this->radhe->getid('purchases','id2') : 0*/
 			);
 				//$this->firephp->info($data); exit;
 				
