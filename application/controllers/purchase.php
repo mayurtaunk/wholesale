@@ -38,6 +38,7 @@ class Purchase extends CI_Controller {
 		$data['link_col'] = 'id';
 		$data['rows'] = $query->result_array();
 		$data['page'] = "list";
+		$data['title'] = "Purchase List";
 		$data['link'] = "purchase/edit/";
 		$data['link_url'] = 'purchase/edit/';
 		$data['button_text']='Add New Purchase';
@@ -93,7 +94,7 @@ class Purchase extends CI_Controller {
 		if ($this->form_validation->run() == false) {
 
 			$data['focus_id'] = 'Name';
-			$data['page_title'] = humanize('Party Edit');
+			$data['title'] = 'Purchase Edit';
 			//$data['page'] = 'party_edit';
 		
 			$this->load->view('index', $data);

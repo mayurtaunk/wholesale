@@ -3,7 +3,7 @@
 // PHP 5.2.3 Remove Time Warning Hack
 ini_set('date.timezone', 'Asia/Calcutta');
 
-define('DEBUG_CI', FALSE);
+define('DEBUG_CI', 1);
 if (DEBUG_CI) {
 	ini_set('display_errors', '1');
 }
@@ -281,7 +281,7 @@ $config['encryption_key'] = '4p7cZMF7431J6jJK06AZeLHdZKv8Xusy';
 |
 */
 $config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 7200;
+//$config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= TRUE;
 $config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= TRUE;

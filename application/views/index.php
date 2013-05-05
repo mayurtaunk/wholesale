@@ -12,7 +12,12 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Cloth Store-Main</title>
+    <?php
+         if(isset($title))
+            echo "<title>".$title."</title>";
+         else
+            echo "<title>Cloth Store</title>"
+   ?> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -97,15 +102,15 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Cloth Store Management</a>
+          <a class="brand" href="dashboard">Cloth Store Management</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
                 <a href=<?php echo base_url("index.php/main/logout") ?>><button class="btn btn-primary"><i class="icon-off icon-white"></i>Logout</button></a>
             </p>
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <!-- <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="#contact">Contact</a></li> -->
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -118,14 +123,14 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Componets</li>
-              <li class="active">
+              <li>
               <?php echo anchor('party', 'Party List'); ?></li>
               <li>
               <?php echo anchor('product', 'Product List'); ?></li>
               <li>
               <?php echo anchor('purchase', 'Purchase List'); ?></li>
               <li>
-                <?php echo anchor('sales', 'Sales'); ?></li>
+                <?php echo anchor('sales', 'Sales List'); ?></li>
               </li>
               <li>
                 <?php echo anchor('barcode', 'Print Barcode'); ?></li>

@@ -4,11 +4,13 @@ class Barcode extends CI_Controller {
 	public function index() 
 	{
 		$data['page'] = "barcode_print";
+		$data['title'] = "Barcode";
 		$this->load->view('index',$data);
 	}
 	public function print_barcode() 
 	{
-			/*$this->firephp->info($_POST);exit;*/
+			//$this->firephp->info($_POST);exit;
+
 			/*$data['popup']=$config->site_url().'popup';*/
             $this->load->view('test_1D',$_POST);
 		

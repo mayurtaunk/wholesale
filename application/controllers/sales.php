@@ -47,6 +47,7 @@ class Sales extends CI_Controller {
 		$data['rows']=$query->result_array();
 		/*$this->firephp->info($data['rows']);exit;*/
 		$data['page'] = 'list';
+		$data['title'] = "Sales List";
 		$data['link'] = "sales/edit/";
 		$data['fields']= array('id','datetime','less','amount');
 		$data['link_col'] = 'id';
@@ -142,7 +143,7 @@ class Sales extends CI_Controller {
 		if ($this->form_validation->run() == false) 
 		{
 			$data['focus_id'] = 'barcode';
-			$data['page_title'] = humanize('Sale details');
+			$data['title'] = 'Sale Edit';
 			$data['page'] = "sales";
 			$this->load->view('index', $data);
 		}

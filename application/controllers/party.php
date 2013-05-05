@@ -23,6 +23,7 @@ class Party extends CI_Controller {
 
 		$data['rows'] = $query->result_array();
 		$data['page'] = "list";
+		$data['title'] = "Party List";
 		$data['link'] = "party/edit/";
 		$data['fields']= array('id','name','address','contact');
 		$data['link_col'] = 'id';
@@ -70,7 +71,7 @@ class Party extends CI_Controller {
 			
 			
 			$data['focus_id'] = 'Name';
-			$data['page_title'] = humanize('Party Edit');
+			$data['title'] = 'Party Edit';
 			$data['page'] = 'party_edit';
 	
 			

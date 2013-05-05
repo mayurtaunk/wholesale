@@ -24,6 +24,7 @@ class Product extends CI_Controller {
 		$data['rows'] = $query->result_array();
 		
 		$data['page']     = "list";
+		$data['title'] = "Product List";
 		$data['fields']   = array('id','name','category','active');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'product/edit/';
@@ -69,7 +70,7 @@ class Product extends CI_Controller {
 			
 			
 			$data['focus_id'] = 'Name';
-			$data['page_title'] = humanize('Product Edit');
+			$data['title'] = 'Product Edit';
 			$data['page'] = 'product_edit';
 	
 			

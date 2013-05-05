@@ -61,7 +61,7 @@ var checked = 1;
  function make_copy(id) {
  	var v0 = $("tr#Blank input:eq(0)").val();
  	var v1 = $("tr#Blank input:eq(1)").val();
- 	if (!v0) return;
+ 	if (!v0 || !v1) return;
 
  	if (id > 1) {
  		$("tr#1").clone().insertBefore("tr#Blank").attr("id", id);
