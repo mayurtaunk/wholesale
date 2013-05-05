@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Barcode Labels</title>
+    <style>
+    body {
+        width: 8.5in;
+        margin: .3in 0 0 0;
+    }
+    .label{
+        width: 1.525in; /* plus .6 inches from padding */
+        height: .600in; /* plus .125 inches from padding */
+        padding: .232in 0 0 0; /* .300in .3in 0;*/
+        margin-right: .125in; /* the gutter */
+        float: left;
+        text-align: center;
+        /*overflow: hidden;*/
+        /*outline: 1px dotted;  outline doesn't occupy space like border does */
+    }
+	.label img { vertical-align: middle !important; }
+    .page-break  {
+        clear: left;
+        display:block;
+        page-break-after:always;
+        }
+    </style>
+</head>
+<body>
+<body>
+  <img src="test_1D.php?text=ooooooooo" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo1" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo2" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo3" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo4" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo1" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=ooooooooo" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo1" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=ooooooooo" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo1" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=ooooooooo" alt="barcode" /> &nbsp &nbsp &nbsp &nbsp
+  <img src="test_1D.php?text=oooooooo1" alt="barcode" />
+</body>
+</html>

@@ -8,9 +8,10 @@ class Barcode extends CI_Controller {
 	}
 	public function print_barcode() 
 	{
-		$this->firephp->info($_POST);exit;
-		$data['page'] = "barcode_print";
-		$this->load->view('index',$data);
+			/*$this->firephp->info($_POST);exit;*/
+			/*$data['popup']=$config->site_url().'popup';*/
+            $this->load->view('test_1D',$_POST);
+		
 	}
 
 	function _getautocomplete($sql, $db = null) {

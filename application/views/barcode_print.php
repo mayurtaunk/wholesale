@@ -4,6 +4,7 @@
 <?php
 echo start_widget('Print Barcode');
 echo form_open($this->uri->uri_string()."/print_barcode", 'class="form-horizontal"');
+/*echo form_open("barcodegen/test_1D.html", 'class="form-horizontal"');*/
 ?>
 
 	
