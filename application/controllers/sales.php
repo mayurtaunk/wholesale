@@ -348,7 +348,9 @@ class Sales extends CI_Controller {
 				'less' => $this->input->post('discount'),
 				'amount' => $topay
 				);
-				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
+			//$this->firephp->info($topay);
+			//$this->firephp->info($_POST);exit;
+			$this->db->update('sales', $updatequery, "id = '" . $id . "'");
 				
 			//$this->firephp->info($_POST);exit;
 			/*currsaledata= $this->radhe->getrowarray('select * from sales where id ='.$this->input->post('id'));
