@@ -21,16 +21,16 @@ class Purchase extends CI_Controller {
 		if($this->session->userdata('key')==1)
 		{
 			
-			$query = $this->db->query('SELECT Pu.id,DATE_FORMAT(pu.date,"%W, %M %e, %Y") as  datetime,pu.bill_no,P.name, Pu.date, Pu.bill_no, Pu.amount	 
-								   FROM purchases Pu INNER JOIN parties P 
-								   ON Pu.party_id = P.id 
+			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
+								   FROM purchases PU INNER JOIN parties P 
+								   ON PU.party_id = P.id 
 									');
 		}
 		else
 		{
-			$query = $this->db->query('SELECT Pu.id,DATE_FORMAT(pu.date,"%W, %M %e, %Y") as  datetime,pu.bill_no,P.name, Pu.date, Pu.bill_no, Pu.amount	 
-								   FROM purchases Pu INNER JOIN parties P 
-								   ON Pu.party_id = P.id WHERE Pu.recieved=1
+			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
+								   FROM purchases PU INNER JOIN parties P 
+								   ON PU.party_id = P.id WHERE PU.recieved=1
 									');
 
 		}
