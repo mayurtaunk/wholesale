@@ -138,7 +138,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
                 <?php echo anchor('barcode', 'Print Barcode'); ?></li>
               </li>
               <li class="nav-header">Banking</li>
-              <li><a href="#">Add Account</a></li>
+              <li><?php echo anchor('bank', 'Add Account'); ?></li>
               <li><a href="#">Make a Transaction</a></li>
               <li><a href="#">Account Statement</a></li>
               <li class="nav-header">Reports</li>

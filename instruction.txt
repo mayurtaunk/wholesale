@@ -1,0 +1,7 @@
+how to show error on the form?
+example ->  invalid mobile number
+ bank account detail form-
+data male che badho but fill kem karvno form ma edit/1 pr
+
+
+go thru set_trans fucntion in radhe.php lib

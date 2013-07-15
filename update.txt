@@ -1,0 +1,36 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+CREATE SCHEMA IF NOT EXISTS `clothstore` DEFAULT CHARACTER SET latin1 ;
+USE `clothstore` ;
+
+-- -----------------------------------------------------
+-- Table `clothstore`.`Transactions`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clothstore`.`Transactions` ;
+
+CREATE  TABLE IF NOT EXISTS `clothstore`.`Transactions` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `t_date` DATE NOT NULL ,
+  `type` VARCHAR(45) NOT NULL COMMENT 'Cr,Dr' ,
+  `particular` VARCHAR(100) NOT NULL ,
+  `type1` VARCHAR(45) NOT NULL COMMENT 'Cash/Cheque/DD' ,
+  `vch_type` VARCHAR(45) NOT NULL ,
+  `vch_no` VARCHAR(45) NULL ,
+  `credit` DECIMAL NULL ,
+  `debit` DECIMAL NULL ,
+  `ref_no` INT NOT NULL COMMENT 'clothestore refrence\n' ,
+  `other_details` VARCHAR(100) NULL ,
+  `comapny_id` INT NOT NULL ,
+  `type2` INT NOT NULL COMMENT 'b/w' ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+COMMENT = '		';
+
+USE `clothstore` ;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

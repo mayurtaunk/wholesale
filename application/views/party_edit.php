@@ -41,5 +41,5 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 
 <?php echo end_widget(); ?>
 
-	</div>
+</div>
 </div>
