@@ -122,30 +122,38 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         <div class="span2">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Componets</li>
+              <li class="nav-header">Feed Data</li>
               <li>
               <?php echo anchor('party', 'Party List'); ?></li>
               <li>
               <?php echo anchor('product', 'Product List'); ?></li>
               <li>
               <?php echo anchor('purchase', 'Purchase List'); ?></li>
+              <li class="nav-header">Sales</li>
               <li>
                 <?php echo anchor('sales', 'Sales List'); ?></li>
               </li>
+              <li class="nav-header">Print</li>
               <li>
                 <?php echo anchor('barcode', 'Print Barcode'); ?></li>
               </li>
+              <li class="nav-header">Banking</li>
+              <li><a href="#">Add Account</a></li>
+              <li><a href="#">Make a Transaction</a></li>
+              <li><a href="#">Account Statement</a></li>
               <li class="nav-header">Reports</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
+              <li><a href="#">Daily Reports</a></li>
+              <li><a href="#">Monthly Reports</a></li>
+              <li><a href="#">Customized Report</a></li>
+              <li><a href="#">Yearly Report(Finacial)</a></li>
+              <li class="nav-header">Out Bound Transaction</li>
+              <li><a href="#">Light Bills</a></li>
+              <li><a href="#">Telephone Bills</a></li>
+              <li><a href="#">Employee Salary</a></li>
+              <li><a href="#">Taxes</a></li>
+              <li><a href="#">Others</a></li>
+              <li class="nav-header">In Bound Transaction</li>
+              <li><a href="#">Others</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -163,7 +171,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
       <hr>
 
       <footer>
-        <p>&copy; Company 2013</p>
+        <p>&copy; Radhe Developers 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->

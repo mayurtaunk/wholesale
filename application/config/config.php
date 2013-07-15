@@ -3,7 +3,7 @@
 // PHP 5.2.3 Remove Time Warning Hack
 ini_set('date.timezone', 'Asia/Calcutta');
 
-define('DEBUG_CI', 1);
+define('DEBUG_CI', FALSE);
 if (DEBUG_CI) {
 	ini_set('display_errors', '1');
 }

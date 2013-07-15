@@ -77,7 +77,7 @@ class Main extends CI_Controller {
 		/*$this->firephp->info($canlog);exit;
 */		if($canlog==1)
 		{
-			redirect('sales');
+			redirect('dashboard');
 
 		}
 		else
