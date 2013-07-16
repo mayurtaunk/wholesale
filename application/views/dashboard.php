@@ -63,9 +63,9 @@
             <div id="legend">
               <legend class="">HIT Barcode</legend>
             </div>
-            <div class="control-group">
+            <div class="control-group" >
               <div class="controls">
-                <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+                <input type="text" id="username" name="username" placeholder="" class="input-xlarge span12">
               </div>
             </div>
             <div class="control-group">
