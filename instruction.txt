@@ -4,4 +4,22 @@ example ->  invalid mobile number
 data male che badho but fill kem karvno form ma edit/1 pr
 
 
-go thru set_trans fucntion in radhe.php lib
+go thru set_trans fucntion in radhe.php
+
+
+be specific with table, field, variable, controller, view names
+
+table name plural 
+and its fields are with specifc name 
+all contoller name are singular name and its view is with same name ending with _edit
+
+and not like bank and add_bank but bank and bank_edit
+
+delete both view and controller you made 
+
+make account and account_edit, transaction and transaction_edit
+
+drop bank tables and forward accounts, transactions brom workbanch
+
+and do the needed changes ;)
+
