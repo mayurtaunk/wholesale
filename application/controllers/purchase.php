@@ -55,7 +55,7 @@ class Purchase extends CI_Controller {
 		//$this->firephp->info($_POST);exit;
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
-		$this->form_validation->set_rules('party_id', 'Party Name', 'trim|required');
+		$this->form_validation->set_rules('party_id', 'Party Name', 'trim|required|is_natural_no_zero');
 		$this->form_validation->set_rules('date', 'Date', 'trim|required');
 		$this->form_validation->set_rules('bill_no', 'Bill No', 'trim');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
