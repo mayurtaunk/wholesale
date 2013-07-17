@@ -8,7 +8,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 
 	<fieldset>		
 	
-		<div class="control-group <?php echo (strlen(form_error('name')) > 0 ? 'error' : '') ?>">
+		<div class="control-group <?php echo (strlen(form_error('party_id')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Party Name</label>
 			<div class="controls">
 				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />

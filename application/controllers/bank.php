@@ -93,7 +93,7 @@ class Bank extends CI_Controller {
 			$data['row'] =  $row; 
 		}
 		else {
-			$this->firephp->info($row[0]);exit;
+			//$this->firephp->info($row[0]);exit;
 			$data['id'] =  $id;
 			$data['row'] = $row[0];
 

@@ -44,7 +44,11 @@ class Party extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Party Name', 'trim|required');
 		$this->form_validation->set_rules('address', 'Address', 'trim');
 		//$this->form_validation->set_rules('contact', 'Contact', 'trim');
+<<<<<<< HEAD
 		$this->form_validation->set_rules('contact', 'Contact', 'required|regex_match[/^[0-9(),-]+$/]|xss_clean');
+=======
+		$this->form_validation->set_rules('contact', 'Contact', 'required|regex_match[/^[0-9(),]+$/]|xss_clean');
+>>>>>>> 71ba8b2c238f8e0e63a036353510971480004813
 
 		$query = $this->db->query("SELECT name, address, contact FROM parties WHERE id = $id");
 		$row = $query->result_array();
