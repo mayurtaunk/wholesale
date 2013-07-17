@@ -16,25 +16,19 @@ class Radhe {
             return false;
         }
     }
-    public function set_trans($type,$particular,$type1,$vchtype,$vchno,$debit,$credit,$ref,$other_info,$company_id,$type2)
+    public function set_trans($account_id,$date,$type,$particular,$amount,$remarks)
     {
                 $CI =& get_instance();
                 $CI->load->helper('date');
                 $format = 'DATE_ATOM';
                 $time = time();
                 $data = array(
-                    't_date' => standard_date($format, $time),
+                    'account_id' =>$account_id,
+                    'date'=> standard_date($format, $time),
                     'type' => $type,
                     'particular' => $particular,
-                    'type1' => $type1,
-                    'vchtype' => $vchtype,
-                    'vchno' => $vchno,
-                    'credit'=>$debit,
-                    'debit'=>$credit,
-                    'ref_no'=>$ref,
-                    'other_details'=>$other_info,
-                    'company_id'=>$company_id,
-                    'type2'=>$type2
+                    'amount'=>$amount,
+                    'remarks'=>$remarks
                 );
                 $CI->db->insert('transactions', $data);
     }
