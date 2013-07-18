@@ -57,8 +57,8 @@ class Purchase extends CI_Controller {
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('party_id', 'Party Name', 'trim|required|is_natural_no_zero');
 		$this->form_validation->set_rules('date', 'Date', 'trim|required');
-		$this->form_validation->set_rules('bill_no', 'Bill No', 'trim');
-		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
+		$this->form_validation->set_rules('bill_no', 'Bill No', 'trim|required');
+		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|is_natural_no_zero');
 		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, PU.amount,PU.recieved	
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id

@@ -29,13 +29,15 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 			<label class="control-label">Bill No</label>
 			<div class="controls">
 				<input type="text" class="span8" name="bill_no" value="<?php echo set_value('bill_no', $row['bill_no']) ?>" />			
+				<span class="help-inline Tiny">* Enter Bill Number</span>
 			</div>
 		</div>
 
 		<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Amount</label>
 			<div class="controls">
-				<input type="text" class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
+				<input type="text" class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />	
+				<span class="help-inline Tiny">* Enter Amount</span>		
 			</div>
 		</div>
 		<?php if($this->session->userdata('key')==1) {?>

@@ -8,12 +8,15 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 
 <fieldset>	
 
-	<div class="control-group" <?php echo (strlen(form_error('barcode')) > 0 ? 'error' : '') ?>>
+	<div class="control-group <?php echo (strlen(form_error('party_name')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Customer Name</div>
 		<div class="controls">
-				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
-				<input type="text" class="span5" name="customer_name" value="<?php echo set_value('name', $row['party_name']) ?>" placeholder="Enter Customer Name..."/>			
+				<!-- <input type="text"  name="id" value="<?//php echo set_value('id', $id) ?>" /> -->
+				<input type="text" class="span5" name="party_name" value="<?php echo set_value('party_name', $row['party_name']) ?>" placeholder="Enter Customer Name..."/>	
+				<span class="help-inline Tiny">* Enter Customer's Fullname</span>		
 		</div>
+	</div>
+	<div class="control-group">
 		<div class="control-label">Contact No</div>
 		<div class="controls">
 				<input type="text" class="span5" name="customer_contact" value="<?php echo set_value('customer_contact', $row['party_contact']) ?>" placeholder="Enter Customer Contact No..."/>			

@@ -23,3 +23,6 @@ drop bank tables and forward accounts, transactions brom workbanch
 
 and do the needed changes ;)
 
+
+validation added in reqired fileds uptil sales
+controller name changed from bank to account & respective view i.e account_edit, the view file is yet empty, in controller of account changes made uptil validate_mobile() later is still remaining.
