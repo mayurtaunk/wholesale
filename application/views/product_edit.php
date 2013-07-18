@@ -12,7 +12,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 			<label class="control-label">Name</label>
 			<div class="controls">
 				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
-				<input type="text" class="span8" name="name" value="<?php echo set_value('name', $row['name']) ?>" />
+				<input type="text" class="span8" id="product" name="name" value="<?php echo set_value('name', $row['name']) ?>" />
 				<span class="help-inline Tiny">*Enter Prodcut Name</span>
 			</div>
 		</div>
@@ -38,6 +38,16 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 
 </form>
 
+<script type="text/javascript">
+  $(document).ready(function() {
+      $("#product").focus();
+      $('.control-group input').keypress(function(e){
+      $(e.target).parent().parent().removeClass("error");
+      });
+
+
+});
+  </script>
 <?php echo end_widget(); ?>
 
 	</div>

@@ -40,17 +40,17 @@ class Account extends CI_Controller {
 
 
 		$data['list'] = array(
-			'heading' => array('ID','Account_no','name','Balance'),
+			'heading' => array('ID','Account_no','Holder name','Balance'),
 			'link_col'=> "ID" ,
 			'link_url'=> "account/edit/");
-		$this->db->select('id,account_no,name,CONCAT("INR ", FORMAT(balance, 2)) AS balance',false);
+		$this->db->select('id,account_no,holder_name,CONCAT("INR ", FORMAT(balance, 2)) AS balance',false);
 		$this->db->order_by("account_no", "desc"); 
 		$query = $this->db->get('accounts', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();
 		$data['page'] = "list";
 		$data['title'] = "Bank Account List";
 		$data['link'] = "account/edit/";
-		$data['fields']= array('id','account_no','name','balance');
+		$data['fields']= array('id','account_no','holder_name','balance');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'account/edit/';
 		$data['button_text']='Add New Account';
@@ -70,23 +70,25 @@ class Account extends CI_Controller {
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		//$this->form_validation->set_rules('b_details_name', 'Name', 'trim|required');
-		$this->form_validation->set_rules('b_details_acc_no', 'Account No', 'trim|required|numeric');
+		$this->form_validation->set_rules('holder_name', 'Holder Name', 'trim|required|');
+		$this->form_validation->set_rules('account_no', 'Account No', 'trim|required|');
+		$this->form_validation->set_rules('bank', 'Bank Name', 'trim|required|');
+		$this->form_validation->set_rules('branch', 'Branch', 'trim|required|');
 		//$this->form_validation->set_rules('b_details_bank', 'Bank Name', 'trim|required');
 		//$this->form_validation->set_rules('b_details_state', 'Bank State', 'trim|required');
 		//$this->form_validation->set_rules('b_details', 'Bank Branch', 'trim|required');*/
-		$this->form_validation->set_rules('b_details_mobile','Mobile No','required|trim|numeric|max_length[10]callback_validate_mobile');
-		$this->form_validation->set_rules('b_details_mobile','Mobile No','required|numeric');
-		$query = $this->db->query("SELECT id, holder_name, account_no, bank, branch, balance FROM accounts WHERE id = $id");
+		//$this->form_validation->set_rules('b_details_mobile','Mobile No','required|trim|numeric|max_length[10]callback_validate_mobile');
+		//$this->form_validation->set_rules('b_details_mobile','Mobile No','required|numeric');
+		$query = $this->db->query("SELECT id, holder_name, account_no, bank, date, branch, balance FROM accounts WHERE id = $id");
 		$row = $query->result_array();
 		
 		if($query->num_rows() == 0) {
 			$row = array(
-				'name' => '',
+				'holder_name' => '',
 				'account_no' => '',
-				'bankname' => '',
-				'state' => '',
+				'bank' => '',
 				'branch' => '',
-				'mobileno' => '',
+				'date' => date('d-m-Y'),
 				'balance'=>''
 				);
 			$data['id'] = 0;
@@ -98,13 +100,13 @@ class Account extends CI_Controller {
 			$data['row'] = $row[0];
 
 		}
-		$data['page'] = "add_bank";
+		$data['page'] = "account_edit";
 		//$this->firephp->info($data); exit;
 
 		if ($this->form_validation->run() == false) {
 			$data['focus_id'] = 'Name';
 			$data['title'] = 'Bank Account';
-			$data['page'] = 'add_bank';
+			$data['page'] = 'account_edit';
 			$this->load->view('index', $data);
 			$this->form_validation->set_message('_validate_phone_number', 'Invalid Phone.');
 		}
@@ -114,27 +116,26 @@ class Account extends CI_Controller {
 		
 				$data = array(
 					'id'	=> $this->input->post('id'),
-					'name' => $this->input->post('b_details_name'),
-					'account_no' => $this->input->post('b_details_acc_no'),
-					'bankname' => $this->input->post('b_details_bank'),
-					'branch' => $this->input->post('b_details_state'),
-					'state' => $this->input->post('b_details'),
-					'mobileno' => $this->input->post('b_details_mobile'),
+					'holder_name' => $this->input->post('holder_name'),
+					'account_no' => $this->input->post('account_no'),
+					'bank' => $this->input->post('bank'),
+					'branch' => $this->input->post('branch'),
+					'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
 					'company_id' => 1,
-					'balance'=>$this->input->post('b_details_op')
+					'balance'=>$this->input->post('balance')
 				);
 			
 			if ($data['id'] == 0) {
-				$this->db->insert('bank_details', $data);
+				$this->db->insert('accounts', $data);
 				$query = $this->db->query('SELECT LAST_INSERT_ID()');
 				$new_id = $query->row_array();
 				$id = $new_id['LAST_INSERT_ID()'];
 			}
 			else {
-				$this->db->update('bank_details', $data, "id = '" . $data['id'] . "'");
+				$this->db->update('accounts', $data, "id = '" . $data['id'] . "'");
 				$id = $data['id'];
 			}
-			redirect("bank/edit/".$id."");
+			redirect("account/edit/".$id."");
 		}
 	}
 }

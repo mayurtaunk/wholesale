@@ -125,6 +125,16 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 
 <script>
 
+  $(document).ready(function() {
+      $("#party_name").focus();
+      $('.control-group input').keypress(function(e){
+      $(e.target).parent().parent().removeClass("error");
+      });
+
+
+});
+
+
 var checked = 1;
 
 function DeleteAll() {
