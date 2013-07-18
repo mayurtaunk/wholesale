@@ -97,7 +97,7 @@ class Account extends CI_Controller {
 		else {
 			//$this->firephp->info($row[0]);exit;
 			$data['id'] =  $id;
-			$data['row'] = $row[0];
+			$data['row'] = $row['0'];
 
 		}
 		$data['page'] = "account_edit";
