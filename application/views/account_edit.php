@@ -11,7 +11,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 	<div class="control-group <?php echo (strlen(form_error('holder_name')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Customer Name</div>
 		<div class="controls">
-				<input type="text"  name="id" value="<?php echo set_value('id', $id) ?>" />
+				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
 				<input type="text" class="span5" id="holder" name="holder_name" value="<?php echo set_value('holder_name', $row['holder_name']) ?>" placeholder="Enter Customer Name..."/>	
 				<span class="help-inline Tiny">* Enter Customer's Fullname</span>		
 		</div>
@@ -37,12 +37,6 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 				<span class="help-inline Tiny">* Enter Respective Branch</span>		
 		</div>
 	</div>
-	<div class="control-group <?php echo (strlen(form_error('date')) > 0 ? 'error' : '') ?>">
-			<label class="control-label">Date</label>
-			<div class="controls">
-				<input type="text" class="DateTime" id="datepicker" name="date" value="<?php echo set_value('date', $row['date']) ?>" />
-			</div>
-		</div>
 	<div class="control-group <?php echo (strlen(form_error('balance')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Balance
 		</div>
