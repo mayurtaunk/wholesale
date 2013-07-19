@@ -96,7 +96,7 @@ class Sales extends CI_Controller {
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('sel_barcode', 'sel_barcode', 'required');
-		$this->form_validation->set_rules('party_name', 'Party Name', 'trim|required|');
+		/*$this->form_validation->set_rules('party_name', 'Party Name', 'trim|required|');*/
 		$total=0;
 		$item=0;
 		$query = $this->db->query("SELECT pr.name,pr.id,pd.barcode,pd.mrp,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
