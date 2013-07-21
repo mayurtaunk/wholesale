@@ -142,7 +142,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
               <li><?php echo anchor('transaction', 'Make a Transaction'); ?></li>
               <li><a href="#">Account Statement</a></li>
               <li class="nav-header">Reports</li>
-              <li><a href="#">Daily Reports</a></li>
+              <li><?php echo anchor('reports/sale_report', 'Sale Report'); ?></li>
               <li><a href="#">Monthly Reports</a></li>
               <li><a href="#">Customized Report</a></li>
               <li><a href="#">Yearly Report(Finacial)</a></li>
