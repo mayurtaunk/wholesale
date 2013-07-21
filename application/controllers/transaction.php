@@ -18,15 +18,15 @@ class Transaction extends CI_Controller {
 			'heading' => array('ID', 'account_id', 'date', 'amount'),
 			'link_col'=> "id" ,
 			'link_url'=> "transaction/edit/");
-		$query = $this->db->query('SELECT id, account_id, date, amount FROM Transactions');
+		$query = $this->db->query('SELECT id, account_id, date, amount FROM transactions');
 
 		$data['rows'] = $query->result_array();
 		$data['page'] = "list";
 		$data['title'] = "Transaction List";
-		$data['link'] = "Transaction/edit/";
+		$data['link'] = "transaction/edit/";
 		$data['fields']= array('id','account_id','date','amount');
 		$data['link_col'] = 'id';
-		$data['link_url'] = 'Transaction/edit/';
+		$data['link_url'] = 'transaction/edit/';
 		$data['button_text']='Add New Transaction';
 		$this->load->view('index',$data);
 	}
@@ -73,7 +73,7 @@ class Transaction extends CI_Controller {
 			
 			$data['focus_id'] = 'Name';
 			$data['title'] = 'Start transaction';
-			$data['page'] = 'transaction';		
+			$data['page'] = 'transaction_edit';		
 			$this->load->view('index', $data);
 		}
 		else {

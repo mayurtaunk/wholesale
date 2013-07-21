@@ -1,1 +1,9 @@
-cehck update.txt
+controller name is singular of entity and its edit view is [entity]_edit 
+i.e. 
+
+Entity : transaction
+Table Name : transactions
+Controller Name : transaction
+View Name : transaction_edit
+
+all are in small ltrs.
