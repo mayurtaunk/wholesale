@@ -12,9 +12,13 @@ class Sale_report extends CI_controller {
 			redirect('main/login');
 		}
 
+		$data['product_id']   = 0;
+		$data['product_name'] = '';
+		$data['from_date']	  = date('d-m-Y');
+		$data['to_date']	  = date('d-m-Y');
+
 		$data['page'] = "reports/sale_report";
-		$data['title'] = "Sale Report";
+		$data['page_title'] = "Sale Report";
 		$this->load->view('index',$data);
-	
 	}
 }

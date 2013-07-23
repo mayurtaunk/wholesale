@@ -82,7 +82,20 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
    
   <script>
   $(function() {
-  $( "#datepicker" ).datepicker();
+    $(".DateTime").datepicker({
+      duration: '',
+      dateFormat: "dd-mm-yy",
+      yearRange: "-50:+1",
+      mandatory: true,
+      showButtonPanel: true,
+      changeMonth: true,
+      changeYear: true,
+      showOtherMonths: true,
+      showStatus: true,
+      showOn: "button",
+      buttonImage: "<?php echo base_url('images/calendar.png') ?>",
+      buttonImageOnly: true
+    });
   });
   
   </script>
