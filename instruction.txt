@@ -7,3 +7,11 @@ Controller Name : transaction
 View Name : transaction_edit
 
 all are in small ltrs.
+
+
+all views
+ has to be improved 
+
+ date field is missing in forms
+
+ datepicker logic changed see index file
