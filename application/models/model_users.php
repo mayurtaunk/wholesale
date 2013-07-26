@@ -5,12 +5,14 @@ class Model_users extends CI_Model{
 		$this->db->where('username',$this->input->post('username'));
 		$query =$this->db->get('users');
 		$tdata=$query->row_array();
+		$defval=$this->radhe->getrowarray("select value from settings where name='default_company' and user_id=".$tdata['id']);
 		if($query->num_rows() == 1) {
 			
 			$data =array (
 					'userid' => $tdata['id'],
 					'key' => $tdata['key'],
-					'is_logged_in' => 1
+					'is_logged_in' => 1,
+					'company_id' => $defval['value']
 				);
 			$this->session->set_userdata($data);
 			return true;

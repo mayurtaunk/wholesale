@@ -153,7 +153,6 @@ class Sales extends CI_Controller {
 				if($_POST != null)
 				{
 					$updatequery = array(
-						'company_id' => 1,
 						'party_name' => $this->input->post('party_name'),
 						'party_contact' => $this->input->post('customer_contact'),
 						'type' => 0,
@@ -178,7 +177,7 @@ class Sales extends CI_Controller {
 				$new_id == '' ? $genid=1 : $genid=$genid+1;
 				$insertquery = array(
 					'id' => '',
-					'company_id' => 1,
+					'company_id'=>$this->session->userdata('company_id')
 					'party_name' => $this->input->post('party_name'),
 					'party_contact' => $this->input->post('customer_contact'),
 					'type' => 0,
@@ -197,7 +196,6 @@ class Sales extends CI_Controller {
 				$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
 				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
 				$updatequery = array(
-					'company_id' => 1,
 					'party_name' => $this->input->post('party_name'),
 					'party_contact' => $this->input->post('customer_contact'),
 					'type' => 0,

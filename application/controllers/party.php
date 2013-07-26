@@ -53,7 +53,8 @@ class Party extends CI_Controller {
 			$row = array(
 				'name' => '',
 				'address' => '',
-				'contact' => ''
+				'contact' => '',
+				'company_id'=>$this->session->userdata('company_id')
 				);
 			$data['id'] = 0;
 			$data['row'] =  $row; 
@@ -86,7 +87,8 @@ class Party extends CI_Controller {
 					'id'	=> $this->input->post('id'),
 					'name' => $this->input->post('name'),
 					'address' => $this->input->post('address'),
-					'contact' => $this->input->post('contact')
+					'contact' => $this->input->post('contact'),
+					'company_id'=>$this->session->userdata('company_id')
 				);
 			
 				

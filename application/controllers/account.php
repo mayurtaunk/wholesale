@@ -44,6 +44,7 @@ class Account extends CI_Controller {
 			'link_col'=> "ID" ,
 			'link_url'=> "account/edit/");
 		$this->db->select('id,account_no,holder_name,CONCAT("INR ", FORMAT(balance, 2)) AS balance',false);
+		$this->db->where('company_id', $this->session->userdata['company_id']);
 		$this->db->order_by("account_no", "desc"); 
 		$query = $this->db->get('accounts', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();
@@ -69,16 +70,10 @@ class Account extends CI_Controller {
 		}
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
-		//$this->form_validation->set_rules('b_details_name', 'Name', 'trim|required');
 		$this->form_validation->set_rules('holder_name', 'Holder Name', 'trim|required|');
 		$this->form_validation->set_rules('account_no', 'Account No', 'trim|required|');
 		$this->form_validation->set_rules('bank', 'Bank Name', 'trim|required|');
 		$this->form_validation->set_rules('branch', 'Branch', 'trim|required|');
-		//$this->form_validation->set_rules('b_details_bank', 'Bank Name', 'trim|required');
-		//$this->form_validation->set_rules('b_details_state', 'Bank State', 'trim|required');
-		//$this->form_validation->set_rules('b_details', 'Bank Branch', 'trim|required');*/
-		//$this->form_validation->set_rules('b_details_mobile','Mobile No','required|trim|numeric|max_length[10]callback_validate_mobile');
-		//$this->form_validation->set_rules('b_details_mobile','Mobile No','required|numeric');
 		$query = $this->db->query("SELECT id, holder_name, account_no, bank, date, branch, balance FROM accounts WHERE id = $id");
 		$row = $query->result_array();
 		
@@ -95,14 +90,11 @@ class Account extends CI_Controller {
 			$data['row'] =  $row; 
 		}
 		else {
-			//$this->firephp->info($row[0]);exit;
 			$data['id'] =  $id;
 			$data['row'] = $row['0'];
 
 		}
 		$data['page'] = "account_edit";
-		//$this->firephp->info($data); exit;
-
 		if ($this->form_validation->run() == false) {
 			$data['focus_id'] = 'Name';
 			$data['title'] = 'Bank Account';
@@ -111,9 +103,6 @@ class Account extends CI_Controller {
 			$this->form_validation->set_message('_validate_phone_number', 'Invalid Phone.');
 		}
 		else {
-			
-				//$this->firephp->info($_POST); exit;
-		
 				$data = array(
 					'id'	=> $this->input->post('id'),
 					'holder_name' => $this->input->post('holder_name'),
@@ -121,7 +110,7 @@ class Account extends CI_Controller {
 					'bank' => $this->input->post('bank'),
 					'branch' => $this->input->post('branch'),
 					'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
-					'company_id' => 1,
+					'company_id' => $this->session->userdata('company_id'),
 					'balance'=>$this->input->post('balance')
 				);
 			

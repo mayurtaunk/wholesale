@@ -85,6 +85,7 @@ class Product extends CI_Controller {
 					'name' => $this->input->post('name'),
 					'category' => $this->input->post('category'),
 					'active' => $this->input->post('active')
+					'company_id'=>$this->session->userdata('company_id')
 				);
 			
 				

@@ -104,6 +104,7 @@ class Purchase extends CI_Controller {
 			//$this->firephp->info($_POST);exit;
 			$data = array(
 				'id'	=> $this->input->post('id'),
+				'company_id'=>$this->session->userdata('company_id'),
 				'party_id' => $this->input->post('party_id'),
 				'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
 				'bill_no' => $this->input->post('bill_no'),

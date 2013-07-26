@@ -15,10 +15,10 @@ class Main extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect('main/login');
 	}
-	/*public function signup()
+	public function signup()
 	{
 		$this->load->view('signup');
-	}*/
+	}
 	public function login_validation()
 	{
 		$this->load->library('form_validation');
