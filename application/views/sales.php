@@ -12,8 +12,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 		<div class="control-label">Customer Name</div>
 		<div class="controls">
 				<!-- <input type="text"  name="id" value="<?//php echo set_value('id', $id) ?>" /> -->
-				<input type="text" class="span5" name="party_name" value="<?php echo set_value('party_name', $row['party_name']) ?>" placeholder="Enter Customer Name..."/>	
-				<span class="help-inline Tiny">* Enter Customer's Fullname</span>		
+				<input type="text" class="span5"  name="party_name" value="<?php echo set_value('party_name', $row['party_name']) ?>" placeholder="Enter Customer Name..."/>		
 		</div>
 	</div>
 	<div class="control-group">

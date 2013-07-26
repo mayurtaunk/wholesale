@@ -102,8 +102,8 @@ class Party extends CI_Controller {
 				$id = $data['id'];
 			}
 			
-			
-			redirect("party/edit/".$id."");
+			redirect("party");
+			/*redirect("party/edit/".$id."");*/
 		}
 	}
 }

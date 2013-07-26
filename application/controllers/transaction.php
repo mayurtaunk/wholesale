@@ -3,29 +3,51 @@
 class Transaction extends CI_Controller {
 	function __construct() {
 		parent::__construct();
-
-
 	}
-
-
 	public function index() {
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{
 			redirect('main/login');
 		}
-		$data['list'] = array(
-			'heading' => array('ID', 'account_id', 'date', 'amount'),
-			'link_col'=> "id" ,
-			'link_url'=> "transaction/edit/");
-		$query = $this->db->query('SELECT id, account_id, date, amount FROM transactions');
+		/*Pagination Configuration*/
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'index.php/transaction/index/';
+		$config['total_rows'] = $this->db->count_all('transactions');
+		$config['per_page'] = 7;
+		$config['num_links']=20;
+		$config['full_tag_open'] = '<div class="pagination"><ul>';
+		$config['full_tag_close'] = '</ul></div>';
+		$config['first_link'] = false;
+		$config['last_link'] = false;
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&larr; Previous';
+		$config['prev_tag_open'] = '<li class="prev">';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next &rarr;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['cur_tag_open'] =  '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		/*Pagination Configuration*/
 
-		$data['rows'] = $query->result_array();
+		$data['list'] = array(
+			'heading' => array('Account Number', 'Date', 'Amount','Type'),
+			'link_url'=> "transaction/edit/");
+		$this->db->select('account_id,DATE_FORMAT(date,"%W, %M %e, %Y")as date,CONCAT("INR ", FORMAT(amount, 2)) AS amount,type',false);
+		$this->db->order_by("date", "desc");
+		$query = $this->db->get('transactions', $config['per_page'],$this->uri->segment(3));
+		$data['rows']=$query->result_array();
 		$data['page'] = "list";
 		$data['title'] = "Transaction List";
 		$data['link'] = "transaction/edit/";
-		$data['fields']= array('id','account_id','date','amount');
-		$data['link_col'] = 'id';
+		$data['fields']= array('account_id','date','amount','type');
 		$data['link_url'] = 'transaction/edit/';
 		$data['button_text']='Add New Transaction';
 		$this->load->view('index',$data);
@@ -38,71 +60,88 @@ class Transaction extends CI_Controller {
 			redirect('main/login');
 		}
 		$this->load->library(array('form_validation'));
-		
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('accountnumber', 'Account Number', 'trim|required');
-		$this->form_validation->set_rules('payto', 'Pay to', 'trim|required');
 		$this->form_validation->set_rules('particular', 'Particular', 'trim|required');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^[0-9(),-]+$/]|xss_clean');
 		$this->form_validation->set_rules('remarks', 'Remarks', 'trim|required');
-		$query = $this->db->query("SELECT id,account_id , type,particular,amount,remarks FROM transactions WHERE id = $id");
-		$row = $query->result_array();
-
-		if($query->num_rows() == 0) {
-			$row = array(
-				'account_id' => '',
-				'type' => '',
-				'particular' => '',
-				'amount' => '',
-				'remarks' => ''
-				);
-			$data['id'] = 0;
-			$data['row'] =  $row; 
-		}
-
-		else {
-			$data['id'] =  $id;
-			$data['row'] = $row[0];
-		}
-
-		
+		$row = array(
+			'account_id' => '',
+			'type' => '',
+			'particular' => '',
+			'amount' => '',
+			'remarks' => ''
+			);
+		$data['id'] = $id;
+		$data['row'] =  $row; 
 		$data['page'] = "Transaction";
-
+		if($data['id'] == 0)
+		{
+				$data['itemval']='';
+				$data['preadonly']= 'false';
+				$data['showtype']='true';
+		}
+		if($data['id'] == 'lightbill') 
+		{
+				$data['itemval']='Light Bill';
+				$data['preadonly'] = 'true';
+				$data['showtype']='false';
+		}
+		if($data['id'] == 'telephonebill') 
+		{
+				$data['itemval']='Telephone Bill';
+				$data['preadonly'] = 'true';
+				$data['showtype']='false';
+		}
+		if($data['id'] == 'employeesalary') 
+		{
+				$data['itemval']='Employee Salary';
+				$data['preadonly'] = 'true';
+				$data['showtype']='false';
+		}
+		if($data['id'] == 'taxes') 
+		{
+				$data['itemval']='Tax';
+				$data['preadonly'] = 'true';
+				$data['showtype']='false';
+		}
+		if($data['id'] == 'other') 
+		{
+				$data['itemval']='MISC';
+				$data['preadonly'] = 'true';
+				$data['showtype']='false';
+		}
+		if($data['id'] == 'inbound') 
+		{
+				$data['itemval']='INBOUND';
+				$data['preadonly'] = 'true';
+				$data['showtype']='false';
+		}
+		//$this->firephp->info($data);exit;
 		if ($this->form_validation->run() == false) {
-			
-			
 			$data['focus_id'] = 'Name';
 			$data['title'] = 'Start transaction';
-			$data['page'] = 'transaction_edit';		
+			$data['page'] = 'transaction_edit';	
 			$this->load->view('index', $data);
 		}
-		else {
-			
-				$data = array(
-					'id'=>$this->input->post('id'),
-					'account_id' => $this->input->post('accountid'),
-					'type' => $this->input->post('type'),
-					'particular' => $this->input->post('particular'),
-					'amount' => $this->input->post('amount'),
-					'remarks' => $this->input->post('remarks'),
-				);
-			
-				
-			
-			if ($data['id'] == 0) {
-				$this->firephp->info($data);exit;
-				$this->db->insert('transactions', $data);
-				$query = $this->db->query('SELECT LAST_INSERT_ID()');
-				$new_id = $query->row_array();
-				$id = $new_id['LAST_INSERT_ID()'];
+		else 
+		{
+			if ($data['id'] == "0") 
+			{			
+
+				$this->radhe->set_trans($this->input->post('accountid'),$this->input->post('type'),$this->input->post('particular'),$this->input->post('amount'),$this->input->post('remarks'));
 			}
-			else {
-				$this->db->update('transactions', $data, "id = '" . $data['id'] . "'");
-				$id = $data['id'];
+			elseif ($data['id'] == "inbound")  
+			{
+				$this->radhe->set_trans($this->input->post('accountid'),"credit",$this->input->post('particular'),$this->input->post('amount'),$this->input->post('remarks'));	
 			}
-			
-			
-			redirect("transaction/edit/".$id."");
+			else
+			{
+				$this->radhe->set_trans($this->input->post('accountid'),"debit",$this->input->post('particular'),$this->input->post('amount'),$this->input->post('remarks'));
+			}
+			redirect("transaction");
+
+
 		}
 	}
 	function _getautocomplete($sql, $db = null) 
@@ -137,7 +176,7 @@ class Transaction extends CI_Controller {
 			$search = strtolower($this->input->get('term'));	
 			$sql = "SELECT id, account_no
 			FROM accounts 
-			WHERE account_no LIKE '%$search%' 
+			WHERE account_no LIKE '%$search%' and company_id=1 
 			ORDER BY account_no";
 			$this->_getautocomplete($sql);
 		

@@ -13,8 +13,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 			<div class="controls">
 				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
 				<input type="hidden" id ="party_id"  name="party_id" value="<?php echo set_value('party_id', $row['party_id']) ?>" />
-				<input type="text" class="span8" id="party_name" name="party_name" value="<?php echo set_value('name', $row['name']) ?>" />
-				<span class="help-inline Tiny">* Enter Party Fullname</span>
+				<input type="text" placeholder="Enter Party Fullname..."class="span8" id="party_name" name="party_name" value="<?php echo set_value('name', $row['name']) ?>" />
 			</div>
 		</div>
 		
@@ -28,16 +27,14 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 		<div class="control-group <?php echo (strlen(form_error('bill_no')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Bill No</label>
 			<div class="controls">
-				<input type="text" class="span8" name="bill_no" value="<?php echo set_value('bill_no', $row['bill_no']) ?>" />			
-				<span class="help-inline Tiny">* Enter Bill Number</span>
+				<input type="text" class="span8" placeholder="Enter Bill Number..." name="bill_no" value="<?php echo set_value('bill_no', $row['bill_no']) ?>" />			
 			</div>
 		</div>
 
 		<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Amount</label>
 			<div class="controls">
-				<input type="text" class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />	
-				<span class="help-inline Tiny">* Enter Amount</span>		
+				<input type="text" placeholder="Enter Total Bill Form Seller..."class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
 			</div>
 		</div>
 		<?php if($this->session->userdata('key')==1) {?>

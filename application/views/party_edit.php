@@ -12,23 +12,22 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 			<label class="control-label">Name</label>
 			<div class="controls">
 				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
-				<input type="text" class="span8" id="name" name="name" value="<?php echo set_value('name', $row['name']) ?>" />
-				<span class="help-inline Tiny">* Enter Party Fullname</span>
+				<input type="text" placeholder="Enter Party Fullname..." class="span8" id="name" name="name" value="<?php echo set_value('name', $row['name']) ?>" />
 			</div>
 		</div>
-		
+
 		<div class="control-group <?php echo (strlen(form_error('address')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Address</label>
 			<div class="controls">
-				<input type="text" class="span8" name="address" value="<?php echo set_value('address', $row['address']) ?>" />
+				<textarea class="span8" name="address" > <?php echo set_value('address', $row['address']) ?></textarea>
+				<!-- <input type="text" class="span8" name="address" value="<?php echo set_value('address', $row['address']) ?>" /> -->
 			</div>
 		</div>
 		
 		<div class="control-group <?php echo (strlen(form_error('contact')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Contact</label>
 			<div class="controls">
-				<input type="text" class="span8" name="contact" value="<?php echo set_value('contact', $row['contact']) ?>" />
-				<span class="help-inline Tiny">Separate numbers by comma</span>
+				<input type="text" class="span8" name="contact" placeholder="Enter Party Contact Number..." value="<?php echo set_value('contact', $row['contact']) ?>" />
 			</div>
 		</div>
 	</fieldset>

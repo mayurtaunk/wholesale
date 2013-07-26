@@ -16,26 +16,28 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 				<input type="text" class="span5" id="accountnumber" name="accountnumber" value="" placeholder="Enter Customer Name..."/>	
 		</div>
 	</div>
-	<div class="control-group <?php echo (strlen(form_error('[payto]')) > 0 ? 'error' : '') ?>">
-		<div class="control-label">Pay to</div>
-		<div class="controls">
-				<input type="text" class="span5" name="payto" value="" placeholder="Enter Account No..."/>	
-		</div>
-	</div>
-	<div class="control-group ">
-	<label class="control-label"> Transaction type</label>
-	<div class="controls">
-		<label class="radio"> 
-			<input type="radio" name="credit" value="credit" checked="checked">
-			Credit
-		</label>
-		<label class="radio"><input type="radio" name="debit" value="debit"> Debit</label>		
-	</div>
-</div>
+	<?php
+	if($showtype =='true')
+	{
+		echo '<div class="control-group ">';
+		echo '<label class="control-label"> Transaction type</label>';
+		echo '<div class="controls">';
+		echo '<label class="radio">';
+		echo '<input type="radio" name="type" value="credit">Credit';
+		echo '</label>';
+		echo '<label class="radio">';
+		echo '<input type="radio" name="type" value="debit" checked="checked"> Debit';
+		echo '</label>';
+		echo '</div>';
+		echo '</div>';
+
+	} 
+	
+	?>
 	<div class="control-group <?php echo (strlen(form_error('particular')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Particular</div>
 		<div class="controls">
-				<input type="text" class="span5" name="particular" value="" placeholder="Enter Respective Branch..."/>	
+				<input type="text" class="span5" name="particular" value="<?php echo $itemval ?>" <?php if ($preadonly == 'true') { echo ' readonly="true"';} ?>placeholder="Enter Respective Branch..."/>	
 		</div>
 	</div>
 	<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">

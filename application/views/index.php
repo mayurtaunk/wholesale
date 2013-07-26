@@ -152,7 +152,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
               </li>
               <li class="nav-header">Banking</li>
               <li><?php echo anchor('account', 'Add Account'); ?></li>
-              <li><?php echo anchor('transaction', 'Make a Transaction'); ?></li>
+              <li><?php echo anchor('transaction/edit/0', 'Make a Transaction'); ?></li>
               <li><a href="#">Account Statement</a></li>
               <li class="nav-header">Reports</li>
               <li><?php echo anchor('reports/sale_report', 'Sale Report'); ?></li>
@@ -160,13 +160,13 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
               <li><a href="#">Customized Report</a></li>
               <li><a href="#">Yearly Report(Finacial)</a></li>
               <li class="nav-header">Out Bound Transaction</li>
-              <li><a href="#">Light Bills</a></li>
-              <li><a href="#">Telephone Bills</a></li>
-              <li><a href="#">Employee Salary</a></li>
-              <li><a href="#">Taxes</a></li>
-              <li><a href="#">Others</a></li>
+              <li><?php echo anchor('transaction/edit/lightbill', 'Light Bills'); ?></li>
+              <li><?php echo anchor('transaction/edit/telephonebill', 'Telephone Bills'); ?></li>
+              <li><?php echo anchor('transaction/edit/employeesalary','Employee Salary');?></li>
+              <li><?php echo anchor('transaction/edit/taxes','Taxes');?></li>
+              <li><?php echo anchor('transaction/edit/other','Others');?></li>
               <li class="nav-header">In Bound Transaction</li>
-              <li><a href="#">Others</a></li>
+              <li><?php echo anchor('transaction/edit/inbound','In Bound');?></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

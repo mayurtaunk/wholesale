@@ -16,7 +16,7 @@ class Radhe {
             return false;
         }
     }
-    public function set_trans($account_id,$date,$type,$particular,$amount,$remarks)
+    public function set_trans($account_id,$type,$particular,$amount,$remarks)
     {
                 $CI =& get_instance();
                 $CI->load->helper('date');
@@ -28,9 +28,27 @@ class Radhe {
                     'type' => $type,
                     'particular' => $particular,
                     'amount'=>$amount,
-                    'remarks'=>$remarks
+                    'remarks'=>$remarks,
+                    'type1'=>1
                 );
+                
                 $CI->db->insert('transactions', $data);
+                $bal=$this->getrowarray('select balance from accounts where account_no='.$account_id);
+                if($type == 'credit')
+                {
+                    $sum=$bal['balance']+$amount;
+                    $udata= array(
+                    'balance'=> $sum);
+                    $CI->db->update('accounts', $udata, "account_no = '" . $account_id . "'");
+                }
+                elseif($type =='debit')
+                {
+                    $sum=$bal['balance']-$amount;
+                    $udata= array(
+                    'balance'=> $sum);
+                    $CI->db->update('accounts', $udata, "account_no = '" . $account_id . "'");
+                }
+                
     }
     public function canlogin()
     {

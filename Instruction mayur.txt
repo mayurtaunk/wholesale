@@ -1,0 +1,7 @@
+=>	show account_no insted of account id in 
+	make a transaction option under banking menu
+	i dont know how to use join in the code like shown in controller
+	
+(note) make a trans will directly open the transaction window to go to list please click the shortucut on the top. 
+
+

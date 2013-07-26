@@ -5,11 +5,15 @@ class Sales extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
+		/*User Validation Start*/
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{
 			redirect('main/login');
 		}
+		/*User Validation End*/
+
+		/*pagination Start*/
 		$this->load->library('pagination');
 		$config['base_url'] = base_url().'index.php/sales/index/';
 		$config['total_rows'] = $this->db->count_all('sales');
@@ -34,18 +38,16 @@ class Sales extends CI_Controller {
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
+		/*pagination Setting End*/
 
+		/*Prepare List View Start*/
 		$data['list'] = array(
-			'heading' => array('ID', 'DateTime', 'Discount', 'Amount'),
+			'heading' => array('ID', 'DateTime', 'Discount', 'Amount')
 		);
-		/*$query = $this->db->query('SELECT id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less, CONCAT("INR ", FORMAT(amount, 2)) as amount 
-								FROM sales');
-		$data['rows'] = $query->result_array();*/
 		$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
 		$this->db->order_by("id", "desc"); 
 		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();
-		/*$this->firephp->info($data['rows']);exit;*/
 		$data['page'] = 'list';
 		$data['title'] = "Sales List";
 		$data['link'] = "sales/edit/";
@@ -53,16 +55,26 @@ class Sales extends CI_Controller {
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'sales/edit/';
 		$data['button_text']='New Bill';
+		/*Prepare List View End*/
+
 		$this->load->view('index',$data);
 	}
 	public function edit($id)
 	{
+		/*Verfiy User Start*/
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{
 			redirect('main/login');
 		}
+		/*Uerify User End*/
+
 		$this->load->library('radhe');
+		$this->load->helper('date');
+		$format = 'DATE_ATOM';
+		$time = time();
+			
+		/*Get Delete Ids to Delete selected Delete Checkbox*/
 		$delete_ids  = $this->input->post('delete_id');
 		if($delete_ids!=null)
 		{
@@ -74,37 +86,24 @@ class Sales extends CI_Controller {
 				$this->db->delete('sale_details', array('id' => $value));
 			}	
 		}
-		if ($id != 0) 
-			{
-				$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
-				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
-				$this->load->helper('date');
-				$format = 'DATE_ATOM';
-				$time = time();
-				$updatequery = array(
-				'company_id' => 1,
-				'party_name' => $this->input->post('customer_name'),
-				'party_contact' => $this->input->post('customer_contact'),
-				'type' => 0,
-				'datetime' => standard_date($format, $time),
-				'less' => $this->input->post('discount'),
-				'amount' => $topayjustupd
-				);
-				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
-			}
-				
+		/*Deletion End*/
+
+		/*Data Validation*/		
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('sel_barcode', 'sel_barcode', 'required');
-		/*$this->form_validation->set_rules('party_name', 'Party Name', 'trim|required|');*/
+		/*Data Valdiation End*/
+		
+		/*Intialization of Variables*/
 		$total=0;
 		$item=0;
-		$query = $this->db->query("SELECT pr.name,pr.id,pd.barcode,pd.mrp,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
+		/*Intialization End*/
+
+		$data['sale_details']= $this->radhe->getresultarray("SELECT pr.name,pr.id,pd.barcode,pd.mrp,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
 								   FROM sale_details sd INNER JOIN purchase_details pd 
 								   ON sd.purchase_Detail_id=pd.id 
 								   INNER JOIN products pr ON pd.product_id=pr.id 
 								   where sd.sale_id=".$id);
-		$data['sale_details'] = $query->result_array();
 		foreach ($data['sale_details'] as $key => $value) 
 		{
 				$total=$total+$value['price'];
@@ -115,13 +114,12 @@ class Sales extends CI_Controller {
 									FROM sales 
 								   	WHERE id =".$id);
 		$row = $query->result_array();
-		//$this->firephp->info($_POST);exit;
 		if($query->num_rows() == 0) 
 		{
 			$row = array(
 				'party_name' => '',
 				'party_contact' => '',
-				);
+			);
 			$data['total']=0;
 			$data['item']=0;
 			$data['discount']=0;
@@ -138,14 +136,32 @@ class Sales extends CI_Controller {
 			$data['topay']=($total-$data['discount']);
 			$data['id'] =  $id;
 			$data['row'] = $row[0];
+			//$this->firephp->info($data['row']);exit;
 		}
 		
-		
+		/*Check Validaion and go Ahead*/
 		if ($this->form_validation->run() == false) 
 		{
 			$data['focus_id'] = 'barcode';
 			$data['title'] = 'Sale Edit';
 			$data['page'] = "sales";
+			/*if just Updation is required for data*/
+			if ($id != 0) 
+			{
+				$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
+				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
+				$updatequery = array(
+					'company_id' => 1,
+					'party_name' => $this->input->post('party_name'),
+					'party_contact' => $this->input->post('customer_contact'),
+					'type' => 0,
+					'datetime' => standard_date($format, $time),
+					'less' => $this->input->post('discount'),
+					'amount' => $topayjustupd
+				);
+			$this->db->update('sales', $updatequery, "id = '" . $id . "'");
+			}
+			/*Updation End*/
 			$this->load->view('index', $data);
 		}
 		else 
@@ -156,44 +172,37 @@ class Sales extends CI_Controller {
 				$new_id=$query->row_array();
 				$genid=$new_id['MAX(id2)'];
 				$new_id == '' ? $genid=1 : $genid=$genid+1;
-				$this->load->helper('date');
-				$format = 'DATE_ATOM';
-				$time = time();
 				$insertquery = array(
-				'id' => '',
-				'company_id' => 1,
-				'party_name' => $this->input->post('customer_name'),
-				'party_contact' => $this->input->post('customer_contact'),
-				'type' => 0,
-				'id2' => $genid,
-				'datetime' => standard_date($format, $time),
-				'less' => $this->input->post('discount'),
-				'amount' => $this->input->post('total') 
+					'id' => '',
+					'company_id' => 1,
+					'party_name' => $this->input->post('party_name'),
+					'party_contact' => $this->input->post('customer_contact'),
+					'type' => 0,
+					'id2' => $genid,
+					'datetime' => standard_date($format, $time),
+					'less' => $this->input->post('discount'),
+					'amount' => $this->input->post('total') 
 				);
 				$this->db->insert('sales', $insertquery);
 				$query = $this->db->query('SELECT LAST_INSERT_ID()');
 				$new_id = $query->row_array();
 				$id = $new_id['LAST_INSERT_ID()'];
 			}
-			/*else 
+			else
 			{
-				//$this->firephp->info($_POST);exit;
-				$this->load->helper('date');
-				$format = 'DATE_ATOM';
-				$time = time();
+				$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
+				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
 				$updatequery = array(
-				'company_id' => 1,
-				'party_name' => $this->input->post('customer_name'),
-				'party_contact' => $this->input->post('customer_contact'),
-				'type' => 0,
-				'id2' => $this->input->post('id'),
-				'datetime' => standard_date($format, $time),
-				'less' => $this->input->post('discount'),
-				'amount' => $this->input->post('topay')
+					'company_id' => 1,
+					'party_name' => $this->input->post('party_name'),
+					'party_contact' => $this->input->post('customer_contact'),
+					'type' => 0,
+					'datetime' => standard_date($format, $time),
+					'less' => $this->input->post('discount'),
+					'amount' => $topayjustupd
 				);
-				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
-				$id = $this->input->post('id');	
-			}*/
+				$this->db->update('sales', $updatequery, "id = '" . $id . "'");
+			}
 			$sales_detail_ids = $this->input->post('sales_detail_id');
 			$flag=0;
 			$tosell=$this->input->post('sel_qty');
@@ -346,32 +355,13 @@ class Sales extends CI_Controller {
 			}
 			$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
 			$topay= $sumofprices['price']-$this->input->post('discount');
-			$updatequery = array(
+			$updateqfin = array(
 				'less' => $this->input->post('discount'),
 				'amount' => $topay
-				);
-			//$this->firephp->info($topay);
-			//$this->firephp->info($_POST);exit;
-			$this->db->update('sales', $updatequery, "id = '" . $id . "'");
-				
-			//$this->firephp->info($_POST);exit;
-			/*currsaledata= $this->radhe->getrowarray('select * from sales where id ='.$this->input->post('id'));
-			$this->firephp->info($currsaledata);exit;
-				$this->load->helper('date');
-				$format = 'DATE_ATOM';
-				$time = time();
-				$updatequery = array(
-				'company_id' => 1,
-				'party_name' => $this->input->post('customer_name'),
-				'party_contact' => $this->input->post('customer_contact'),
-				'type' => 0,
-				'id2' => $this->input->post('id'),
-				'datetime' => standard_date($format, $time),
-				'less' => $this->input->post('discount'),
-				'amount' => $this->input->post('topay')
-				);
-				$this->db->update('sales', $updatequery, "id = '" . $this->input->post('id') . "'");
-				$id = $this->input->post('id');*/		
+			);
+			//$this->firephp->info($_POST);
+			//$this->firephp->info($updateqfin);exit;
+			$this->db->update('sales', $updateqfin, "id = '" . $id . "'");
 			$this->load->view('index',$data);
 			redirect("sales/edit/".$id."");
 		}	
