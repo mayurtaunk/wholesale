@@ -150,16 +150,20 @@ class Sales extends CI_Controller {
 			{
 				$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
 				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
-				$updatequery = array(
-					'company_id' => 1,
-					'party_name' => $this->input->post('party_name'),
-					'party_contact' => $this->input->post('customer_contact'),
-					'type' => 0,
-					'datetime' => standard_date($format, $time),
-					'less' => $this->input->post('discount'),
-					'amount' => $topayjustupd
-				);
-			$this->db->update('sales', $updatequery, "id = '" . $id . "'");
+				if($_POST != null)
+				{
+					$updatequery = array(
+						'company_id' => 1,
+						'party_name' => $this->input->post('party_name'),
+						'party_contact' => $this->input->post('customer_contact'),
+						'type' => 0,
+						'datetime' => standard_date($format, $time),
+						'less' => $this->input->post('discount'),
+						'amount' => $topayjustupd
+					);
+					$this->db->update('sales', $updatequery, "id = '" . $id . "'");	
+				}
+				
 			}
 			/*Updation End*/
 			$this->load->view('index', $data);
@@ -359,8 +363,6 @@ class Sales extends CI_Controller {
 				'less' => $this->input->post('discount'),
 				'amount' => $topay
 			);
-			//$this->firephp->info($_POST);
-			//$this->firephp->info($updateqfin);exit;
 			$this->db->update('sales', $updateqfin, "id = '" . $id . "'");
 			$this->load->view('index',$data);
 			redirect("sales/edit/".$id."");
