@@ -171,7 +171,7 @@ class Sales extends CI_Controller {
 		{
 			if ($data['id'] == 0) 
 			{
-				$query=$this->db->query('SELECT MAX(id2) FROM SALES');
+				$query=$this->db->query('SELECT MAX(id2) FROM sales');
 				$new_id=$query->row_array();
 				$genid=$new_id['MAX(id2)'];
 				$new_id == '' ? $genid=1 : $genid=$genid+1;
@@ -417,16 +417,16 @@ class Sales extends CI_Controller {
 	{
 		
 			$search = strtolower($this->input->get('term'));	
-			/*$sql = "SELECT PD.id,PD.barcode 
-			FROM purchase_details PD INNER JOIN purchases P ON P.id=PD.purchase_id 
-			WHERE PD.barcode LIKE '%$search%' and PD.sold=0 and P.company_id=".$this->session->userdata['company_id'].
-			"ORDER BY PD.barcode";*/
+			$sql = "SELECT PD.id, PD.barcode 
+			FROM purchase_details PD INNER JOIN purchases P ON P.id = PD.purchase_id 
+			WHERE PD.barcode LIKE '%$search%' AND PD.sold = 0 AND P.company_id = ".$this->session->userdata['company_id'].
+			" ORDER BY PD.barcode";
 			//$this->firephp->info($sql);exit;
 			
-			$sql = "SELECT id, barcode 
-			FROM purchase_details 
-			WHERE barcode LIKE '%$search%' and sold=0
-			ORDER BY barcode";
+			// $sql = "SELECT id, barcode 
+			// FROM purchase_details 
+			// WHERE barcode LIKE '%$search%' AND sold=0
+			// ORDER BY barcode";
 			
 			$this->_getautocomplete($sql);
 		
