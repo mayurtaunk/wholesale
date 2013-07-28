@@ -27,7 +27,7 @@ class Model_users extends CI_Model{
 		}
 		else
 		{
-			$this->load('company_edit');
+			
 		}
 		
 	}
