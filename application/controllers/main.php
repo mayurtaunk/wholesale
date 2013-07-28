@@ -27,7 +27,6 @@ class Main extends CI_Controller {
 		$this->form_validation->set_rules('password','Password','required|md5|trim');
 		if($this->form_validation->run())
 		{
-			
 			$this->master();
 		}	
 		else
@@ -38,19 +37,20 @@ class Main extends CI_Controller {
 	public function signup_validation()
 	{
 		$this->load->library('form_validation');
+		$this->form_validation->set_rules('username','Username','required|trim|xss_clean|is_unique[users.username]|callback_validate_credentials');
 		$this->form_validation->set_rules('email',"Email",
-			'required!trim|valid_email|is_unique[users.email]');
+			'required|trim|valid_email|is_unique[users.email]');
 		$this->form_validation->set_rules('password',"Password",
-			'required!trim');
+			'required|trim');
 		$this->form_validation->set_rules('cpassword',"Confirm Password",
-			'required!trim|matches[password]');
+			'required|trim|matches[password]');
+		$this->form_validation->set_rules('fullname',"Full Name",'required|trim');
 		
-		$this->form_validation->set_message('is_unique',"Email ID already exists");
 		if ($this->form_validation->run())
 		{
 			$this->load->model('model_users');
 			$this->model_users->add_user();
-			echo "pass";
+			redirect('main/login');
 
 		}
 		else

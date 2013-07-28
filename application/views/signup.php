@@ -54,34 +54,42 @@
             echo validation_errors();
           ?>
           <fieldset>
-            <div id="legend">
-              <legend class="">Sign Up</legend>
+          <div id="legend">
+            <legend class="">Sign Up</legend>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="password">Email</label>
-                <div class="controls">
-                  <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
-                </div>
-            </div>
-            <div class="control-group">
+            <div class="control-group <?php echo (strlen(form_error('username')) > 0 ? 'error' : '') ?>">
               <label class="control-label" for="username">Username</label>
               <div class="controls">
-                <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+                <input type="text" id="username" name="username"  placeholder="Enter a user name..." class="input-xlarge">
               </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="password">Password</label>
+            <div class="control-group <?php echo (strlen(form_error('password')) > 0 ? 'error' : '') ?>">
+                <label class="control-label" for="password" >Password</label>
                 <div class="controls">
-                  <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+                  <input type="password" id="password" name="password" placeholder="Enter Password..." class="input-xlarge">
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="password">Confirm Password</label>
+            <div class="control-group <?php echo (strlen(form_error('cpassword')) > 0 ? 'error' : '') ?>">
+                <label class="control-label" for="cpassword" >Confirm Password</label>
                 <div class="controls">
-                  <input type="password" id="cpassword" name="cpassword" placeholder="" class="input-xlarge">
+                  <input type="password" id="cpassword" name="cpassword" placeholder="Renter Password..." class="input-xlarge">
                 </div>
             </div>
-            
+            <div id="legend">
+            <legend class="">Other Details</legend>
+            </div>
+            <div class="control-group <?php echo (strlen(form_error('email')) > 0 ? 'error' : '') ?>">
+                <label class="control-label" for="email">Email</label>
+                <div class="controls">
+                  <input type="text" id="email" name="email" placeholder="Enter Email Address..." class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group <?php echo (strlen(form_error('fullname')) > 0 ? 'error' : '') ?>">
+                <label class="control-label" for="fullname">Full Name</label>
+                <div class="controls">
+                  <input type="text" id="fullname" name="fullname" placeholder="Enter Full Name..." class="input-xlarge">
+                </div>
+            </div>
             <div class="control-group">
               <div class="controls">
                 <button class="btn btn-submit">SignUp</button>
