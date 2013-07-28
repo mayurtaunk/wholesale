@@ -29,8 +29,8 @@ class Radhe {
                     'particular' => $particular,
                     'amount'=>$amount,
                     'remarks'=>$remarks,
-                    'type1'=>$this->session->userdata('key'),
-                    'company_id'=>$this->session->userdata('company_id')
+                    'type1'=>$CI->session->userdata('key'),
+                    'company_id'=>$CI->session->userdata('company_id')
                 );
                 
                 $CI->db->insert('transactions', $data);
