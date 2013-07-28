@@ -105,7 +105,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
   
 <?php
 echo start_widget('Company Information', anchor('Company', '<span class="icon"><i class="icon-list"></i></span>'), 'nopadding');
-echo form_open('newcompanyadd/edit', 'class="form-horizontal"');
+echo form_open('newcompanyadd/edit/'.$row['userid'], 'class="form-horizontal"');
 ?>
 <fieldset>
 

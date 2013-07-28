@@ -26,7 +26,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 			<div class="span4">
 				<div class="data-block">
 					<h6 class="data-heading">To</h6>
-						<input type="text" class="DateTime" ame="to_date" value="<?php echo $to_date ?>" />
+						<input type="text" class="DateTime" name="to_date" value="<?php echo $to_date ?>" />
 				</div>
 			</div>
 		</div>
@@ -48,7 +48,18 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 					</thead>
 
 					<tbody>
-							
+							<?php if(isset($rows)) {
+								foreach ($rows as $r) {
+									echo '<tr>
+											<td>'.$r['date'].'</td>
+											<td>'.$r['product'].'</td>
+											<td>'.$r['price'].'</td>
+											<td>'.$r['quantity'].'</td>
+											<td class="alignright">'.$r['amount'].'</td>
+										  </tr>';
+								}
+							}
+							  ?>
 					</tbody>
 				</table>
 			</fieldset>
