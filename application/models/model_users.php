@@ -26,7 +26,7 @@ class Model_users extends CI_Model {
 		}
 		else
 		{
-			redirect('newcompanyadd/newcompany/edit/'.$tdata['id']);
+			redirect('newcompanyadd/edit/'.$tdata['id']);
 		}
 	}		
 	public function add_user(){

@@ -39,8 +39,8 @@ class Newcompanyadd extends CI_Controller {
 		{	
 			$data['focus_id'] = 'code';
 			$data['title'] = 'Company Edit';	
-			redirect("newcompanyadd/edit/".$id."");
-			//$this->load->view('newcompany', $data);
+			//redirect("newcompanyadd/edit/".$id."");
+			$this->load->view('newcompany', $data);
 		}
 		else 
 		{
