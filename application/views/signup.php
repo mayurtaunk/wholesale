@@ -49,7 +49,7 @@
         </div>
         <div class="span8">
           <?php
-            $attr = array('class' => 'well span6', 'id' => 'loginform');
+            $attr = array('class' => 'well span6', 'id' => 'signup');
             echo form_open('main/signup_validation',$attr);
             echo validation_errors();
           ?>

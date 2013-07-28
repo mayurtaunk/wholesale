@@ -19,7 +19,9 @@ class Product extends CI_Controller {
 			'link_col'=> "id" ,
 			'link_url'=> base_url('product/edit'));
 		
-		$query = $this->db->query('SELECT id, name, category, active FROM products');
+		$query = $this->db->query('SELECT id, name, category, active 
+									FROM products 
+									WHERE company_id='. $this->session->userdata('company_id'));
 		$data['link'] = 'product/edit/';
 		$data['rows'] = $query->result_array();
 		

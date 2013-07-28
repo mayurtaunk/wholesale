@@ -5,12 +5,14 @@ class Model_users extends CI_Model {
 		$this->db->where('username',$this->input->post('username'));
 		$query =$this->db->get('users');
 		$tdata =$query->row_array();
-		if($tdata['company_id'] != null) {
-			$defval = $this->radhe->getrowarray("SELECT value 
+		if($query->num_rows() == 1)
+		{
+			if($tdata['company_id'] != null) 
+			{
+				$defval = $this->radhe->getrowarray("SELECT value 
 				FROM settings 
 				WHERE name ='default_company' 
 				AND user_id = ".$tdata['id']);
-			if($query->num_rows() == 1) {
 				$data =array (
 						'userid' => $tdata['id'],
 						'username'=>$tdata['username'],
@@ -22,11 +24,13 @@ class Model_users extends CI_Model {
 				return true;
 			}
 			else
-				return false;
+			{
+				redirect('newcompanyadd/edit/'.$tdata['id']);	
+			}
 		}
 		else
 		{
-			redirect('newcompanyadd/edit/'.$tdata['id']);
+			return false;
 		}
 	}		
 	public function add_user(){

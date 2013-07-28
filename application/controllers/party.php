@@ -19,7 +19,9 @@ class Party extends CI_Controller {
 			'link_col'=> "id" ,
 			'link_url'=> "party/edit/");
 		
-		$query = $this->db->query('SELECT id, name, address, contact FROM parties');
+		$query = $this->db->query('SELECT id, name, address, contact 
+									FROM parties 
+									WHERE company_id='. $this->session->userdata('company_id'));
 
 		$data['rows'] = $query->result_array();
 		$data['page'] = "list";
