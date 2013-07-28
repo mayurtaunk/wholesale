@@ -32,7 +32,8 @@ class Party extends CI_Controller {
 		$this->load->view('index',$data);
 	}
 
-	public function edit($id) {
+	public function edit($id) 
+	{
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{

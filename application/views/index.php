@@ -124,9 +124,9 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
               </ul>
               <div class="pull-right">
                 <ul class="nav pull-right">
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo $this->session->userdata('username')?> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
+                            <li><a href=<?php echo base_url("index.php/company") ?>><i class="icon-cog"></i> Preferences</a></li>
                             <li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
                             <li class="divider"></li>
                             <li><a href=<?php echo base_url("index.php/main/logout") ?>><i class="icon-off"></i> Logout</a></li>

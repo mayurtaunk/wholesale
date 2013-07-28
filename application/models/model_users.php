@@ -13,6 +13,7 @@ class Model_users extends CI_Model {
 			if($query->num_rows() == 1) {
 				$data =array (
 						'userid' => $tdata['id'],
+						'username'=>$tdata['username'],
 						'key' => $tdata['key'],
 						'is_logged_in' => 1,
 						'company_id' => $defval['value']
@@ -25,9 +26,9 @@ class Model_users extends CI_Model {
 		}
 		else
 		{
-			$this->load('company_edit');
+			redirect('newcompanyadd/newcompany/edit/'.$tdata['id']);
 		}
-			
+	}		
 	public function add_user(){
 		$data = array(
 			'email'    => $this->input->post('email'),
