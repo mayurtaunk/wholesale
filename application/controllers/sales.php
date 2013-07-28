@@ -45,6 +45,7 @@ class Sales extends CI_Controller {
 			'heading' => array('ID', 'DateTime', 'Discount', 'Amount')
 		);
 		$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
+		$this->db->where('company_id', $this->session->userdata['company_id']);
 		$this->db->order_by("id", "desc"); 
 		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();

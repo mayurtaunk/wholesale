@@ -70,6 +70,7 @@ class Transaction extends CI_Controller {
 		$this->form_validation->set_rules('particular', 'Particular', 'trim|required');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^[0-9(),-]+$/]|xss_clean');
 		$this->form_validation->set_rules('remarks', 'Remarks', 'trim|required');
+		$this->form_validation->set_rules('type', 'Type', 'required');
 		$row = array(
 			'account_id' => '',
 			'type' => '',
@@ -122,11 +123,19 @@ class Transaction extends CI_Controller {
 				$data['preadonly'] = 'true';
 				$data['showtype']='false';
 		}
-		//$this->firephp->info($data);exit;
+		//$this->firephp->info($_POST);exit;
 		if ($this->form_validation->run() == false) {
 			$data['focus_id'] = 'Name';
 			$data['title'] = 'Start transaction';
 			$data['page'] = 'transaction_edit';	
+			$row = array(
+				'account_id' => $this->input->post('account_id'),
+				'type' => $this->input->post('type'),
+				'particular' => $this->input->post('particular'),
+				'amount' => $this->input->post('amount'),
+				'remarks' => $this->input->post('remarks')
+			);
+			$data['row']=$row;
 			$this->load->view('index', $data);
 		}
 		else 
@@ -181,8 +190,8 @@ class Transaction extends CI_Controller {
 			$search = strtolower($this->input->get('term'));	
 			$sql = "SELECT id, account_no
 			FROM accounts 
-			WHERE account_no LIKE '%$search%' and company_id=1 
-			ORDER BY account_no";
+			WHERE account_no LIKE '%$search%' and company_id=".$this->session->userdata('company_id'). 
+			" ORDER BY account_no";
 			$this->_getautocomplete($sql);
 		
 	}

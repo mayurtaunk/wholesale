@@ -23,15 +23,15 @@ class Purchase extends CI_Controller {
 			
 			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
-								   ON PU.party_id = P.id 
-									');
+								   ON PU.party_id = P.id
+								   WHERE PU.company_id='. $this->session->userdata('company_id'));
 		}
 		else
 		{
 			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
-								   ON PU.party_id = P.id WHERE PU.recieved=1
-									');
+								   ON PU.party_id = P.id 
+								   WHERE PU.recieved=1 and PU.company_id='. $this->session->userdata('company_id'));
 
 		}
 		$data['fields']= array('id','name','date','bill_no','amount');

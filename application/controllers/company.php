@@ -45,7 +45,7 @@ class Company extends CI_Controller {
 			'heading' => array('ID', 'Code', 'Name', 'Pan Number', 'Service Tax Number')
 		);
 		$this->db->select('id, code, name, pan_no, service_tax_no',false);
-		$this->db->where('user_id', $this->session->userdata['userid']);
+		$this->db->where('id', $this->session->userdata['company_id']);
 		$this->db->order_by("id", "desc"); 
 		$query = $this->db->get('companies', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();
@@ -128,7 +128,7 @@ class Company extends CI_Controller {
 					'email'=>$this->input->post('email'),
 					'pan_no'=>$this->input->post('panno'),
 					'service_tax_no'=>$this->input->post('servicetaxno'),
-					'userid'=>$this->session->userdata('userid')
+					'user_id'=>$this->session->userdata('userid')
 				);
 				//$this->firephp->info($data);exit;
 			if ($id == 0) {

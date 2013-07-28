@@ -13,45 +13,43 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 		<div class="controls">
 				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
 				<input type="hidden" id="accountid" name="accountid" value="" />
-				<input type="text" class="span5" id="accountnumber" name="accountnumber" value="" placeholder="Enter Customer Name..."/>	
+				<input type="text" class="span5" id="accountnumber" name="accountnumber" value="<?php echo set_value('accountnumber',$row['account_id']) ?>" placeholder="Enter Customer Name..."/>	
 		</div>
 	</div>
 	<?php
 	if($showtype =='true')
-	{
-		echo '<div class="control-group ">';
-		echo '<label class="control-label"> Transaction type</label>';
-		echo '<div class="controls">';
-		echo '<label class="radio">';
-		echo '<input type="radio" name="type" value="credit">Credit';
-		echo '</label>';
-		echo '<label class="radio">';
-		echo '<input type="radio" name="type" value="debit" checked="checked"> Debit';
-		echo '</label>';
-		echo '</div>';
-		echo '</div>';
-
-	} 
-	
+	{ 
 	?>
+		<div class="control-group <?php echo (strlen(form_error('type')) > 0 ? 'error' : '') ?> ">
+		<label class="control-label"> Transaction type</label>
+			<div class="controls">
+				<label class="radio">
+					<input type="radio" name="type" value="credit" <?php if ($row['type'] == 'credit') { echo 'checked=checked';} ?>>Credit
+				</label>
+				<label class="radio">
+					<input type="radio" name="type" value="debit" <?php if($row['type'] == 'debit') { echo 'checked=checked';} ?> > Debit
+				</label>
+			</div>
+		</div>
+	<?php } ?>
 	<div class="control-group <?php echo (strlen(form_error('particular')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Particular</div>
 		<div class="controls">
-				<input type="text" class="span5" name="particular" value="<?php echo $itemval ?>" <?php if ($preadonly == 'true') { echo ' readonly="true"';} ?>placeholder="Enter Respective Branch..."/>	
+				<input type="text" class="span5" name="particular" value="<?php echo $row['particular'] ?>" <?php if ($preadonly == 'true') { echo ' readonly="true"';} ?>placeholder="Enter Respective Branch..."/>	
 		</div>
 	</div>
 	<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Amount
 		</div>
 		<div class="controls">
-				<input type="text" class="span5" name="amount" value="" placeholder="Enter Balance..."/>	
+				<input type="text" class="span5" name="amount" value="<?php echo $row['amount']?>" placeholder="Enter Balance..."/>	
 		</div>
 	</div>
 	<div class="control-group <?php echo (strlen(form_error('remarks')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Remarks
 		</div>
 		<div class="controls">
-				<input type="text" class="span5" name="remarks" value="" placeholder="Enter Balance..."/>	
+				<input type="text" class="span5" name="remarks" value="<?php echo $row['remarks']?>" placeholder="Enter Balance..."/>	
 		</div>
 	</div>
 	

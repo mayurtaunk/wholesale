@@ -37,7 +37,7 @@ class Main extends CI_Controller {
 	public function signup_validation()
 	{
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('username','Username','required|trim|xss_clean|is_unique[users.username]|callback_validate_credentials');
+		$this->form_validation->set_rules('username','Username','required|trim|xss_clean|is_unique[users.username]');
 		$this->form_validation->set_rules('email',"Email",
 			'required|trim|valid_email|is_unique[users.email]');
 		$this->form_validation->set_rules('password',"Password",
@@ -45,7 +45,6 @@ class Main extends CI_Controller {
 		$this->form_validation->set_rules('cpassword',"Confirm Password",
 			'required|trim|matches[password]');
 		$this->form_validation->set_rules('fullname',"Full Name",'required|trim');
-		
 		if ($this->form_validation->run())
 		{
 			$this->load->model('model_users');
