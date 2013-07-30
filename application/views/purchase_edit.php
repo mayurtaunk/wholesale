@@ -34,7 +34,13 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 		<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">
 			<label class="control-label">Amount</label>
 			<div class="controls">
-				<input type="text" placeholder="Enter Total Bill Form Seller..."class="span8" name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
+				<input type="text" placeholder="Enter Total Bill Form Seller..."class="span8" readonly name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
+			</div>
+		</div>
+		<div class="control-group <?php echo (strlen(form_error('amountpaid')) > 0 ? 'error' : '') ?>">
+			<label class="control-label">Amount Paid</label>
+			<div class="controls">
+				<input type="text" placeholder="Enter Total Amount Paid..."class="span8" name="amountpaid" value="<?php echo set_value('amountpaid', $row['amount_paid']) ?>" />			
 			</div>
 		</div>
 		<?php if($this->session->userdata('key')==1) {?>

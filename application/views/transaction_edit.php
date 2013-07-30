@@ -35,7 +35,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 	<div class="control-group <?php echo (strlen(form_error('particular')) > 0 ? 'error' : '') ?>">
 		<div class="control-label">Particular</div>
 		<div class="controls">
-				<input type="text" class="span5" name="particular" value="<?php echo $row['particular'] ?>" <?php if ($preadonly == 'true') { echo ' readonly="true"';} ?>placeholder="Enter Respective Branch..."/>	
+				<input type="text" class="span5" name="particular" value="<?php echo $itemval ?>" <?php if ($preadonly == 'true') { echo ' readonly="true"';} ?>placeholder="Enter Respective Branch..."/>	
 		</div>
 	</div>
 	<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">

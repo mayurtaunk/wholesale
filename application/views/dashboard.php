@@ -57,7 +57,7 @@
           <?php
             $attr = array('class' => 'well span6', 'id' => 'loginform');
             //$loc = base_url("main/login_validation");
-            echo form_open(base_url("index.php/main/login_validation"),$attr);
+            echo form_open(base_url("#"),$attr);
             echo validation_errors(); ?>
             <fieldset>
             <div id="legend">

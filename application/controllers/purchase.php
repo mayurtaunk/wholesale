@@ -52,19 +52,20 @@ class Purchase extends CI_Controller {
 		{
 			redirect('main/login');
 		}
-		//$this->firephp->info($_POST);exit;
+		//$this->firephp->info($id);exit;
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('party_id', 'Party Name', 'trim|required|is_natural_no_zero');
 		$this->form_validation->set_rules('date', 'Date', 'trim|required');
 		$this->form_validation->set_rules('bill_no', 'Bill No', 'trim|required');
-		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|is_natural_no_zero');
-		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, PU.amount,PU.recieved	
+		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
+		$this->form_validation->set_rules('amountpaid', 'Amount Paid', 'trim|required');
+		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, PU.amount, PU.recieved,PU.amount_paid	
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.id = $id");
+								   WHERE PU.id =". $id);
 		$row = $query->result_array();
-		//$this->firephp->info($_POST);exit;
+		//$this->firephp->info($row);exit;
 		if($query->num_rows() == 0) {
 			$row = array(
 				'party_id' => 0,
@@ -72,21 +73,22 @@ class Purchase extends CI_Controller {
 				'date' => date('d-m-Y'),
 				'bill_no' => '',
 				'amount' => 0,
+				'amount_paid'=>0,
 				'recieved' =>($this->session->userdata('key')==1) ? 0 : 1 
 				);
 			$data['id'] = 0;
 			$data['row'] =  $row; 
 		}
-
-		else {
+		else 
+		{
 			$data['id'] =  $id;
 			$data['row'] = $row[0];
 		}
 		
-		$query = $this->db->query("SELECT PD.id, PD.product_id, P.name, PD.barcode, PD.mrp, 							  PD.purchase_price	, PD.quantity
+		$query = $this->db->query("SELECT PD.id, PD.product_id, P.name, PD.barcode, PD.mrp, PD.purchase_price, PD.quantity
 									   FROM purchase_details PD INNER JOIN products P
 									   ON PD.product_id = P.id
-									   WHERE PD.purchase_id = $id");
+									   WHERE PD.purchase_id =". $id);
 		$data['purchase_details'] = $query->result_array();
 			
 		$data['page'] = "purchase_edit";
@@ -95,33 +97,33 @@ class Purchase extends CI_Controller {
 
 			$data['focus_id'] = 'Name';
 			$data['title'] = 'Purchase Edit';
-			//$data['page'] = 'party_edit';
-		
 			$this->load->view('index', $data);
 		}
-		else {
+		else 
+		{
 			
-			//$this->firephp->info($_POST);exit;
+			//$this->firephp->info($totalamount);exit;
 			$data = array(
-				'id'	=> $this->input->post('id'),
+				'id' => $this->input->post('id'),
 				'company_id'=>$this->session->userdata('company_id'),
 				'party_id' => $this->input->post('party_id'),
 				'date' => date_format(date_create($this->input->post('date')), "Y-m-d"),
 				'bill_no' => $this->input->post('bill_no'),
 				'amount' => $this->input->post('amount'),
+				'amount_paid' => $this->input->post('amountpaid'),
 				'recieved'=>($this->input->post('recieved')) ? 1 : 0,
 				/*'id2'=> ($this->input->post('id')==0 && $this->input->post('recieved')==1) ? $this->radhe->getid('purchases','id2') : 0*/
 			);
-				//$this->firephp->info($data); exit;
-				
-			
-			if ($data['id'] == 0) {
+			//$this->firephp->info($data['id']);exit;
+			if ($data['id'] == 0) 
+			{
 				$this->db->insert('purchases', $data);
 				$query = $this->db->query('SELECT LAST_INSERT_ID()');
 				$new_id = $query->row_array();
 				$id = $new_id['LAST_INSERT_ID()'];
 			}
-			else {
+			else 
+			{
 				$this->db->update('purchases', $data, "id = '" . $data['id'] . "'");
 				$id = $data['id'];
 			}
@@ -175,7 +177,14 @@ class Purchase extends CI_Controller {
 					$this->db->insert('purchase_details', $row);	
 				}
 			}
-			
+			$totalamount = $this->radhe->getrowarray('select sum(purchase_price * quantity) as sum from purchase_details where purchase_id='.$id);
+			$udata = array(
+				'amount' => $totalamount['sum']
+				);
+
+			//$this->firephp->info($totalamount);
+			$this->db->update('purchases', $udata, "id = '" . $id . "'");
+			//$this->firephp->info($id);exit;
 			redirect("purchase/edit/".$id."");
 		}
 	}
@@ -210,11 +219,11 @@ class Purchase extends CI_Controller {
 	function ajaxParty() {
 		
 			$search = strtolower($this->input->get('term'));
-		
+			
 			$sql = "SELECT id, name
 			FROM parties
-			WHERE name LIKE '%$search%' 
-			ORDER BY name";
+			WHERE name LIKE '%$search%' AND company_id=". $this->session->userdata('company_id').
+			" ORDER BY name";
 			$this->_getautocomplete($sql);
 		
 	}
@@ -222,13 +231,11 @@ class Purchase extends CI_Controller {
 	function ajaxProduct() {
 		
 			$search = strtolower($this->input->get('term'));
-		
 			$sql = "SELECT id, name
 			FROM products
-			WHERE active = 1 AND name LIKE '%$search%' 
-			ORDER BY name";
+			WHERE active = 1 AND name LIKE '%$search%' AND company_id=".$this->session->userdata('company_id'). 
+			" ORDER BY name";
 			$this->_getautocomplete($sql);
-		
 	}
 
 }

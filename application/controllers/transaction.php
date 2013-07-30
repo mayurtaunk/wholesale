@@ -71,15 +71,16 @@ class Transaction extends CI_Controller {
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required|regex_match[/^[0-9(),-]+$/]|xss_clean');
 		$this->form_validation->set_rules('remarks', 'Remarks', 'trim|required');
 		$this->form_validation->set_rules('type', 'Type', 'required');
+		$data['id'] = $id; 
 		$row = array(
-			'account_id' => '',
-			'type' => '',
-			'particular' => '',
-			'amount' => '',
-			'remarks' => ''
-			);
-		$data['id'] = $id;
-		$data['row'] =  $row; 
+					'account_id' => '',
+					'type' => '',
+					'particular' => '',
+					'amount' => '',
+					'remarks' => ''
+					);
+		$data['row'] =  $row;
+				
 		$data['page'] = "Transaction";
 		if($data['id'] == 0)
 		{
@@ -135,6 +136,7 @@ class Transaction extends CI_Controller {
 				'amount' => $this->input->post('amount'),
 				'remarks' => $this->input->post('remarks')
 			);
+			$itemval = $this->input->post('particular');
 			$data['row']=$row;
 			$this->load->view('index', $data);
 		}
