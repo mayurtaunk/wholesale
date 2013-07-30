@@ -46,7 +46,7 @@ class Product extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Party Name', 'trim|required');
 		$this->form_validation->set_rules('category', 'category', 'trim');
 		$this->form_validation->set_rules('active', 'active', 'trim');
-		$query = $this->db->query("SELECT name, category, active FROM products WHERE id = $id");
+		$query = $this->db->query("SELECT name, category, active FROM products WHERE id =". $id. " AND company_id=".$this->session->userdata('company_id'));
 		$row = $query->result_array();
 
 		if($query->num_rows() == 0) {

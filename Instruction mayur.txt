@@ -1,7 +1,4 @@
-=>	show account_no insted of account id in 
-	make a transaction option under banking menu
-	i dont know how to use join in the code like shown in controller
-	
-(note) make a trans will directly open the transaction window to go to list please click the shortucut on the top. 
+in sales report
 
-
+=> IF no item is sold then also in all items report items are displyed due to group by command any solution so that the items should not get displayed
+=>check snaps err1.jpg

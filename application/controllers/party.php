@@ -49,7 +49,7 @@ class Party extends CI_Controller {
 		//$this->form_validation->set_rules('contact', 'Contact', 'trim');
 
 		$this->form_validation->set_rules('contact', 'Contact', 'required|regex_match[/^[0-9(),-]+$/]|xss_clean');
-		$query = $this->db->query("SELECT name, address, contact FROM parties WHERE id = $id");
+		$query = $this->db->query("SELECT name, address, contact FROM parties WHERE id =". $id. " AND company_id=".$this->session->userdata('company_id'));
 		$row = $query->result_array();
 
 		if($query->num_rows() == 0) {

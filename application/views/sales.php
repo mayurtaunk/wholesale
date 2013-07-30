@@ -94,19 +94,27 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								<td><input type="text" class="Numeric input-mini" name="total" value="<?php echo $total?>" placeholder="Total" readonly/></td>
 								<td><input type="text" class="Numeric input-mini" name="item" value="<?php echo $item?>" placeholder="Items" readonly/></td>
 								<td></td>
+								<td></td>
 							<tr>
 							<tr>
 								<td></td>
 								<td>Discount</td>
 								<td colspan=2><input type="text" class="Numeric span8" name="discount" value="<?php echo $discount?>" placeholder="Discount" /></td>
-								
+								<td></td>
 								<td></td>
 							<tr>
 							<tr>
 								<td></td>
 								<td>To Pay</td>
-								<td colspan=2><input type="text" class="Numeric span8" name="topay" value="<?php echo $topay?>" placeholder="To Pay" /></td>
-								
+								<td colspan=2><input type="text" readonly class="Numeric span8" name="topay" value="<?php echo $topay?>" placeholder="To Pay" /></td>
+								<td></td>
+								<td></td>
+							<tr>
+							<tr>
+								<td></td>
+								<td>Paid</td>
+								<td colspan=2><input type="text" class="Numeric span8" name="paid" value="<?php echo set_value('paid', $row['amount_recieved']) ?>" placeholder="Paid" /></td>
+								<td></td>
 								<td></td>
 							<tr>
 					</tbody>

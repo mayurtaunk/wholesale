@@ -92,7 +92,8 @@ class Sales extends CI_Controller {
 		/*Data Validation*/		
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
-		$this->form_validation->set_rules('sel_barcode', 'sel_barcode', 'required');
+		$this->form_validation->set_rules('sel_barcode', 'sel_barcode', 'required|trim');
+		
 		/*Data Valdiation End*/
 		
 		/*Intialization of Variables*/
@@ -104,14 +105,14 @@ class Sales extends CI_Controller {
 								   FROM sale_details sd INNER JOIN purchase_details pd 
 								   ON sd.purchase_Detail_id=pd.id 
 								   INNER JOIN products pr ON pd.product_id=pr.id 
-								   where sd.sale_id=".$id);
+								   where sd.sale_id=".$id. " AND pr.company_id=". $this->session->userdata('company_id'));
 		foreach ($data['sale_details'] as $key => $value) 
 		{
 				$total=$total+$value['price'];
 				$item=$item+$value['quantity'];
 		}
 		$data['noproavail']=0;
-		$query = $this->db->query("SELECT id, party_name, party_contact,less,amount
+		$query = $this->db->query("SELECT id, party_name, party_contact,less,amount,amount_recieved
 									FROM sales 
 								   	WHERE id =".$id. " AND company_id=". $this->session->userdata('company_id'));
 		$row = $query->result_array();
@@ -120,6 +121,7 @@ class Sales extends CI_Controller {
 			$row = array(
 				'party_name' => '',
 				'party_contact' => '',
+				'amount_recieved' => '',
 			);
 			$data['total']=0;
 			$data['item']=0;
@@ -153,13 +155,15 @@ class Sales extends CI_Controller {
 				$topayjustupd= $sumofprices['price']-$this->input->post('discount');
 				if($_POST != null)
 				{
+
 					$updatequery = array(
 						'party_name' => $this->input->post('party_name'),
 						'party_contact' => $this->input->post('customer_contact'),
 						'type' => 0,
 						'datetime' => standard_date($format, $time),
 						'less' => $this->input->post('discount'),
-						'amount' => $topayjustupd
+						'amount' => $topayjustupd,
+						'amount_recieved' => $this->input->post('paid')
 					);
 					$this->db->update('sales', $updatequery, "id = '" . $id . "'");	
 				}
@@ -184,7 +188,9 @@ class Sales extends CI_Controller {
 					'id2' => $genid,
 					'datetime' => standard_date($format, $time),
 					'less' => $this->input->post('discount'),
-					'amount' => $this->input->post('total') 
+					'amount' => $this->input->post('total'),
+					'amount_recieved' => $this->input->post('paid') 
+
 				);
 				$this->db->insert('sales', $insertquery);
 				$query = $this->db->query('SELECT LAST_INSERT_ID()');
@@ -201,7 +207,8 @@ class Sales extends CI_Controller {
 					'type' => 0,
 					'datetime' => standard_date($format, $time),
 					'less' => $this->input->post('discount'),
-					'amount' => $topayjustupd
+					'amount' => $topayjustupd,
+					'amount_recieved' => $this->input->post('paid')
 				);
 				$this->db->update('sales', $updatequery, "id = '" . $id . "'");
 			}
