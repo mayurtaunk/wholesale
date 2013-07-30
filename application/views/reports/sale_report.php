@@ -41,9 +41,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 						<tr>
 							<th>Date</th>
 							<th>Product</th>
-							<th>Price</th>
 							<th>Quantity</th>
-							<th>Amount</th>
 						</tr>
 					</thead>
 
@@ -53,9 +51,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 									echo '<tr>
 											<td>'.$r['date'].'</td>
 											<td>'.$r['product'].'</td>
-											<td>'.$r['price'].'</td>
 											<td>'.$r['quantity'].'</td>
-											<td class="alignright">'.$r['amount'].'</td>
 										  </tr>';
 								}
 							}

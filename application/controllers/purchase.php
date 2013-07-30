@@ -52,7 +52,6 @@ class Purchase extends CI_Controller {
 		{
 			redirect('main/login');
 		}
-		//$this->firephp->info($id);exit;
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->form_validation->set_rules('party_id', 'Party Name', 'trim|required|is_natural_no_zero');
@@ -63,7 +62,7 @@ class Purchase extends CI_Controller {
 		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, PU.amount, PU.recieved,PU.amount_paid	
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.id =". $id);
+								   WHERE PU.id =". $id . " AND P.company_id=". $this->session->userdata('company_id'));
 		$row = $query->result_array();
 		//$this->firephp->info($row);exit;
 		if($query->num_rows() == 0) {
@@ -88,7 +87,7 @@ class Purchase extends CI_Controller {
 		$query = $this->db->query("SELECT PD.id, PD.product_id, P.name, PD.barcode, PD.mrp, PD.purchase_price, PD.quantity
 									   FROM purchase_details PD INNER JOIN products P
 									   ON PD.product_id = P.id
-									   WHERE PD.purchase_id =". $id);
+									   WHERE PD.purchase_id =". $id . " AND P.company_id=". $this->session->userdata('company_id'));
 		$data['purchase_details'] = $query->result_array();
 			
 		$data['page'] = "purchase_edit";

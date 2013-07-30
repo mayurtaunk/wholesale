@@ -32,7 +32,8 @@ class Model_users extends CI_Model {
 		{
 			return false;
 		}
-	}		
+	}	
+	
 	public function add_user(){
 		$data = array(
 			'email'    => $this->input->post('email'),

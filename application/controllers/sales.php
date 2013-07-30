@@ -113,7 +113,7 @@ class Sales extends CI_Controller {
 		$data['noproavail']=0;
 		$query = $this->db->query("SELECT id, party_name, party_contact,less,amount
 									FROM sales 
-								   	WHERE id =".$id);
+								   	WHERE id =".$id. " AND company_id=". $this->session->userdata('company_id'));
 		$row = $query->result_array();
 		if($query->num_rows() == 0) 
 		{
@@ -422,13 +422,6 @@ class Sales extends CI_Controller {
 			FROM purchase_details PD INNER JOIN purchases P ON P.id = PD.purchase_id 
 			WHERE PD.barcode LIKE '%$search%' AND PD.sold = 0 AND P.company_id = ".$this->session->userdata['company_id'].
 			" ORDER BY PD.barcode";
-			//$this->firephp->info($sql);exit;
-			
-			// $sql = "SELECT id, barcode 
-			// FROM purchase_details 
-			// WHERE barcode LIKE '%$search%' AND sold=0
-			// ORDER BY barcode";
-			
 			$this->_getautocomplete($sql);
 		
 	}
