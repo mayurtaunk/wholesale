@@ -1,57 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>CLoth Store-Log In</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href=<?php echo base_url("css/bootstrap.css");?> rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
+    <script type="text/javascript">
+     $(function(){       
+    $('*[data-href]').click(function(){
+        window.location = $(this).data('href');
+        return false;
+    });
+});
+</script>
 
-      @media (max-width: 980px) {
-        /* Enable use of floated navbar text */
-        .navbar-text.pull-right {
-          float: none;
-          padding-left: 5px;
-          padding-right: 5px;
+
+<div class="row-fluid">
+  <div class="span10">
+  
+  <fieldset>    
+  <table class="table table-striped ">
+    <thead>
+      <tr>
+
+        <?php 
+        foreach ($list['heading'] as $value) {
+          echo "<th>".$value."<th>";
         }
-      }
-    </style>
-    <link href=<?php echo base_url("css/bootstrap-responsive.css");?> rel="stylesheet">
+        ?>
+      </tr>
+    </thead>
+    <tbody>
+        <?php
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../js/html5shiv.js"></script>
-    <![endif]-->
+        //$this->firephp->info($rows);exit;
 
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="/ico/favicon.png">
-  </head>
-  <body>
-  	<br>
-  	<br>
-  	<br>
-  	<br>
-  	<br>
-  	<br>
+        foreach ($rows as $value) {
+          echo "<tr>";
+          foreach($fields as $col){
+            if(isset($link_col) && isset($link_url) && $link_col == $col)
+            echo "<td>".anchor($link_url . $value[$col], $value[$col])."<td>";
+            else
+            echo "<td>".$value[$col]."<td>";
+          }
+          echo "</tr>";
+        }
+
+        ?>
+    </tbody>
+  </table>
+  <br>
+  <?php echo $this->pagination->create_links(); ?>
+  <!-- <fieldset>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span4">
-          <!--Sidebar content-->
         </div>
         <div class="span8">
           <?php
@@ -71,11 +68,11 @@
             <div class="control-group">
             <div class="controls">
               <button class="btn btn-success">Continue</button>
-<!--               <a href=<?php echo base_url("main/signup");?>> SignUp </a> -->
+              <a href=<?php echo base_url("main/signup");?>> SignUp </a>
             </div>
           </div>
           </fieldset>
-          </form>
+   -->        </form>
         </div>
       </div>
     </div>

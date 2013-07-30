@@ -381,6 +381,7 @@ class Sales extends CI_Controller {
 			redirect('main/login');
 		}
 		$this->load->library('radhe');
+		$data['company_details'] = $this->radhe->getrowarray('select * from companies where id='. $this->session->userdata('company_id'));
 		$data['sale'] = $this->radhe->getrowarray('select * from sales where id='.$id);
 		$data['sale_details'] = $this->radhe->getresultarray('select P.name,PD.product_id,PD.mrp,SD.quantity,SD.price from sale_details SD INNER JOIN purchase_details PD ON PD.id=SD.purchase_detail_id INNER JOIN products P ON P.id=PD.product_id where sale_id='.$id);
 		$data['total_qty']=$this->radhe->getrowarray('select sum(quantity) as qty from sale_details where sale_id='.$id);

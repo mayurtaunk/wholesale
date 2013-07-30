@@ -42,7 +42,7 @@ class Purchase extends CI_Controller {
 		$data['link'] = "purchase/edit/";
 		$data['link_url'] = 'purchase/edit/';
 		$data['button_text']='Add New Purchase';
-		$this->firephp->info($data);
+		//$this->firephp->info($data);
 		$this->load->view('index',$data);
 	}
 

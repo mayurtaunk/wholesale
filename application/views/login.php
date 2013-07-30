@@ -52,7 +52,14 @@
             $attr = array('class' => 'well span6', 'id' => 'loginform');
             //$loc = base_url("main/login_validation");
             echo form_open(base_url("index.php/main/login_validation"),$attr);
-            echo validation_errors(); ?>
+            if(validation_errors())
+            {
+              echo "<div class='alert alert-error'>";
+              //echo "<a class='close' data-dismiss='alert' href='#'>x</a>";
+              echo validation_errors(); 
+              echo "</div>";  
+            }
+            ?>
             <fieldset>
             <div id="legend">
               <legend class="">Login</legend>
