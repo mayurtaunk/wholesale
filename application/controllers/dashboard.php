@@ -45,17 +45,49 @@ class Dashboard extends CI_Controller {
 
 		/*Prepare List View Start*/
 		$data['list'] = array(
-			'heading' => array('Product', 'Available', 'Party', 'Contact')
+			'heading' => array('Name', 'Stock', 'Whole Seller', 'Contact')
 		);
-		$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
-		$this->db->where('company_id', $this->session->userdata['company_id']);
-		$this->db->order_by("id", "desc"); 
+
+/*		$sql="SELECT PR.name, 
+					 (SUM(PD.quantity) - SUM(SD.quantity)) As stock,
+					 PA.name as partyname,
+					 PA.contact
+					 FROM purchases P INNER JOIN purchase_details PD ON P.id = PD.purchase_id
+					 INNER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
+					 INNER JOIN products PR ON PD.product_id = PR.id
+					 INNER JOIN parties PA ON PA.id = P.party_id
+					 WHERE P.company_id=".$this->session->userdata('company_id'). 
+					 " GROUP BY PR.id";*/
+		$sql="SELECT PR.name, 
+					 (PD.quantity - SUM(SD.quantity)) as stock,
+					 PA.name as partyname,
+					 PA.contact
+					 FROM products PR
+					 INNER JOIN purchase_details PD ON PR.id = PD.product_id
+					 INNER JOIN purchases P ON P.id=PD.purchase_id
+					 INNER JOIN parties PA ON PA.id=P.party_id
+					 INNER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
+					 WHERE P.company_id=".$this->session->userdata('company_id'). 
+					 " GROUP BY PR.name ORDER BY stock";			 
+		$dt=$this->radhe->getresultarray($sql);
+		/*$this->db->select("SELECT PR.name, 
+					 SUM(PD.quantity)-SUM(SD.quantity) As stock,
+					 PA.name,
+					 PA.contact,
+					 FROM purchases P INNER JOIN purchase_details PD ON P.id = PD.purchase_id
+					 INNER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
+					 INNER JOIN products PR ON PD.product_id = PR.id
+					 INNER JOIN parties PA ON PA.id = P.party_id",false);
+		$this->db->where('P.company_id', $this->session->userdata['company_id']);
+		//$this->db->group_by("PD.product_id");
+		//$this->db->order_by("id", "desc"); 
+		*/
 		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
-		$data['rows']=$query->result_array();
+		$data['rows']=$dt;
 		$data['page'] = 'list';
 		$data['title'] = "Sales List";
 		$data['link'] = "sales/edit/";
-		$data['fields']= array('id','datetime','less','amount');
+		$data['fields']= array('name','stock','partyname','contact');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'sales/edit/';
 		$data['button_text']='New Bill';

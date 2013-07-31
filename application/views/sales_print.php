@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>CLoth Store-Log In</title>
+    <title>Bill NO: <?php echo $sale['id'] ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -41,7 +41,7 @@
                     <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="/ico/favicon.png">
   </head>
-  <body>
+  <body onload="window.print()">
     <div class="container-fluid">
       <div class="row-fluid">
         <table class="table span4">

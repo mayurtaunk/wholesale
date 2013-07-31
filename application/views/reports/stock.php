@@ -6,32 +6,6 @@ echo start_widget($page_title);
 echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 ?>
 
-<!-- 	<fieldset>		
-		<div class="row-fluid">
-			<div class="span4">
-				<div class="data-block">
-					<h6 class="data-heading">Product</h6>
-						<input type="hidden" id ="ProductID"  name="product_id" value="<?php echo $product_id ?>" />
-						<input type="text" class="span12" id="ProductName" name="product_name" value="<?php echo $product_name ?>" />
-				</div>
-			</div>
-			
-			<div class="span4">
-				<div class="data-block">
-					<h6 class="data-heading">From</h6>
-						<input type="text" class="DateTime" name="from_date" value="<?php echo $from_date ?>" />
-				</div>
-			</div>
-			
-			<div class="span4">
-				<div class="data-block">
-					<h6 class="data-heading">To</h6>
-						<input type="text" class="DateTime" name="to_date" value="<?php echo $to_date ?>" />
-				</div>
-			</div>
-		</div>
-	</fieldset>
- -->
 	<div class="row-fluid">
 		<div class="span12">
 			<fieldset>

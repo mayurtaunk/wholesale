@@ -30,6 +30,7 @@
         //$this->firephp->info($rows);exit;
 
         foreach ($rows as $value) {
+          //$this->firephp->info($value);exit;          
           echo "<tr>";
           foreach($fields as $col){
             if(isset($link_col) && isset($link_url) && $link_col == $col)
