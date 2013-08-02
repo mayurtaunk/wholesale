@@ -14,26 +14,69 @@ class Purchase extends CI_Controller {
 		{
 			redirect('main/login');
 		}
+		/*pagination Start*/
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'index.php/purchase/index/';
+		$config['total_rows'] = $this->db->count_all('purchases');
+		$config['per_page'] = 7;
+		$config['num_links']=20;
+		$config['full_tag_open'] = '<div class="pagination"><ul>';
+		$config['full_tag_close'] = '</ul></div>';
+		$config['first_link'] = false;
+		$config['last_link'] = false;
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&larr; Previous';
+		$config['prev_tag_open'] = '<li class="prev">';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next &rarr;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['cur_tag_open'] =  '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		/*pagination Setting End*/
+
+		/*Prepare List View Start*/
 		$data['list'] = array(
 			'heading' => array('ID', 'Party Name', 'Date', 'Bill No', 'Amount'),
 			'link_col'=> "id" ,
 			'link_url'=> "purchase/edit/");
 		if($this->session->userdata('key')==1)
 		{
-			
 			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.company_id='. $this->session->userdata('company_id'));
+								   WHERE PU.recieved=1  PU.company_id='. $this->session->userdata('company_id') .' LIMIT '. $config['per_page'] . ' , '. $this->uri->segment(3));
+			$data['rows']=$query->result_array();
 		}
 		else
 		{
 			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id 
-								   WHERE PU.recieved=1 and PU.company_id='. $this->session->userdata('company_id'));
-
+								   WHERE PU.recieved=0 and PU.company_id='. $this->session->userdata('company_id').' LIMIT '. $config['per_page'] . ' , '. $this->uri->segment(3));
+			$data['rows']=$query->result_array();
 		}
+		
+		/*$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
+		$this->db->where('company_id', $this->session->userdata['company_id']);
+		$this->db->order_by("id", "desc"); 
+		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
+		$data['rows']=$query->result_array();
+		*/
+		
+		
+		
+		
+		
+		
+		/*Prepare List View End*/
+		$data['link_col'] = 'id';
 		$data['fields']= array('id','name','date','bill_no','amount');
 		$data['link_col'] = 'id';
 		$data['rows'] = $query->result_array();
