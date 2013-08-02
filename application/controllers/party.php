@@ -14,23 +14,66 @@ class Party extends CI_Controller {
 		{
 			redirect('main/login');
 		}
+		/*pagination Start*/
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'index.php/party/index/';
+		$config['total_rows'] = $this->db->count_all('parties');
+		$config['per_page'] = 7;
+		$config['num_links']=20;
+		$config['full_tag_open'] = '<div class="pagination"><ul>';
+		$config['full_tag_close'] = '</ul></div>';
+		$config['first_link'] = false;
+		$config['last_link'] = false;
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&larr; Previous';
+		$config['prev_tag_open'] = '<li class="prev">';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next &rarr;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['cur_tag_open'] =  '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		/*pagination Setting End*/
+
+		/*Prepare List View Start*/
 		$data['list'] = array(
 			'heading' => array('ID', 'Name', 'Address', 'Contact'),
 			'link_col'=> "id" ,
 			'link_url'=> "party/edit/");
-		
-		$query = $this->db->query('SELECT id, name, address, contact 
-									FROM parties 
-									WHERE company_id='. $this->session->userdata('company_id'));
-
-		$data['rows'] = $query->result_array();
-		$data['page'] = "list";
+		$this->db->select('id, name, address,contact',false);
+		$this->db->where('company_id', $this->session->userdata['company_id']);
+		$this->db->order_by("id", "asc"); 
+		$query = $this->db->get('parties', $config['per_page'],$this->uri->segment(3));
+		$data['rows']=$query->result_array();
+		$data['page'] = 'list';
 		$data['title'] = "Party List";
 		$data['link'] = "party/edit/";
 		$data['fields']= array('id','name','address','contact');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'party/edit/';
 		$data['button_text']='Add New Party';
+		/*Prepare List View End*/
+
+
+		
+		/*$query = $this->db->query('SELECT id, name, address, contact 
+									FROM parties 
+									WHERE company_id='. $this->session->userdata('company_id'));
+*/
+		/*$data['rows'] = $query->result_array();*/
+		/*$data['page'] = "list";*/
+		/*$data['title'] = "Party List";*/
+		/*$data['link'] = "party/edit/";*/
+		/*$data['fields']= array('id','name','address','contact');*/
+		/*$data['link_col'] = 'id';*/
+		/*$data['link_url'] = 'party/edit/';*/
+		/*$data['button_text']='Add New Party';*/
 		$this->load->view('index',$data);
 	}
 

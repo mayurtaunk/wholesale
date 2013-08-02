@@ -46,7 +46,7 @@
   </table>
   <br>
   <?php echo $this->pagination->create_links(); ?>
-  <!-- <fieldset>
+  <fieldset>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span4">
@@ -69,11 +69,11 @@
             <div class="control-group">
             <div class="controls">
               <button class="btn btn-success">Continue</button>
-              <a href=<?php echo base_url("main/signup");?>> SignUp </a>
+              <!-- <a href=<?php echo base_url("main/signup");?>> SignUp </a> -->
             </div>
           </div>
           </fieldset>
-   -->        </form>
+          </form>
         </div>
       </div>
     </div>
