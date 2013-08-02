@@ -46,7 +46,6 @@ class Purchase extends CI_Controller {
 			'heading' => array('ID', 'Party Name', 'Date', 'Bill No', 'Amount'),
 			'link_col'=> "id" ,
 			'link_url'=> "purchase/edit/");
-		//$this->firephp->info($this->uri->segment(3));exit;
 		if($this->session->userdata('key')==1)
 		{
 			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
@@ -54,8 +53,6 @@ class Purchase extends CI_Controller {
 								   ON PU.party_id = P.id
 								   WHERE PU.recieved=1 and  PU.company_id='. $this->session->userdata('company_id') .' LIMIT '. $config['per_page']);
 			$data['rows']=$query->result_array();
-			//$this->firephp->info($this->uri->segment(3));
-			//$this->firephp->info($query);exit;
 		}
 		else
 		{
@@ -64,8 +61,6 @@ class Purchase extends CI_Controller {
 								   ON PU.party_id = P.id 
 								   WHERE PU.recieved=0 and PU.company_id='. $this->session->userdata('company_id').' LIMIT '. $config['per_page']);
 			$data['rows']=$query->result_array();
-			//$this->firephp->info($this->uri->segment(3));
-			//$this->firephp->info($query);exit;
 		}
 		
 		/*$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);

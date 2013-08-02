@@ -14,24 +14,66 @@ class Product extends CI_Controller {
 		{
 			redirect('main/login');
 		}
+		/*pagination Start*/
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'index.php/product/index/';
+		$config['total_rows'] = $this->db->count_all('products');
+		$config['per_page'] = 7;
+		$config['num_links']=20;
+		$config['full_tag_open'] = '<div class="pagination"><ul>';
+		$config['full_tag_close'] = '</ul></div>';
+		$config['first_link'] = false;
+		$config['last_link'] = false;
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&larr; Previous';
+		$config['prev_tag_open'] = '<li class="prev">';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next &rarr;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['cur_tag_open'] =  '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		/*pagination Setting End*/
+
+		/*Prepare List View Start*/
+		$this->db->select('id, name, category,active',false);
+		$this->db->where('company_id', $this->session->userdata['company_id']);
+		$this->db->order_by("id", "asc"); 
+		$query = $this->db->get('products', $config['per_page'],$this->uri->segment(3));
+		$data['rows']=$query->result_array();
+		$data['page'] = 'list';
+		$data['title'] = "Product List";
+		$data['link'] = "product/edit/";
+		$data['fields']= array('id','name','category','active');
+		$data['link_col'] = 'id';
+		$data['link_url'] = 'product/edit/';
+		$data['button_text']='Add new Product';
+		/*Prepare List View End*/
+
 		$data['list'] = array(
 			'heading' => array('ID', 'Name', 'Category', 'Active'),
 			'link_col'=> "id" ,
 			'link_url'=> base_url('product/edit'));
 		
-		$query = $this->db->query('SELECT id, name, category, active 
+		/*$query = $this->db->query('SELECT id, name, category, active 
 									FROM products 
-									WHERE company_id='. $this->session->userdata('company_id'));
-		$data['link'] = 'product/edit/';
-		$data['rows'] = $query->result_array();
+									WHERE company_id='. $this->session->userdata('company_id'));*/
+	/*	$data['link'] = 'product/edit/';*/
+		/*$data['rows'] = $query->result_array();*/
 		
-		$data['page']     = "list";
+	/*	$data['page']     = "list";
 		$data['title'] = "Product List";
 		$data['fields']   = array('id','name','category','active');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'product/edit/';
 		$data['button_text']='Add New Product';
-		$this->load->view('index',$data);
+*/		$this->load->view('index',$data);
 	}
 
 	public function edit($id) {
