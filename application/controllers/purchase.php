@@ -46,21 +46,24 @@ class Purchase extends CI_Controller {
 			'heading' => array('ID', 'Party Name', 'Date', 'Bill No', 'Amount'),
 			'link_col'=> "id" ,
 			'link_url'=> "purchase/edit/");
-		if($this->session->userdata('key')==1)
+		$sqlquery="";
+		//$this->firephp->info($this->session->userdata);exit;
+		if($this->session->userdata('key') == "1")
 		{
-			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
+			$uri=($this->uri->segment(3) == null) ? 0 : $this->uri->segment(3);
+			$sqlquery = 'SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.recieved=1 and  PU.company_id='. $this->session->userdata('company_id') .' LIMIT '. $config['per_page']);
-			$data['rows']=$query->result_array();
+								   WHERE PU.recieved=0 and  PU.company_id='. $this->session->userdata('company_id') . ' LIMIT '. $uri .' , '. $config['per_page'];
+			
 		}
 		else
 		{
-			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
+			$uri=($this->uri->segment(3) == null) ? 0 : $this->uri->segment(3);
+			$sqlquery = 'SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id 
-								   WHERE PU.recieved=0 and PU.company_id='. $this->session->userdata('company_id').' LIMIT '. $config['per_page']);
-			$data['rows']=$query->result_array();
+								   WHERE PU.recieved=1 and PU.company_id='. $this->session->userdata('company_id') . ' LIMIT '. $uri .' , '. $config['per_page'];
 		}
 		
 		/*$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
@@ -69,8 +72,9 @@ class Purchase extends CI_Controller {
 		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
 		$data['rows']=$query->result_array();
 		*/
-		
-		
+		//$this->firephp->info($sqlquery);exit;
+		$query = $this->db->query($sqlquery);
+		$data['rows']=$query->result_array();
 		
 		
 		
