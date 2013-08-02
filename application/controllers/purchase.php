@@ -51,7 +51,7 @@ class Purchase extends CI_Controller {
 			$query = $this->db->query('SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.recieved=1  PU.company_id='. $this->session->userdata('company_id') .' LIMIT '. $config['per_page'] . ' , '. $this->uri->segment(3));
+								   WHERE PU.recieved=1 and  PU.company_id='. $this->session->userdata('company_id') .' LIMIT '. $config['per_page'] . ' , '. $this->uri->segment(3));
 			$data['rows']=$query->result_array();
 		}
 		else
