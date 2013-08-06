@@ -77,18 +77,20 @@
                   <input type="password" id="password" name="password" placeholder="" class="span12">
                 </div>
             </div>
+
           <div class="control-group">
             <!-- Button -->
             <div class="controls">
               <button class="btn btn-success">Login</button>
-              <a href=<?php echo base_url("index.php/main/signup");?>> SignUp </a>
+              <!-- <a href=<?php echo base_url("index.php/main/signup");?>> SignUp </a> -->
             </div>
           </div>
           </fieldset>
+
           </form>
         </div>
       </div>
     </div>
-  	
+  	<a href="dcn.pdf">Download Chapter 1 notes</a>
 </body>
 </html>
