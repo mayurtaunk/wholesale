@@ -68,6 +68,7 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 							<th>VAT %</th>
 							<th>Purchase Price</th>
 							<th>Quantity</th>
+							<th>Net Amount</th>
 							<th width="24px" class="aligncenter"><a href="javascript: DeleteAll()"><i class="icon-trash"></i></a></th>
 						</tr>
 					</thead>
@@ -84,8 +85,8 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								<td><input type="text" class="Numeric input-mini" name="vatper[<?php echo $pid['id'] ?>]" value="<?php echo $pid['vatper'] ?>" /></td>
 								<td><input type="text" class="Numeric input-mini" name="purchase_price[<?php echo $pid['id'] ?>]" value="<?php echo $pid['purchase_price'] ?>" />
 								</td>
-								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" />
-								</td>
+								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" /></td>
+								<td><input type="text" class="Numeric input-mini" name="netamount" value="<?php echo ($pid['quantity'] * $pid['purchase_price']) + ($pid['quantity'] * $pid['purchase_price'] * ($pid['vatper']/100)) ?>" /></td>
 								
 								<td class="aligncenter"><?php echo form_checkbox(array('name' => 'delete_id['.$pid['id'].']', 'value' => $pid['id'], 'checked' => false, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
 							</tr>
@@ -100,14 +101,15 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								<td><input type="text" class="Numeric input-mini" name="new_vatper[]" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" name="new_purchase_price[]" value="" />
 								</td>
-								<td><input type="text" class="Numeric input-mini" name="new_quantity[]" value="" />
-								</td>
+								<td><input type="text" class="Numeric input-mini" name="new_quantity[]" value="" /></td>
+								<td><input type="text" class="Numeric input-mini" name="new_netamount[]" value="" /></td>
 								<td class="aligncenter"><span id="1"><a href="#" class="btn btn-danger btn-mini"><i class="icon-minus icon-white"></i></a></span></td>
 							</tr>
 
 							<tr id="Blank">
 								<td><input type="hidden" class="Text span12" value="" id="ajaxProductId" />
 									 <input  type="text" class="Text span12" value="" id="ajaxName" /></td>
+								<td><input type="text" class="Numeric input-mini" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" value="" /></td>
@@ -167,6 +169,7 @@ function DeleteAll() {
  	var v5 = $("tr#Blank input:eq(5)").val();
  	var v6 = $("tr#Blank input:eq(6)").val();
  	var v7 = $("tr#Blank input:eq(7)").val();
+ 	var v8 = $("tr#Blank input:eq(8)").val();
  	
  	if (!v0) return;
 
@@ -195,6 +198,7 @@ function DeleteAll() {
 	$("tr#"+id+" input:eq(5)").val(v5);
 	$("tr#"+id+" input:eq(6)").val(v6);
 	$("tr#"+id+" input:eq(7)").val(v7);
+	$("tr#"+id+" input:eq(8)").val(v8);
 	
 	$("tr#"+id+" span").attr("id", id);
 	$("tr#"+id+" span a").attr("href", "javascript:remove_copy("+id+")");
