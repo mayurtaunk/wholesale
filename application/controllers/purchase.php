@@ -178,7 +178,15 @@ class Purchase extends CI_Controller {
 
 
 			$product_ids = $this->input->post('product_id');
-			$delete_ids  = $this->input->post('delete_id');
+			
+			if($this->input->post('delete_id'))
+			{
+				$delete_ids  = $this->input->post('delete_id');	
+			}
+			else
+			{
+				$delete_ids = array();
+			}
 			$new_product_ids = $this->input->post('new_product_id');
 
 			if($product_ids != null) {
@@ -189,6 +197,7 @@ class Purchase extends CI_Controller {
 				$pervats 	  = $this->input->post('vatper');
 				$purchase_prices = $this->input->post('purchase_price');
 				$quantities = $this->input->post('quantity');
+
 				foreach ($product_ids as $pdid => $product_id) {
 					if(!in_array($pdid, $delete_ids)) {
 						$row = array('purchase_id' => $id,
