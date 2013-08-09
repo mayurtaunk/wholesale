@@ -108,7 +108,7 @@ class Purchase extends CI_Controller {
 		$this->form_validation->set_rules('bill_no', 'Bill No', 'trim|required');
 		$this->form_validation->set_rules('amount', 'Amount', 'trim|required');
 		$this->form_validation->set_rules('amountpaid', 'Amount Paid', 'trim|required');
-		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, PU.amount, PU.recieved,PU.amount_paid	
+		$query = $this->db->query("SELECT PU.id, PU.party_id, P.name, PU.date, PU.bill_no, ROUND(PU.amount,2) AS amount, PU.recieved,PU.amount_paid	
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
 								   WHERE PU.id =". $id . " AND P.company_id=". $this->session->userdata('company_id'));
