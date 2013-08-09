@@ -59,6 +59,8 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 							<th>Product</th>
 							<th>Barcode</th>
 							<th>MRP</th>
+							<th>Sale Price</th>
+							<th>VAT (INCLUDED)</th>
 							<th>Quantity</th>
 							<th>TOTAL</th>
 							<th width="24px" class="aligncenter"><a href="javascript: DeleteAll()"><i class="icon-trash"></i></a></th>
@@ -81,26 +83,36 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								<input type="text" class="Text span12" value="<?php echo $sid['name'] ?>" readonly/>
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="barcode[<?php echo $sid['id'] ?>]"  value="<?php echo $sid['barcode'] ?>" readonly/></td>
+								<td><input type="text" class="Numeric input-mini" name="mrponpro[<?php echo $sid['id'] ?>]"  value="<?php echo $sid['mrponpro'] ?>" readonly/></td>
 								<td><input type="text" class="Numeric input-mini" name="mrp[<?php echo $sid['id'] ?>]" value="<?php echo $sid['mrp'] ?>" readonly/></td>
+								<td><input type="text" class="Numeric input-mini" name="vatper[<?php echo $sid['id'] ?>]" value="<?php echo $sid['vatper'] ?>" readonly/></td>
 								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $sid['id'] ?>]" value="<?php echo $sid['quantity'] ?>" readonly/></td>
 								<td><input type="text" class="Numeric input-mini" name="price[<?php echo $sid['id'] ?>]" value="<?php echo $sid['price'] ?>" readonly/></td>
-								
+				
 								<td class="aligncenter"><?php echo form_checkbox(array('name' => 'delete_id['.$sid['id'].']', 'value' => $sid['id'], 'checked' => false, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
 							</tr>
 							<?php } ?> 
 							<tr>
 								<td></td>
 								<td>Total</td>
+								<td></td>
 								<td><input type="text" class="Numeric input-mini" name="total" value="<?php echo $total?>" placeholder="Total" readonly/></td>
 								<td><input type="text" class="Numeric input-mini" name="item" value="<?php echo $item?>" placeholder="Items" readonly/></td>
 								<td></td>
 								<td></td>
+								
+								<td></td>
+						
 							<tr>
 							<tr>
 								<td></td>
 								<td>Discount</td>
 								<td colspan=2><input type="text" class="Numeric span8" name="discount" value="<?php echo $discount?>" placeholder="Discount" /></td>
 								<td></td>
+								<td></td>				
+								<td></td>				
+								
+
 								<td></td>
 							<tr>
 							<tr>
@@ -109,11 +121,15 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 								<td colspan=2><input type="text" readonly class="Numeric span8" name="topay" value="<?php echo $topay?>" placeholder="To Pay" /></td>
 								<td></td>
 								<td></td>
+								<td></td>
+								<td></td>
 							<tr>
 							<tr>
 								<td></td>
 								<td>Paid</td>
 								<td colspan=2><input type="text" class="Numeric span8" name="paid" value="<?php echo set_value('paid', $row['amount_recieved']) ?>" placeholder="Paid" /></td>
+								<td></td>
+								<td></td>
 								<td></td>
 								<td></td>
 							<tr>

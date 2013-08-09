@@ -63,7 +63,9 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 						<tr>
 							<th>Product</th>
 							<th>Barcode</th>
+							<th>MRP ON Product</th>
 							<th>MRP</th>
+							<th>VAT %</th>
 							<th>Purchase Price</th>
 							<th>Quantity</th>
 							<th width="24px" class="aligncenter"><a href="javascript: DeleteAll()"><i class="icon-trash"></i></a></th>
@@ -77,7 +79,9 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 									<input type="text" class="Text span12" value="<?php echo $pid['name'] ?>" />
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="barcode[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['barcode'] ?>" /></td>
+								<td><input type="text" class="Numeric input-mini" name="mrponpro[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['mrponpro'] ?>" /></td>
 								<td><input type="text" class="Numeric input-mini" name="mrp[<?php echo $pid['id'] ?>]" value="<?php echo $pid['mrp'] ?>" /></td>
+								<td><input type="text" class="Numeric input-mini" name="vatper[<?php echo $pid['id'] ?>]" value="<?php echo $pid['vatper'] ?>" /></td>
 								<td><input type="text" class="Numeric input-mini" name="purchase_price[<?php echo $pid['id'] ?>]" value="<?php echo $pid['purchase_price'] ?>" />
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" />
@@ -91,7 +95,9 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 									<input type="text" class="Text span12" value="" />
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="new_barcode[]"  value="" /></td>
+								<td><input type="text" class="Numeric input-mini" name="new_mrponpro[]"  value="" /></td>
 								<td><input type="text" class="Numeric input-mini" name="new_mrp[]" value="" /></td>
+								<td><input type="text" class="Numeric input-mini" name="new_vatper[]" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" name="new_purchase_price[]" value="" />
 								</td>
 								<td><input type="text" class="Numeric input-mini" name="new_quantity[]" value="" />
@@ -102,6 +108,8 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 							<tr id="Blank">
 								<td><input type="hidden" class="Text span12" value="" id="ajaxProductId" />
 									 <input  type="text" class="Text span12" value="" id="ajaxName" /></td>
+								<td><input type="text" class="Numeric input-mini" value="" /></td>
+								<td><input type="text" class="Numeric input-mini" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" value="" /></td>
 								<td><input type="text" class="Numeric input-mini" value="" /></td>
@@ -157,6 +165,8 @@ function DeleteAll() {
  	var v3 = $("tr#Blank input:eq(3)").val();
  	var v4 = $("tr#Blank input:eq(4)").val();
  	var v5 = $("tr#Blank input:eq(5)").val();
+ 	var v6 = $("tr#Blank input:eq(6)").val();
+ 	var v7 = $("tr#Blank input:eq(7)").val();
  	
  	if (!v0) return;
 
@@ -183,6 +193,8 @@ function DeleteAll() {
  	$("tr#"+id+" input:eq(3)").val(v3);
 	$("tr#"+id+" input:eq(4)").val(v4);
 	$("tr#"+id+" input:eq(5)").val(v5);
+	$("tr#"+id+" input:eq(6)").val(v6);
+	$("tr#"+id+" input:eq(7)").val(v7);
 	
 	$("tr#"+id+" span").attr("id", id);
 	$("tr#"+id+" span a").attr("href", "javascript:remove_copy("+id+")");

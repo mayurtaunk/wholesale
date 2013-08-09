@@ -101,7 +101,7 @@ class Sales extends CI_Controller {
 		$item=0;
 		/*Intialization End*/
 
-		$data['sale_details']= $this->radhe->getresultarray("SELECT pr.name,pr.id,pd.barcode,pd.mrp,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
+		$data['sale_details']= $this->radhe->getresultarray("SELECT pr.name,pr.id,pd.barcode,pd.mrp,pd.mrponpro,pd.vatper,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
 								   FROM sale_details sd INNER JOIN purchase_details pd 
 								   ON sd.purchase_Detail_id=pd.id 
 								   INNER JOIN products pr ON pd.product_id=pr.id 
@@ -362,8 +362,10 @@ class Sales extends CI_Controller {
 					}			
 				}
 			}
+			
 			$sumofprices=$this->radhe->getrowarray('select sum(price) as price from sale_details where sale_id='.$id);
 			$topay= $sumofprices['price']-$this->input->post('discount');
+			//$this->firephp->info($sumofprices);exit;
 			$updateqfin = array(
 				'less' => $this->input->post('discount'),
 				'amount' => $topay
@@ -383,7 +385,7 @@ class Sales extends CI_Controller {
 		$this->load->library('radhe');
 		$data['company_details'] = $this->radhe->getrowarray('select * from companies where id='. $this->session->userdata('company_id'));
 		$data['sale'] = $this->radhe->getrowarray('select * from sales where id='.$id);
-		$data['sale_details'] = $this->radhe->getresultarray('select P.name,PD.product_id,PD.mrp,SD.quantity,SD.price from sale_details SD INNER JOIN purchase_details PD ON PD.id=SD.purchase_detail_id INNER JOIN products P ON P.id=PD.product_id where sale_id='.$id);
+		$data['sale_details'] = $this->radhe->getresultarray('select P.name, PD.product_id, PD.mrponpro, PD.mrp, PD.vatper, SD.quantity, SD.price from sale_details SD INNER JOIN purchase_details PD ON PD.id=SD.purchase_detail_id INNER JOIN products P ON P.id=PD.product_id where sale_id='.$id);
 		$data['total_qty']=$this->radhe->getrowarray('select sum(quantity) as qty from sale_details where sale_id='.$id);
 		$data['total_pay']=$this->radhe->getrowarray('select sum(price) as pay from sale_details where sale_id='.$id);
 		//$this->firephp->info($data['sale']);

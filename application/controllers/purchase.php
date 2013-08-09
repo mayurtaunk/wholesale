@@ -93,7 +93,9 @@ class Purchase extends CI_Controller {
 		$this->load->view('index',$data);
 	}
 
-	public function edit($id) {
+	public function edit($id) 
+	{
+		//$this->firephp->info($_POST);exit;
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{
@@ -131,7 +133,7 @@ class Purchase extends CI_Controller {
 			$data['row'] = $row[0];
 		}
 		
-		$query = $this->db->query("SELECT PD.id, PD.product_id, P.name, PD.barcode, PD.mrp, PD.purchase_price, PD.quantity
+		$query = $this->db->query("SELECT PD.id, PD.product_id, P.name, PD.barcode, PD.mrp, PD.mrponpro, PD.vatper, PD.purchase_price, PD.quantity
 									   FROM purchase_details PD INNER JOIN products P
 									   ON PD.product_id = P.id
 									   WHERE PD.purchase_id =". $id . " AND P.company_id=". $this->session->userdata('company_id'));
@@ -180,8 +182,11 @@ class Purchase extends CI_Controller {
 			$new_product_ids = $this->input->post('new_product_id');
 
 			if($product_ids != null) {
+				//$this->firephp->info($_POST);exit;
 				$barcodes = $this->input->post('barcode');
 				$mrps 	  = $this->input->post('mrp');
+				$mrponpros 	  = $this->input->post('mrponpro');
+				$pervats 	  = $this->input->post('vatper');
 				$purchase_prices = $this->input->post('purchase_price');
 				$quantities = $this->input->post('quantity');
 				foreach ($product_ids as $pdid => $product_id) {
@@ -190,7 +195,9 @@ class Purchase extends CI_Controller {
 									 'product_id'  => $product_id,
 									 'barcode'     => $barcodes[$pdid],
 									 'mrp'  	   => $mrps[$pdid],
+									 'mrponpro'  	   => $mrponpros[$pdid],
 									 'purchase_price' => $purchase_prices[$pdid],
+									 'vatper' => $pervats[$pdid],
 									 'quantity'    => $quantities[$pdid],
 								);
 
@@ -207,6 +214,8 @@ class Purchase extends CI_Controller {
 		 	if($new_product_ids !=  array('0'=>'')) {
 			 	$barcodes = $this->input->post('new_barcode');
 				$mrps 	  = $this->input->post('new_mrp');
+				$mrponpros 	  = $this->input->post('new_mrponpro');
+				$vatpers 	  = $this->input->post('new_vatper');
 				$purchase_prices = $this->input->post('new_purchase_price');
 				$quantities = $this->input->post('new_quantity');
 				foreach ($new_product_ids as $pdid => $product_id) {
@@ -215,6 +224,8 @@ class Purchase extends CI_Controller {
 									 'product_id'  => $product_id,
 									 'barcode'     => $barcodes[$pdid],
 									 'mrp'  	   => $mrps[$pdid],
+									 'mrponpro'  	   => $mrponpros[$pdid],
+									 'vatper'  	   => $vatpers[$pdid],
 									 'purchase_price' => $purchase_prices[$pdid],
 									 'quantity'    => $quantities[$pdid],
 									 'sold'		   => 0
@@ -223,14 +234,14 @@ class Purchase extends CI_Controller {
 					$this->db->insert('purchase_details', $row);	
 				}
 			}
-			$totalamount = $this->radhe->getrowarray('select sum(purchase_price * quantity) as sum from purchase_details where purchase_id='.$id);
+			$totalamount = $this->radhe->getrowarray('select sum(purchase_price * quantity + (purchase_price * quantity * (vatper/100))) as sum from purchase_details where purchase_id='.$id);
 			$udata = array(
 				'amount' => $totalamount['sum']
 				);
 
-			//$this->firephp->info($totalamount);
+			
 			$this->db->update('purchases', $udata, "id = '" . $id . "'");
-			//$this->firephp->info($id);exit;
+			
 			redirect("purchase/edit/".$id."");
 		}
 	}

@@ -32,7 +32,7 @@ elseif (strcmp(PHP_OS, 'WIN32') == 0 OR
 		strcmp(PHP_OS, 'WINNT') == 0 OR
 		strcmp(PHP_OS, 'Windows') == 0) {
 	$config['base_url']	    = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? 'https://' : 'http://';
-	$config['base_url']	   .= (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'].'/clothstore' : '/clothstore');
+	$config['base_url']	   .= (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'].'/wholesale' : '/wholesale');
 	
 }
 
@@ -44,13 +44,13 @@ if (isset($_SERVER['HTTP_HOST']) && strcmp($_SERVER['HTTP_HOST'], "godaddy") == 
 	$config['local_path'] = '/home/html/...';
 }
 elseif (strcmp(PHP_OS, 'Linux') == 0) {
-	$config['local_path'] = "/home/nimesh/webroot/clothstore/";
+	$config['local_path'] = "/home/nimesh/webroot/wholesale/";
 }
 elseif (strcmp(PHP_OS, 'WIN32') == 0 OR
 		strcmp(PHP_OS, 'WINNT') == 0 OR
 		strcmp(PHP_OS, 'Windows') == 0) {
 	
-	$config['local_path'] = "C:/xampp/htdocs/clothstore";
+	$config['local_path'] = "C:/xampp/htdocs/wholesale";
 }
 /*
 |--------------------------------------------------------------------------
@@ -288,7 +288,7 @@ $config['sess_use_database']	= TRUE;
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
-$config['sess_time_to_update']	= 900;
+//$config['sess_time_to_update']	= 900;
 
 /*
 |--------------------------------------------------------------------------

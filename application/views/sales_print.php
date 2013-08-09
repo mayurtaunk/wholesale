@@ -46,30 +46,32 @@
       <div class="row-fluid">
         <table class="table span4">
 			<tr>
-				<td colspan=4><center><font size=5><?php echo $company_details['name']; ?></font></center><br></td>
+				<td colspan=6><center><font size=5><?php echo $company_details['name']; ?></font></center><br></td>
 			</tr>
 			<tr>
-				<td colspan=4>
+				<td colspan=6>
 				<center>	
 				<?php echo "<b> <i>".$company_details['address']." , ".$company_details['city']."</i> </b>"; ?>
 				<?php echo "(".$company_details['mobile']; ?>)</center></td>
 			</tr>
 			<tr>
-				<td><?php 
+				<td colspan=3><?php 
 				echo "Bill No:  <b>".$sale['id'] ?></td>
 				<td>&nbsp&nbsp&nbsp</td>
-				<td colspan=2><?php echo "Date:  <b>". date('d-m-Y',strtotime($sale['datetime']))?></td>
+				<td colspan=3><?php echo "Date:  <b>". date('d-m-Y',strtotime($sale['datetime']))?></td>
 			</tr>
 			<tr class="success">
-				<td colspan=2><?php echo "Customer Name:  <b>". $sale['party_name']?></td>
-				<td colspan=2><?php echo "Customer Name:  <b>". $sale['party_contact']?></td>
+				<td colspan=3><?php echo "Customer Name:  <b>". $sale['party_name']?></td>
+				<td colspan=3><?php echo "Customer Name:  <b>". $sale['party_contact']?></td>
 			</tr>
 			<tr class="warning">
-				<td colspan=4></td>
+				<td colspan=6></td>
 			</tr>
 			<tr>
 				<td><b>Name</b></td>
 				<td><b>MRP</b></td>
+				<td><b>Sale Price</b></td>
+				<td><b>VAT (Included)</b></td>
 				<td><b>Quantity</b></td>
 				<td><b>Total</b></td>
 			</tr>
@@ -79,37 +81,39 @@
 			{
 				echo "<tr>";
 				echo "<td>".$value['name']."</td>";
+				echo "<td>".$value['mrponpro']."</td>";
 				echo "<td>".$value['mrp']."</td>";
+				echo "<td>".$value['vatper']."</td>";
 				echo "<td>".$value['quantity']."</td>";
 				echo "<td>".$value['price']."</td>";
 				echo "</tr>";
 			}?>
 			<tr class="warning">
-				<td colspan=4></td>
+				<td colspan=6></td>
 			</tr>
 			<tr class="danger">
-				<td colspan =2></td>
+				<td colspan =4></td>
 				<td><b><i><?php echo $total_qty['qty'] ?> Items</i></b></td>
 				<td> <b>  <?php echo number_format($total_pay['pay'],2,".",",") ?></b></td>
 			</tr>
 			<tr>
-				<td colspan =2></td>
+				<td colspan =4></td>
 				<td><b>Discount:<b></td>
 				<td><b><u><?php echo $sale['less'] ?></u></b></td>
 			</tr>
 			<tr class="warning">
-				<td colspan =2></td>
+				<td colspan =4></td>
 				<td><b>To Pay:</b></td>
 				<td><b>Rupees <?php echo number_format($sale['amount'],2,".",",") ?><b></td>
 			</tr>
 			<?php if($sale['amount'] != $sale['amount_recieved']) { ?>
 			<tr>
-				<td colspan =2></td>
+				<td colspan =4></td>
 				<td><b>Paid:</b></td>
 				<td><b>Rupees <?php echo number_format($sale['amount_recieved'],2,".",",") ?><b></td>
 			</tr>
 			<tr class="warning">
-				<td colspan =2></td>
+				<td colspan =4></td>
 				<td><b>Credit:</b></td>
 				<td><b>Rupees <?php echo number_format($sale['amount'] - $sale['amount_recieved'],2,".",",") ?><b></td>
 			</tr>
