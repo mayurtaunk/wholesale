@@ -44,11 +44,45 @@ class Sales extends CI_Controller {
 		$data['list'] = array(
 			'heading' => array('ID', 'DateTime', 'Discount', 'Amount')
 		);
-		$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
+		$data['rows']="";
+		if($this->session->userdata('key') == "1")
+		{
+			$query = $this->db->query("SELECT 
+									S.id, 
+									DATE_FORMAT(S.datetime,'%W, %M %e, %Y') as  datetime, 
+									S.less,
+									CONCAT('INR ', FORMAT(SUM(SD.price), 2)) AS amount
+									FROM sales S 
+									INNER JOIN sale_details SD ON S.id = SD.sale_id
+									WHERE S.company_id=" . $this->session->userdata('company_id') . " AND SD.sale_id=S.id
+									GROUP BY S.id");
+			$data['rows']=$query->result_array();
+		}	
+		else
+		{
+			$query = $this->db->query("SELECT 
+									S.id, 
+									DATE_FORMAT(S.datetime,'%W, %M %e, %Y') as  datetime, 
+									S.less,
+									CONCAT('INR ', FORMAT(SUM(SD.price), 2)) AS amount
+									FROM sales S 
+									INNER JOIN sale_details SD ON S.id = SD.sale_id
+									INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
+									INNER JOIN purchases P ON PD.purchase_id = P.id
+									WHERE S.company_id=" . $this->session->userdata('company_id') . 
+									" AND SD.sale_id=S.id
+									AND P.recieved=1
+									GROUP BY S.id");
+			
+			$data['rows']=$query->result_array();
+		}
+		/*$row = $query->result_array();*/
+		/*$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
 		$this->db->where('company_id', $this->session->userdata['company_id']);
 		$this->db->order_by("id", "desc"); 
 		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
-		$data['rows']=$query->result_array();
+		*/
+		
 		$data['page'] = 'list';
 		$data['title'] = "Sales List";
 		$data['link'] = "sales/edit/";
@@ -100,12 +134,25 @@ class Sales extends CI_Controller {
 		$total=0;
 		$item=0;
 		/*Intialization End*/
-
-		$data['sale_details']= $this->radhe->getresultarray("SELECT pr.name,pr.id,pd.barcode,pd.mrp,pd.mrponpro,pd.vatper,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
-								   FROM sale_details sd INNER JOIN purchase_details pd 
-								   ON sd.purchase_Detail_id=pd.id 
+		if($this->session->userdata('key') == "1")
+		{
+			$data['sale_details']= $this->radhe->getresultarray("SELECT pr.name,pr.id,pd.barcode,pd.mrp,pd.mrponpro,pd.vatper,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
+								   FROM sale_details sd 
+								   INNER JOIN purchase_details pd ON sd.purchase_detail_id = pd.id 
 								   INNER JOIN products pr ON pd.product_id=pr.id 
-								   where sd.sale_id=".$id. " AND pr.company_id=". $this->session->userdata('company_id'));
+								   where sd.sale_id=".$id. " AND pr.company_id=". $this->session->userdata('company_id'));		
+		}
+		else
+		{
+			$data['sale_details']= $this->radhe->getresultarray("SELECT pr.name,pr.id,pd.barcode,pd.mrp,pd.mrponpro,pd.vatper,sd.id,sd.sale_id,sd.price,sd.quantity,sd.purchase_detail_id
+								   FROM sale_details sd 
+								   INNER JOIN purchase_details pd ON sd.purchase_detail_id = pd.id 
+								   INNER JOIN products pr ON pd.product_id=pr.id 
+								   INNER JOIN purchases P ON PD.purchase_id=P.id
+								   where P.recieved = 1 AND sd.sale_id=".$id. " AND pr.company_id=". $this->session->userdata('company_id'));	
+		}
+
+		
 		foreach ($data['sale_details'] as $key => $value) 
 		{
 				$total=$total+$value['price'];

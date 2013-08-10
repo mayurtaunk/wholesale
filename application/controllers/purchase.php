@@ -54,7 +54,7 @@ class Purchase extends CI_Controller {
 			$sqlquery = 'SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.recieved=0 and  PU.company_id='. $this->session->userdata('company_id') . ' LIMIT '. $uri .' , '. $config['per_page'];
+								   WHERE PU.company_id='. $this->session->userdata('company_id') . ' LIMIT '. $uri .' , '. $config['per_page'];
 			
 		}
 		else
@@ -151,6 +151,7 @@ class Purchase extends CI_Controller {
 		{
 			
 			//$this->firephp->info($totalamount);exit;
+			$setrec = $this->input->post('recieved');
 			$data = array(
 				'id' => $this->input->post('id'),
 				'company_id'=>$this->session->userdata('company_id'),
@@ -159,7 +160,7 @@ class Purchase extends CI_Controller {
 				'bill_no' => $this->input->post('bill_no'),
 				'amount' => $this->input->post('amount'),
 				'amount_paid' => $this->input->post('amountpaid'),
-				'recieved'=>($this->input->post('recieved')) ? 1 : 0,
+				'recieved'=>($setrec != null) ? 1 : 0,
 				/*'id2'=> ($this->input->post('id')==0 && $this->input->post('recieved')==1) ? $this->radhe->getid('purchases','id2') : 0*/
 			);
 			//$this->firephp->info($data['id']);exit;

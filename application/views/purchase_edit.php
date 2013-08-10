@@ -44,14 +44,15 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 			</div>
 		</div>
 		<?php if($this->session->userdata('key')==1) {?>
-				<?php echo form_checkbox(array('type'=>'hidden', 'name' => 'recieved', 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?>
-		<?php 
-		}
-		else
-		{
-		?>
-				<?php echo form_checkbox(array( 'type'=>'hidden','name' => 'recieved','value'=>1, 'checked' => $row['recieved'] == 1 ? True : False, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?>
-		<?php } ?>
+		<div class="control-group">
+		  <div class="controls">
+		    <label class="checkbox">
+		      <input type="checkbox" name="recieved" <?php echo $row['recieved'] == 1 ? "checked=checked"  : "" ?> value="recieved">
+		      Recieved
+		    </label>
+		  </div>
+		</div>
+		<?php }?>
 	</fieldset>
 
 	<div class="row-fluid">
