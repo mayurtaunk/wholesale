@@ -58,7 +58,12 @@ class Dashboard extends CI_Controller {
 					 INNER JOIN parties PA ON PA.id = P.party_id
 					 WHERE P.company_id=".$this->session->userdata('company_id'). 
 					 " GROUP BY PR.id";*/
-		$sql="SELECT PR.name, 
+		$sql="";
+		if($this->session->userdata('key') == "1")
+		{
+			$sql="SELECT 
+					 PR.name,
+					 PD.barcode, 
                      CASE 
                      WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
                      ELSE (pd.quantity - sum(sd.quantity)) 
@@ -71,7 +76,25 @@ class Dashboard extends CI_Controller {
 					 INNER JOIN parties PA ON PA.id=P.party_id
 					 LEFT OUTER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
 					 WHERE P.company_id=".$this->session->userdata('company_id'). 
-					 " GROUP BY PR.name ORDER BY stock";			 
+					 " GROUP BY PD.barcode ORDER BY stock";			 
+		}
+		else
+		{
+			$sql="SELECT PR.name, 
+                     CASE 
+                     WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
+                     ELSE (pd.quantity - sum(sd.quantity)) 
+                     END AS stock,
+					 PA.name as partyname,
+					 PA.contact
+					 FROM products PR
+					 INNER JOIN purchase_details PD ON PR.id = PD.product_id
+					 INNER JOIN purchases P ON P.id=PD.purchase_id
+					 INNER JOIN parties PA ON PA.id=P.party_id
+					 LEFT OUTER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
+					 WHERE P.recieved = 1 AND P.company_id=".$this->session->userdata('company_id'). 
+					 " GROUP BY PR.name ORDER BY stock";			 	
+		}
 		/*$sql="SELECT PR.name, 
 					 (PD.quantity - (SELECT CASE WHEN SUM(SD.quantity) = null THEN 0 ELSE SUM(SD.quantity) END AS quantity)) as stock,
 					 PA.name as partyname,

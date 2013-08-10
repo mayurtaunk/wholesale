@@ -159,7 +159,7 @@ class Sales extends CI_Controller {
 				$item=$item+$value['quantity'];
 		}
 		$data['noproavail']=0;
-		$query = $this->db->query("SELECT id, party_name, party_contact,less,amount,amount_recieved
+		$query = $this->db->query("SELECT id, party_name, party_contact,disnote,less,amount,amount_recieved
 									FROM sales 
 								   	WHERE id =".$id. " AND company_id=". $this->session->userdata('company_id'));
 		$row = $query->result_array();
@@ -184,6 +184,7 @@ class Sales extends CI_Controller {
 			$data['item']=$item;
 			$data['discount']=$getrow['less'];
 			$data['topay']=($total-$data['discount']);
+			$data['disnote']=$getrow['disnote'];
 			$data['id'] =  $id;
 			$data['row'] = $row[0];
 			//$this->firephp->info($data['row']);exit;
@@ -210,7 +211,8 @@ class Sales extends CI_Controller {
 						'datetime' => standard_date($format, $time),
 						'less' => $this->input->post('discount'),
 						'amount' => $topayjustupd,
-						'amount_recieved' => $this->input->post('paid')
+						'amount_recieved' => $this->input->post('paid'),
+						'disnote' => $this->input->post('disnote')
 					);
 					$this->db->update('sales', $updatequery, "id = '" . $id . "'");	
 				}
@@ -236,7 +238,8 @@ class Sales extends CI_Controller {
 					'datetime' => standard_date($format, $time),
 					'less' => $this->input->post('discount'),
 					'amount' => $this->input->post('total'),
-					'amount_recieved' => $this->input->post('paid') 
+					'amount_recieved' => $this->input->post('paid'), 
+					'disnote' => $this->input->pos('disnote')
 
 				);
 				$this->db->insert('sales', $insertquery);
@@ -255,7 +258,8 @@ class Sales extends CI_Controller {
 					'datetime' => standard_date($format, $time),
 					'less' => $this->input->post('discount'),
 					'amount' => $topayjustupd,
-					'amount_recieved' => $this->input->post('paid')
+					'amount_recieved' => $this->input->post('paid'),
+					'disnote' => $this->input->pos('disnote')
 				);
 				$this->db->update('sales', $updatequery, "id = '" . $id . "'");
 			}
@@ -415,7 +419,8 @@ class Sales extends CI_Controller {
 			//$this->firephp->info($sumofprices);exit;
 			$updateqfin = array(
 				'less' => $this->input->post('discount'),
-				'amount' => $topay
+				'amount' => $topay,
+				'disnote' =>$this->input->post('disnote')
 			);
 			$this->db->update('sales', $updateqfin, "id = '" . $id . "'");
 			$this->load->view('index',$data);

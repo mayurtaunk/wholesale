@@ -44,7 +44,7 @@
   <body onload="window.print()">
     <div class="container-fluid">
       <div class="row-fluid">
-        <table class="table span4">
+        <table class="table table-bordered span4">
 			<tr>
 				<td colspan=6><center><font size=5><?php echo $company_details['name']; ?></font></center><br></td>
 			</tr>
@@ -97,16 +97,24 @@
 				<td> <b>  <?php echo number_format($total_pay['pay'],2,".",",") ?></b></td>
 			</tr>
 			<tr>
-				<td colspan =4></td>
+				<td colspan =4><font align="right"><b><?php echo $sale['disnote']?> <b></font></td>
 				<td><b>Discount:<b></td>
 				<td><b><u><?php echo $sale['less'] ?></u></b></td>
 			</tr>
 			<tr class="warning">
 				<td colspan =4></td>
-				<td><b>To Pay:</b></td>
+				<td><b>Net Amount:</b></td>
 				<td><b>Rupees <?php echo number_format($sale['amount'],2,".",",") ?><b></td>
 			</tr>
-			<?php if($sale['amount'] != $sale['amount_recieved']) { ?>
+			<tr class="warning">
+				<td colspan=6><b>FOR <?php echo $company_details['name']; ?>:</b></td>
+			</tr>
+			<tr class="warning">
+				<td colspan=4></td>
+				<td colspan=2>Authority Signature</td>
+			</tr>
+			
+			<!--<?php if($sale['amount'] != $sale['amount_recieved']) { ?>
 			<tr>
 				<td colspan =4></td>
 				<td><b>Paid:</b></td>
@@ -117,7 +125,7 @@
 				<td><b>Credit:</b></td>
 				<td><b>Rupees <?php echo number_format($sale['amount'] - $sale['amount_recieved'],2,".",",") ?><b></td>
 			</tr>
-			<?php }?>
+			<?php }?>-->
 		</table>
 
       </div>
