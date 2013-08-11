@@ -45,7 +45,7 @@ class Dashboard extends CI_Controller {
 
 		/*Prepare List View Start*/
 		$data['list'] = array(
-			'heading' => array('Name', 'Stock', 'Whole Seller', 'Contact')
+			'heading' => array('Name', 'Stock','Barcode', 'Whole Seller', 'Contact')
 		);
 
 /*		$sql="SELECT PR.name, 
@@ -58,43 +58,43 @@ class Dashboard extends CI_Controller {
 					 INNER JOIN parties PA ON PA.id = P.party_id
 					 WHERE P.company_id=".$this->session->userdata('company_id'). 
 					 " GROUP BY PR.id";*/
-		$sql="";
-		if($this->session->userdata('key') == "1")
-		{
-			$sql="SELECT 
-					 PR.name,
-					 PD.barcode, 
-                     CASE 
-                     WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
-                     ELSE (pd.quantity - sum(sd.quantity)) 
-                     END AS stock,
-					 PA.name as partyname,
-					 PA.contact
-					 FROM products PR
-					 INNER JOIN purchase_details PD ON PR.id = PD.product_id
-					 INNER JOIN purchases P ON P.id=PD.purchase_id
-					 INNER JOIN parties PA ON PA.id=P.party_id
-					 LEFT OUTER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
-					 WHERE P.company_id=".$this->session->userdata('company_id'). 
-					 " GROUP BY PD.barcode ORDER BY stock";			 
-		}
-		else
-		{
-			$sql="SELECT PR.name, 
-                     CASE 
-                     WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
-                     ELSE (pd.quantity - sum(sd.quantity)) 
-                     END AS stock,
-					 PA.name as partyname,
-					 PA.contact
-					 FROM products PR
-					 INNER JOIN purchase_details PD ON PR.id = PD.product_id
-					 INNER JOIN purchases P ON P.id=PD.purchase_id
-					 INNER JOIN parties PA ON PA.id=P.party_id
-					 LEFT OUTER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
-					 WHERE P.recieved = 1 AND P.company_id=".$this->session->userdata('company_id'). 
-					 " GROUP BY PR.name ORDER BY stock";			 	
-		}
+						$sql="";
+						if($this->session->userdata('key') == "1")
+						{
+							$sql="SELECT 
+									 PR.name,
+									 PD.barcode, 
+        				             CASE 
+        				             WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
+        				             ELSE (pd.quantity - sum(sd.quantity)) 
+        				             END AS stock,
+									 PA.name as partyname,
+									 PA.contact
+									 FROM products PR
+									 INNER JOIN purchase_details PD ON PR.id = PD.product_id
+									 INNER JOIN purchases P ON P.id=PD.purchase_id
+									 INNER JOIN parties PA ON PA.id=P.party_id
+									 LEFT OUTER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
+									 WHERE P.company_id=".$this->session->userdata('company_id'). 
+									 " GROUP BY PD.barcode ORDER BY stock";			 
+						}
+						else
+						{
+							$sql="SELECT PR.name, 
+        				             CASE 
+        				             WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
+        				             ELSE (pd.quantity - sum(sd.quantity)) 
+        				             END AS stock,
+									 PA.name as partyname,
+									 PA.contact
+									 FROM products PR
+									 INNER JOIN purchase_details PD ON PR.id = PD.product_id
+					 				 INNER JOIN purchases P ON P.id=PD.purchase_id
+					 				 INNER JOIN parties PA ON PA.id=P.party_id
+					 				 LEFT OUTER JOIN sale_details SD ON PD.id = SD.purchase_detail_id
+					 				 WHERE P.recieved = 1 AND P.company_id=".$this->session->userdata('company_id'). 
+					 				 " GROUP BY PR.name ORDER BY stock";			 	
+						}
 		/*$sql="SELECT PR.name, 
 					 (PD.quantity - (SELECT CASE WHEN SUM(SD.quantity) = null THEN 0 ELSE SUM(SD.quantity) END AS quantity)) as stock,
 					 PA.name as partyname,
@@ -124,7 +124,7 @@ class Dashboard extends CI_Controller {
 		$data['page'] = 'list';
 		$data['title'] = "Sales List";
 		$data['link'] = "sales/edit/";
-		$data['fields']= array('name','stock','partyname','contact');
+		$data['fields']= array('name','stock','barcode','partyname','contact');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'sales/edit/';
 		$data['button_text']='New Bill';

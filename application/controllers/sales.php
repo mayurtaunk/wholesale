@@ -175,6 +175,7 @@ class Sales extends CI_Controller {
 			$data['discount']=0;
 			$data['topay']=0;
 			$data['id'] = 0;
+			$data['disnote']="";
 			$data['row'] =  $row; 
 		}
 		else 
