@@ -46,28 +46,29 @@
       <div class="row-fluid">
         <table class="table table-bordered span4">
 			<tr>
-				<td colspan=6><center><font size=5><?php echo $company_details['name']; ?></font></center><br></td>
+				<td colspan=7><center><font size=5><?php echo $company_details['name']; ?></font></center><br></td>
 			</tr>
 			<tr>
-				<td colspan=6>
+				<td colspan=7>
 				<center>	
 				<?php echo "<b> <i>".$company_details['address']." , ".$company_details['city']."</i> </b>"; ?>
 				<?php echo "(".$company_details['mobile']; ?>)</center></td>
 			</tr>
 			<tr>
-				<td colspan=3><?php 
+				<td colspan=4><?php 
 				echo "Bill No:  <b>".$sale['id'] ?></td>
 				<td>&nbsp&nbsp&nbsp</td>
 				<td colspan=3><?php echo "Date:  <b>". date('d-m-Y',strtotime($sale['datetime']))?></td>
 			</tr>
 			<tr class="success">
-				<td colspan=3><?php echo "Customer Name:  <b>". $sale['party_name']?></td>
+				<td colspan=4><?php echo "Customer Name:  <b>". $sale['party_name']?></td>
 				<td colspan=3><?php echo "Customer Name:  <b>". $sale['party_contact']?></td>
 			</tr>
 			<tr class="warning">
-				<td colspan=6></td>
+				<td colspan=7></td>
 			</tr>
 			<tr>
+				<td><b>Serial No</b></td>
 				<td><b>Name</b></td>
 				<td><b>MRP</b></td>
 				<td><b>Sale Price</b></td>
@@ -76,10 +77,12 @@
 				<td><b>Total</b></td>
 			</tr>
 			<?php
+			$serial=1;
 			/*$this->firephp->info($sale_details);exit;*/
 			foreach ($sale_details as $key => $value) 
 			{
 				echo "<tr>";
+				echo "<td>".$serial."</td>";
 				echo "<td>".$value['name']."</td>";
 				echo "<td>".$value['mrponpro']."</td>";
 				echo "<td>".$value['mrp']."</td>";
@@ -87,31 +90,33 @@
 				echo "<td>".$value['quantity']."</td>";
 				echo "<td>".$value['price']."</td>";
 				echo "</tr>";
+				$serial=$serial+1;
 			}?>
 			<tr class="warning">
-				<td colspan=6></td>
+				<td colspan=7></td>
 			</tr>
 			<tr class="danger">
-				<td colspan =4></td>
+				<td colspan =5></td>
 				<td><b><i><?php echo $total_qty['qty'] ?> Items</i></b></td>
 				<td> <b>  <?php echo number_format($total_pay['pay'],2,".",",") ?></b></td>
 			</tr>
 			<tr>
-				<td colspan =4><font align="right"><b><?php echo $sale['disnote']?> <b></font></td>
+				<td colspan =5><font align="right"><b><?php echo $sale['disnote']?> <b></font></td>
 				<td><b>Discount:<b></td>
 				<td><b><u><?php echo $sale['less'] ?></u></b></td>
 			</tr>
 			<tr class="warning">
-				<td colspan =4></td>
+				<td colspan =5></td>
 				<td><b>Net Amount:</b></td>
 				<td><b>Rupees <?php echo number_format($sale['amount'],2,".",",") ?><b></td>
 			</tr>
 			<tr class="warning">
-				<td colspan=6><b>FOR <?php echo $company_details['name']; ?>:</b></td>
+				<td colspan=5><b>FOR <?php echo $company_details['name']; ?>:</b></td>
+				<td rowspan=2 colspan=2>Authority Signature</td>
 			</tr>
 			<tr class="warning">
-				<td colspan=4></td>
-				<td colspan=2>Authority Signature</td>
+				<td colspan=5>--</td>
+				
 			</tr>
 			
 			<!--<?php if($sale['amount'] != $sale['amount_recieved']) { ?>

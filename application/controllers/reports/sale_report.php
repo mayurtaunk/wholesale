@@ -20,7 +20,9 @@ class Sale_report extends CI_controller {
 			$sql="";
 			if($data['product_id'] != 0)
 			{
-				$sql = "SELECT DATE_FORMAT(S.datetime,'%d-%m-%Y') AS date, P.name AS product , SUM(SD.quantity) as quantity 
+				if($this->session->userdata('key') == "1")
+				{
+					$sql = "SELECT DATE_FORMAT(S.datetime,'%d-%m-%Y') AS date, P.name AS product , SUM(SD.quantity) as quantity 
 						FROM sales S INNER JOIN sale_details SD ON S.id = SD.sale_id 
 						INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
 						INNER JOIN products P ON P.id = PD.product_id 
@@ -29,17 +31,51 @@ class Sale_report extends CI_controller {
 						DATE_FORMAT(S.datetime, '%d-%m-%Y') <= '".$data['to_date']."' AND
 						P.company_id=". $this->session->userdata('company_id');
 			
+				}
+				else
+				{
+					$sql = "SELECT DATE_FORMAT(S.datetime,'%d-%m-%Y') AS date, P.name AS product , SUM(SD.quantity) as quantity 
+						FROM sales S INNER JOIN sale_details SD ON S.id = SD.sale_id 
+						INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
+						INNER JOIN purchases PU ON PD.purchase_id = PU.id 
+						INNER JOIN products P ON P.id = PD.product_id 
+						WHERE PD.product_id = ".$data['product_id']." AND
+						DATE_FORMAT(S.datetime, '%d-%m-%Y') >= '".$data['from_date']."' AND
+						DATE_FORMAT(S.datetime, '%d-%m-%Y') <= '".$data['to_date']."' AND
+						PU.recieved = 1 AND
+						P.company_id=". $this->session->userdata('company_id');
+					
+				}
+				
 			}
 			else
 			{
-				$sql = "SELECT DATE_FORMAT(S.datetime,'%d-%m-%Y') AS date, P.name AS product, SUM(SD.quantity) as quantity
+				if($this->session->userdata('key') == "1")
+				{
+
+					$sql = "SELECT DATE_FORMAT(S.datetime,'%d-%m-%Y') AS date, P.name AS product, SUM(SD.quantity) as quantity
 						FROM sales S INNER JOIN sale_details SD ON S.id = SD.sale_id 
 						INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
 						INNER JOIN products P ON P.id = PD.product_id 
 						WHERE DATE_FORMAT(S.datetime, '%d-%m-%Y') >= '".$data['from_date']."' AND
 						DATE_FORMAT(S.datetime, '%d-%m-%Y') <= '".$data['to_date']."' AND
 						P.company_id=". $this->session->userdata('company_id'). " GROUP BY PD.product_id";
+				}
+				else
+				{
+					$sql = "SELECT DATE_FORMAT(S.datetime,'%d-%m-%Y') AS date, P.name AS product, SUM(SD.quantity) as quantity
+						FROM sales S INNER JOIN sale_details SD ON S.id = SD.sale_id 
+						INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
+						INNER JOIN purchases PU ON PD.purchase_id = PU.id
+						INNER JOIN products P ON P.id = PD.product_id 
+						WHERE DATE_FORMAT(S.datetime, '%d-%m-%Y') >= '".$data['from_date']."' AND
+						DATE_FORMAT(S.datetime, '%d-%m-%Y') <= '".$data['to_date']."' AND
+						PU.recieved = 1 AND
+						P.company_id=". $this->session->userdata('company_id'). " GROUP BY PD.product_id";
+				}
+
 			}
+				
 			$query = $this->db->query($sql);
 			$data['rows'] = $query->result_array();
 
