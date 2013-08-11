@@ -240,7 +240,7 @@ class Sales extends CI_Controller {
 					'less' => $this->input->post('discount'),
 					'amount' => $this->input->post('total'),
 					'amount_recieved' => $this->input->post('paid'), 
-					'disnote' => $this->input->pos('disnote')
+					'disnote' => $this->input->post('disnote')
 
 				);
 				$this->db->insert('sales', $insertquery);
