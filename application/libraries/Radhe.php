@@ -1,6 +1,32 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Radhe {
+    function getautocomplete($sql, $db = null) 
+    {
+        $newline = array("\n", "\r\n", "\r");
+        
+        $data = array();
+        if ($db == null)
+            $query = $this->db->query($sql);
+        else
+            $query = $db->query($sql);
+        $rows = $query->result_array();
+        if ($rows) {
+            foreach ($rows as $row) {
+                if (count($row) == 1) {
+                    foreach($row as $k => $v)
+                        $data[] = '"' . addslashes(str_replace($newline, ' ', $v)) . '"';
+                }
+                else {
+                    $sdata = array();
+                    foreach($row as $k => $v)
+                        $sdata[] = '"' . $k . '": "' . addslashes(str_replace($newline, ' ', $v)) . '"';
+                    $data[] = '{' . join(',', $sdata) . '}';
+                }
+            }
+        }
+        echo '[' . join(',', $data) . ']';
+    }
     function _validate_phone_number($value) {
         $value = trim($value);
         $match = '/^\(?[0-9]{3}\)?[-. ]?[0-9]{3}[-. ]?[0-9]{4}$/';

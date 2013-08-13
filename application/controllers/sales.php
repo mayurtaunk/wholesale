@@ -42,54 +42,58 @@ class Sales extends CI_Controller {
 
 		/*Prepare List View Start*/
 		$data['list'] = array(
-			'heading' => array('ID', 'DateTime', 'Discount', 'Amount')
+			'heading' => array('ID', 'DateTime', 'Party Name' ,'Discount', 'Amount')
 		);
 		$data['rows']="";
+		$data['help']="Please enter Party name OR Bill Date(yyyy-mm-dd)";
+		$data['hhelp'] ="| Ex. Shukla | Ex. 2013-08-11";
+		$skey=$this->session->userdata('search_sales');
 		if($this->session->userdata('key') == "1")
 		{
 			$query = $this->db->query("SELECT 
-									S.id, 
-									DATE_FORMAT(S.datetime,'%W, %M %e, %Y') as  datetime, 
-									S.less,
-									CONCAT('INR ', FORMAT(SUM(SD.price), 2)) AS amount
-									FROM sales S 
-									INNER JOIN sale_details SD ON S.id = SD.sale_id
-									WHERE S.company_id=" . $this->session->userdata('company_id') . " AND SD.sale_id=S.id
-									GROUP BY S.id");
+										S.id, S.party_name,
+										DATE_FORMAT(S.datetime,'%W, %M %e, %Y') as  datetime, 
+										S.less,
+										CONCAT('INR ', FORMAT(SUM(SD.price), 2)) AS amount
+										FROM sales S 
+										INNER JOIN sale_details SD ON S.id = SD.sale_id
+										WHERE S.company_id=" . $this->session->userdata('company_id') . " 
+										AND SD.sale_id=S.id 
+										AND (S.party_name LIKE '%" . $skey . "%' OR S.datetime LIKE '%" . $skey . "%')
+										GROUP BY S.id"
+									 );
 			$data['rows']=$query->result_array();
 		}	
 		else
 		{
 			$query = $this->db->query("SELECT 
-									S.id, 
-									DATE_FORMAT(S.datetime,'%W, %M %e, %Y') as  datetime, 
-									S.less,
-									CONCAT('INR ', FORMAT(SUM(SD.price), 2)) AS amount
-									FROM sales S 
-									INNER JOIN sale_details SD ON S.id = SD.sale_id
-									INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
-									INNER JOIN purchases P ON PD.purchase_id = P.id
-									WHERE S.company_id=" . $this->session->userdata('company_id') . 
-									" AND SD.sale_id=S.id
-									AND P.recieved=1
-									GROUP BY S.id");
+										S.id, 
+										S.party_name,
+										DATE_FORMAT(S.datetime,'%W, %M %e, %Y') AS  datetime, 
+										S.less,
+										CONCAT('INR ', FORMAT(SUM(SD.price), 2)) AS amount
+										FROM sales S 
+										INNER JOIN sale_details SD ON S.id = SD.sale_id
+										INNER JOIN purchase_details PD ON PD.id = SD.purchase_detail_id
+										INNER JOIN purchases P ON PD.purchase_id = P.id
+										WHERE S.company_id=" . $this->session->userdata('company_id') . "
+										AND P.recieved = 1 
+										AND SD.sale_id=S.id
+										AND (S.party_name LIKE '%" . $skey . "%' OR S.datetime LIKE '%" . $skey . "%')
+										GROUP BY S.id"
+									);
 			
 			$data['rows']=$query->result_array();
 		}
-		/*$row = $query->result_array();*/
-		/*$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
-		$this->db->where('company_id', $this->session->userdata['company_id']);
-		$this->db->order_by("id", "desc"); 
-		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
-		*/
-		
 		$data['page'] = 'list';
 		$data['title'] = "Sales List";
 		$data['link'] = "sales/edit/";
-		$data['fields']= array('id','datetime','less','amount');
+		$data['fields']= array('id','datetime','party_name','less','amount');
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'sales/edit/';
 		$data['button_text']='New Bill';
+		$data['cname'] = 'sales';
+		$data['dta'] =  $this->session->userdata['search_sales'];
 		/*Prepare List View End*/
 
 		$this->load->view('index',$data);
@@ -481,11 +485,19 @@ class Sales extends CI_Controller {
 	{
 		
 			$search = strtolower($this->input->get('term'));	
-			$sql = "SELECT PD.id, distinct PD.barcode 
+			$sql = "SELECT distinct PD.id, PD.barcode 
 			FROM purchase_details PD INNER JOIN purchases P ON P.id = PD.purchase_id 
 			WHERE PD.barcode LIKE '%$search%' AND PD.sold = 0 AND P.company_id = ".$this->session->userdata['company_id'].
 			" ORDER BY PD.barcode";
 			$this->_getautocomplete($sql);
 		
+	}
+	function search() {
+		
+			$search = strtolower($this->input->get('term'));
+			$data =array (
+						'search_sales' => $this->input->get('term')
+					);
+			$this->session->set_userdata($data);	
 	}
 }

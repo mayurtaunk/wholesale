@@ -46,40 +46,35 @@ class Purchase extends CI_Controller {
 			'heading' => array('ID', 'Party Name', 'Date', 'Bill No', 'Amount'),
 			'link_col'=> "id" ,
 			'link_url'=> "purchase/edit/");
+		$data['cname'] = 'purchase';
+		$data['dta'] =  $this->session->userdata['search_purchase'];
 		$sqlquery="";
-		//$this->firephp->info($this->session->userdata);exit;
+		$data['help']="Please enter Party name OR Bill Number";
+		$data['hhelp'] ="| Ex. Shukla | Ex. G32";
+		$skey=$this->session->userdata('search_purchase');
 		if($this->session->userdata('key') == "1")
 		{
 			$uri=($this->uri->segment(3) == null) ? 0 : $this->uri->segment(3);
-			$sqlquery = 'SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
+			$sqlquery = "SELECT PU.id,DATE_FORMAT(PU.date,'%W, %M %e, %Y') as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
 								   ON PU.party_id = P.id
-								   WHERE PU.company_id='. $this->session->userdata('company_id') . ' LIMIT '. $uri .' , '. $config['per_page'];
+								   WHERE (P.name LIKE '%". $skey .  "%' OR PU.bill_no LIKE '%" .$skey. "%') AND PU.company_id=". $this->session->userdata('company_id') . "
+								   LIMIT ". $uri ." , ". $config['per_page'];
 			
 		}
 		else
 		{
 			$uri=($this->uri->segment(3) == null) ? 0 : $this->uri->segment(3);
-			$sqlquery = 'SELECT PU.id,DATE_FORMAT(PU.date,"%W, %M %e, %Y") as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
+			$sqlquery = "SELECT PU.id,DATE_FORMAT(PU.date,'%W, %M %e, %Y') as  datetime,PU.bill_no,P.name, PU.date, PU.bill_no, PU.amount	 
 								   FROM purchases PU INNER JOIN parties P 
-								   ON PU.party_id = P.id 
-								   WHERE PU.recieved=1 and PU.company_id='. $this->session->userdata('company_id') . ' LIMIT '. $uri .' , '. $config['per_page'];
+								   ON PU.party_id = P.id
+								   WHERE (P.name LIKE '%". $skey .  "%' OR PU.bill_no LIKE '%" .$skey. "%') AND PU.company_id=". $this->session->userdata('company_id') . "
+								   AND recieved=1 LIMIT ". $uri ." , ". $config['per_page'];
 		}
-		
-		/*$this->db->select('id, DATE_FORMAT(datetime,"%W, %M %e, %Y") as  datetime, less,CONCAT("INR ", FORMAT(amount, 2)) AS amount',false);
-		$this->db->where('company_id', $this->session->userdata['company_id']);
-		$this->db->order_by("id", "desc"); 
-		$query = $this->db->get('sales', $config['per_page'],$this->uri->segment(3));
-		$data['rows']=$query->result_array();
-		*/
-		//$this->firephp->info($sqlquery);exit;
 		$query = $this->db->query($sqlquery);
 		$data['rows']=$query->result_array();
-		
-		
-		
-		
 		/*Prepare List View End*/
+
 		$data['link_col'] = 'id';
 		$data['fields']= array('id','name','date','bill_no','amount');
 		$data['link_col'] = 'id';
@@ -89,13 +84,11 @@ class Purchase extends CI_Controller {
 		$data['link'] = "purchase/edit/";
 		$data['link_url'] = 'purchase/edit/';
 		$data['button_text']='Add New Purchase';
-		//$this->firephp->info($data);
 		$this->load->view('index',$data);
 	}
 
 	public function edit($id) 
 	{
-		//$this->firephp->info($_POST);exit;
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{
@@ -113,7 +106,6 @@ class Purchase extends CI_Controller {
 								   ON PU.party_id = P.id
 								   WHERE PU.id =". $id . " AND P.company_id=". $this->session->userdata('company_id'));
 		$row = $query->result_array();
-		//$this->firephp->info($row);exit;
 		if($query->num_rows() == 0) {
 			$row = array(
 				'party_id' => 0,
@@ -149,8 +141,6 @@ class Purchase extends CI_Controller {
 		}
 		else 
 		{
-			
-			//$this->firephp->info($totalamount);exit;
 			$setrec = $this->input->post('recieved');
 			$data = array(
 				'id' => $this->input->post('id'),
@@ -163,7 +153,6 @@ class Purchase extends CI_Controller {
 				'recieved'=>($setrec != null) ? 1 : 0,
 				/*'id2'=> ($this->input->post('id')==0 && $this->input->post('recieved')==1) ? $this->radhe->getid('purchases','id2') : 0*/
 			);
-			//$this->firephp->info($data['id']);exit;
 			if ($data['id'] == 0) 
 			{
 				$this->db->insert('purchases', $data);
@@ -191,7 +180,6 @@ class Purchase extends CI_Controller {
 			$new_product_ids = $this->input->post('new_product_id');
 
 			if($product_ids != null) {
-				//$this->firephp->info($_POST);exit;
 				$barcodes = $this->input->post('barcode');
 				$mrps 	  = $this->input->post('mrp');
 				$mrponpros 	  = $this->input->post('mrponpro');
@@ -303,6 +291,14 @@ class Purchase extends CI_Controller {
 			WHERE active = 1 AND name LIKE '%$search%' AND company_id=".$this->session->userdata('company_id'). 
 			" ORDER BY name";
 			$this->_getautocomplete($sql);
+	}
+	function search() {
+		
+			$search = strtolower($this->input->get('term'));
+			$data =array (
+						'search_purchase' => $this->input->get('term')
+					);
+			$this->session->set_userdata($data);	
 	}
 
 }

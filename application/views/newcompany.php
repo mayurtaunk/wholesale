@@ -28,18 +28,11 @@
       }
     </style>
     <link href=<?php echo base_url("/css/bootstrap-responsive.css");?> rel="stylesheet">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../js/html5shiv.js"></script>
-    <![endif]-->
-
-    <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/ico/favicon.png">
   </head>
   <body>
     <div class="container-fluid">
@@ -47,15 +40,15 @@
         <div class="span2">
           <!--Sidebar content-->
         </div>
-        <div class="span8">
+        <div class="span10">
           <?php
-            $attr = array('class' => 'well span10 form-horizontal', 'id' => 'newcompany');
+            $attr = array('class' => 'well span8 form-horizontal', 'id' => 'newcompany');
             echo form_open('newcompanyadd/edit/'.$row['user_id'],$attr);
             //echo validation_errors();
           ?>
           <div id="legend">
             <legend class="">Register Company</legend>
-            </div>
+          </div>
           <fieldset>
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('user_id')) > 0 ? 'error' : '') ?>">
@@ -63,16 +56,13 @@
                 <input id="user_id" value="<?php echo set_value('code', $row['user_id']) ?>" name="user_id" type="hidden" >
               </div>
             </div>
-            
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('code')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Company Code</label>
               <div class="controls">
                 <input id="code" value="<?php echo set_value('code', $row['code']) ?>" name="code" type="text" placeholder="Please Enter Company Code..." class="input-xlarge">
-                
               </div>
             </div>
-            
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('cname')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Company Name</label>
@@ -81,7 +71,6 @@
                 
               </div>
             </div>
-            
             <!-- Textarea -->
             <div class="control-group <?php echo (strlen(form_error('caddress')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Company Address</label>
@@ -89,7 +78,6 @@
                 <textarea id="caddress" name="caddress"><?php echo set_value('caddress', $row['address']) ?></textarea>
               </div>
             </div>
-
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('city')) > 0 ? 'error' : '') ?>">
               <label class="control-label">City</label>
@@ -97,16 +85,13 @@
                 <input id="City" value="<?php echo set_value('city', $row['city']) ?>" name="city" type="text" placeholder="Please Enter City..." class="input-xlarge">    
               </div>
             </div>
-            
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('contact')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Contact Number</label>
               <div class="controls">
                 <input id="Contact" value="<?php echo set_value('contact', $row['contact']) ?>" name="contact" type="text" placeholder="Please Enter Contact Number..." class="input-xlarge">
-                
               </div>
             </div>
-
             <!-- Prepended text-->
             <div class="control-group <?php echo (strlen(form_error('mobileno')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Mobile</label>
@@ -115,19 +100,15 @@
                   <span class="add-on">+91</span>
                   <input id="mobileno" name="mobileno" value="<?php echo set_value('mobileno', $row['mobile']) ?>" placeholder="Enter Mobile..." type="text">
                 </div>
-                
               </div>
             </div>
-
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('email')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Email Address</label>
               <div class="controls">
                 <input id="email" name="email" value="<?php echo set_value('email', $row['email']) ?>" type="text" placeholder="Please Enter Email Address..." class="input-xlarge">
-                
               </div>
             </div>
-
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('panno')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Pan Number</label>
@@ -136,13 +117,11 @@
                 
               </div>
             </div>
-            
             <!-- Text input-->
             <div class="control-group <?php echo (strlen(form_error('servicetaxno')) > 0 ? 'error' : '') ?>">
               <label class="control-label">Service Tax Number</label>
               <div class="controls">
                 <input id="servicetaxno" value="<?php echo set_value('servicetaxno', $row['service_tax_no']) ?>" name="servicetaxno" type="text" placeholder="Please Enter Service Tax Number..." class="input-xlarge">
-                
               </div>
             </div>
             <!-- Text input-->
@@ -152,7 +131,6 @@
                 <input id="opbalance" value="<?php echo set_value('opbalance', $row['opbalance']) ?>" name="opbalance" type="text" placeholder="Please Enter Opeaning Balance..." class="input-xlarge">       
               </div>
             </div>
-            
             <!-- Textarea -->
             <div class="control-group ">
               <label class="control-label">Description</label>
@@ -165,11 +143,12 @@
             </div>
           </fieldset>
         </form>
-      </div>
-    </div><!--/span-->
+        </div>
+      </div><!--/span-->
+    </div>
     <hr>
     <footer>
-      <p>&copy; Radhe Developers 2013</p>
+      <center><p>&copy; Radhe Developers 2013</p></center>
     </footer>
   </body>
 </html>

@@ -85,4 +85,39 @@ class Main extends CI_Controller {
 		}
 
 	}
+	function _getautocomplete($sql, $db = null) {
+		$newline = array("\n", "\r\n", "\r");
+		
+		$data = array();
+		if ($db == null)
+			$query = $this->db->query($sql);
+		else
+			$query = $db->query($sql);
+		$rows = $query->result_array();
+		if ($rows) {
+			foreach ($rows as $row) {
+				if (count($row) == 1) {
+					foreach($row as $k => $v)
+						$data[] = '"' . addslashes(str_replace($newline, ' ', $v)) . '"';
+				}
+				else {
+					$sdata = array();
+					foreach($row as $k => $v)
+						$sdata[] = '"' . $k . '": "' . addslashes(str_replace($newline, ' ', $v)) . '"';
+					$data[] = '{' . join(',', $sdata) . '}';
+				}
+			}
+		}
+		echo '[' . join(',', $data) . ']';
+	}
+	function search() {
+		
+			$search = strtolower($this->input->get('term'));
+			$sql = "SELECT id, name
+			FROM products
+			WHERE active = 1 AND name LIKE '%$search%' AND company_id=".$this->session->userdata('company_id'). 
+			" ORDER BY name";
+			$this->_getautocomplete($sql);
+	}
+	
 }

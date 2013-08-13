@@ -42,10 +42,16 @@ class Product extends CI_Controller {
 		/*pagination Setting End*/
 
 		/*Prepare List View Start*/
-		$this->db->select('id, name, category,active',false);
-		$this->db->where('company_id', $this->session->userdata['company_id']);
-		$this->db->order_by("id", "asc"); 
-		$query = $this->db->get('products', $config['per_page'],$this->uri->segment(3));
+		$uri=($this->uri->segment(3) == null) ? 0 : $this->uri->segment(3);
+		$sqlquery="";
+		$data['help']="Please enter product name";
+		$data['hhelp'] ="| Ex. Data communication";
+		$sqlquery = "SELECT id,name,category,active	 
+					 FROM products 
+					 WHERE name LIKE '%" . $this->session->userdata('search_product') . "%'
+					 AND company_id=". $this->session->userdata('company_id') . " 
+					 ORDER BY id LIMIT ". $uri ." , ". $config['per_page'];	
+		$query = $this->db->query($sqlquery);
 		$data['rows']=$query->result_array();
 		$data['page'] = 'list';
 		$data['title'] = "Product List";
@@ -54,26 +60,14 @@ class Product extends CI_Controller {
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'product/edit/';
 		$data['button_text']='Add new Product';
+		$data['cname'] = 'product';
+		$data['dta'] =  $this->session->userdata['search_product'];
 		/*Prepare List View End*/
-
 		$data['list'] = array(
 			'heading' => array('ID', 'Name', 'Category', 'Active'),
 			'link_col'=> "id" ,
 			'link_url'=> base_url('product/edit'));
-		
-		/*$query = $this->db->query('SELECT id, name, category, active 
-									FROM products 
-									WHERE company_id='. $this->session->userdata('company_id'));*/
-	/*	$data['link'] = 'product/edit/';*/
-		/*$data['rows'] = $query->result_array();*/
-		
-	/*	$data['page']     = "list";
-		$data['title'] = "Product List";
-		$data['fields']   = array('id','name','category','active');
-		$data['link_col'] = 'id';
-		$data['link_url'] = 'product/edit/';
-		$data['button_text']='Add New Product';
-*/		$this->load->view('index',$data);
+		$this->load->view('index',$data);
 	}
 
 	public function edit($id) {
@@ -148,5 +142,13 @@ class Product extends CI_Controller {
 			
 			redirect("product");
 		}
+	}	
+	function search() {
+		
+			$search = strtolower($this->input->get('term'));
+			$data =array (
+						'search_product' => $this->input->get('term')
+					);
+			$this->session->set_userdata($data);	
 	}
 }

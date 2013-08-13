@@ -46,10 +46,16 @@ class Party extends CI_Controller {
 			'heading' => array('ID', 'Name', 'Address', 'Contact'),
 			'link_col'=> "id" ,
 			'link_url'=> "party/edit/");
-		$this->db->select('id, name, address,contact',false);
-		$this->db->where('company_id', $this->session->userdata['company_id']);
-		$this->db->order_by("id", "asc"); 
-		$query = $this->db->get('parties', $config['per_page'],$this->uri->segment(3));
+		$uri=($this->uri->segment(3) == null) ? 0 : $this->uri->segment(3);
+		$sqlquery="";
+		$data['help']="Please enter party name";
+		$data['hhelp'] ="| Ex. Shukla";
+		$sqlquery = "SELECT id,name,address,contact	 
+					 FROM parties 
+					 WHERE name LIKE '%" . $this->session->userdata('search_party') . "%' 
+					 AND company_id=". $this->session->userdata('company_id') . "
+					 ORDER BY id LIMIT ". $uri ." , ". $config['per_page'];	
+		$query = $this->db->query($sqlquery);
 		$data['rows']=$query->result_array();
 		$data['page'] = 'list';
 		$data['title'] = "Party List";
@@ -58,22 +64,10 @@ class Party extends CI_Controller {
 		$data['link_col'] = 'id';
 		$data['link_url'] = 'party/edit/';
 		$data['button_text']='Add New Party';
+		$data['cname'] = 'party';
+		$data['dta'] =  $this->session->userdata['search_party'];
 		/*Prepare List View End*/
-
-
 		
-		/*$query = $this->db->query('SELECT id, name, address, contact 
-									FROM parties 
-									WHERE company_id='. $this->session->userdata('company_id'));
-*/
-		/*$data['rows'] = $query->result_array();*/
-		/*$data['page'] = "list";*/
-		/*$data['title'] = "Party List";*/
-		/*$data['link'] = "party/edit/";*/
-		/*$data['fields']= array('id','name','address','contact');*/
-		/*$data['link_col'] = 'id';*/
-		/*$data['link_url'] = 'party/edit/';*/
-		/*$data['button_text']='Add New Party';*/
 		$this->load->view('index',$data);
 	}
 
@@ -153,5 +147,13 @@ class Party extends CI_Controller {
 			redirect("party");
 			/*redirect("party/edit/".$id."");*/
 		}
+	}
+	function search() {
+		
+			$search = strtolower($this->input->get('term'));
+			$data =array (
+						'search_party' => $this->input->get('term')
+					);
+			$this->session->set_userdata($data);	
 	}
 }

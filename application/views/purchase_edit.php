@@ -1,49 +1,41 @@
-<div class="row-fluid">
-	<div class="span10">
-	
 <?php
-echo start_widget('Purchase Information', anchor('purchase', '<span class="icon"><i class="icon-list"></i></span>'), 'nopadding');
-echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
+	echo start_widget('Purchase Information', anchor('purchase', '<span class="icon"><i class="icon-list"></i></span>'), 'nopadding');
+	echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 ?>
-
-	<fieldset>		
-	
-		<div class="control-group <?php echo (strlen(form_error('party_id')) > 0 ? 'error' : '') ?>">
-			<label class="control-label">Party Name</label>
-			<div class="controls">
-				<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
-				<input type="hidden" id ="party_id"  name="party_id" value="<?php echo set_value('party_id', $row['party_id']) ?>" />
-				<input type="text" placeholder="Enter Party Fullname..."class="span8" id="party_name" name="party_name" value="<?php echo set_value('name', $row['name']) ?>" />
-			</div>
+<fieldset>		
+	<div class="control-group <?php echo (strlen(form_error('party_id')) > 0 ? 'error' : '') ?>">
+		<label class="control-label">Party Name</label>
+		<div class="controls">
+			<input type="hidden"  name="id" value="<?php echo set_value('id', $id) ?>" />
+			<input type="hidden" id ="party_id"  name="party_id" value="<?php echo set_value('party_id', $row['party_id']) ?>" />
+			<input type="text" placeholder="Enter Party Fullname..."class="span8" id="party_name" name="party_name" value="<?php echo set_value('name', $row['name']) ?>" />
 		</div>
-		
-		<div class="control-group <?php echo (strlen(form_error('date')) > 0 ? 'error' : '') ?>">
-			<label class="control-label">Date</label>
-			<div class="controls">
-				<input type="text" class="DateTime" id="datepicker" name="date" value="<?php echo set_value('date', $row['date']) ?>" />
-			</div>
+	</div>
+	<div class="control-group <?php echo (strlen(form_error('date')) > 0 ? 'error' : '') ?>">
+		<label class="control-label">Date</label>
+		<div class="controls">
+			<input type="text" class="DateTime" id="datepicker" name="date" value="<?php echo set_value('date', $row['date']) ?>" />
 		</div>
-		
-		<div class="control-group <?php echo (strlen(form_error('bill_no')) > 0 ? 'error' : '') ?>">
-			<label class="control-label">Bill No</label>
-			<div class="controls">
-				<input type="text" class="span8" placeholder="Enter Bill Number..." name="bill_no" value="<?php echo set_value('bill_no', $row['bill_no']) ?>" />			
-			</div>
+	</div>
+	<div class="control-group <?php echo (strlen(form_error('bill_no')) > 0 ? 'error' : '') ?>">
+		<label class="control-label">Bill No</label>
+		<div class="controls">
+			<input type="text" class="span8" placeholder="Enter Bill Number..." name="bill_no" value="<?php echo set_value('bill_no', $row['bill_no']) ?>" />			
 		</div>
-
-		<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">
-			<label class="control-label">Amount</label>
-			<div class="controls">
-				<input type="text" placeholder="Enter Total Bill Form Seller..."class="span8" readonly name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
-			</div>
+	</div>
+	<div class="control-group <?php echo (strlen(form_error('amount')) > 0 ? 'error' : '') ?>">
+		<label class="control-label">Amount</label>
+		<div class="controls">
+			<input type="text" placeholder="Enter Total Bill Form Seller..."class="span8" readonly name="amount" value="<?php echo set_value('amount', $row['amount']) ?>" />			
 		</div>
-		<div class="control-group <?php echo (strlen(form_error('amountpaid')) > 0 ? 'error' : '') ?>">
-			<label class="control-label">Amount Paid</label>
-			<div class="controls">
-				<input type="text" placeholder="Enter Total Amount Paid..."class="span8" name="amountpaid" value="<?php echo set_value('amountpaid', $row['amount_paid']) ?>" />			
-			</div>
+	</div>
+	<div class="control-group <?php echo (strlen(form_error('amountpaid')) > 0 ? 'error' : '') ?>">
+		<label class="control-label">Amount Paid</label>
+		<div class="controls">
+			<input type="text" placeholder="Enter Total Amount Paid..."class="span8" name="amountpaid" value="<?php echo set_value('amountpaid', $row['amount_paid']) ?>" />			
 		</div>
-		<?php if($this->session->userdata('key')==1) {?>
+	</div>
+	<?php if($this->session->userdata('key')==1) {?>
 		<div class="control-group">
 		  <div class="controls">
 		    <label class="checkbox">
@@ -52,91 +44,80 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
 		    </label>
 		  </div>
 		</div>
-		<?php }?>
+	<?php }?>
+</fieldset>
+<hr>
+<div class="row-fluid">
+	<fieldset>
+		<legend>Bill Items</legend>
+		<table class="table table-condensed table-striped">
+			<thead>	
+				<tr>
+					<th>Product</th>
+					<th>Barcode</th>
+					<th>MRP ON Product</th>
+					<th>MRP</th>
+					<th>VAT %</th>
+					<th>Purchase Price</th>
+					<th>Quantity</th>
+					<th>Net Amount</th>
+					<th width="24px" class="aligncenter"><a href="javascript: DeleteAll()"><i class="icon-trash"></i></a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($purchase_details as $pid) { ?>
+					<tr>					
+						<td><input type="hidden" class="Text span12" name="product_id[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['product_id'] ?>" />
+							<input type="text" class="Text span12" value="<?php echo $pid['name'] ?>" />
+						</td>
+						<td><input type="text" class="Numeric input-mini" name="barcode[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['barcode'] ?>" /></td>
+						<td><input type="text" class="Numeric input-mini" name="mrponpro[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['mrponpro'] ?>" /></td>
+						<td><input type="text" class="Numeric input-mini" name="mrp[<?php echo $pid['id'] ?>]" value="<?php echo $pid['mrp'] ?>" /></td>
+						<td><input type="text" class="Numeric input-mini" name="vatper[<?php echo $pid['id'] ?>]" value="<?php echo $pid['vatper'] ?>" /></td>
+						<td><input type="text" class="Numeric input-mini" name="purchase_price[<?php echo $pid['id'] ?>]" value="<?php echo $pid['purchase_price'] ?>" />
+						</td>
+						<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" /></td>
+						<td><input type="text" class="Numeric input-mini" name="netamount" value="<?php echo ($pid['quantity'] * $pid['purchase_price']) + ($pid['quantity'] * $pid['purchase_price'] * ($pid['vatper']/100)) ?>" /></td>
+						
+						<td class="aligncenter"><?php echo form_checkbox(array('name' => 'delete_id['.$pid['id'].']', 'value' => $pid['id'], 'checked' => false, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
+					</tr>
+				<?php } ?> 
+		 			<tr id="1" style="display: none;">
+						<td><input type="hidden" class="Text span12" name="new_product_id[]"  value="" />
+							<input type="text" class="Text span12" value="" />
+						</td>
+						<td><input type="text" class="Numeric input-mini" name="new_barcode[]"  value="" /></td>
+						<td><input type="text" class="Numeric input-mini" name="new_mrponpro[]"  value="" /></td>
+						<td><input type="text" class="Numeric input-mini" name="new_mrp[]" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" name="new_vatper[]" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" name="new_purchase_price[]" value="" />
+						</td>
+						<td><input type="text" class="Numeric input-mini" name="new_quantity[]" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" name="new_netamount[]" value="" /></td>
+						<td class="aligncenter"><span id="1"><a href="#" class="btn btn-danger btn-mini"><i class="icon-minus icon-white"></i></a></span></td>
+					</tr>
+					<tr id="Blank">
+						<td><input type="hidden" class="Text span12" value="" id="ajaxProductId" />
+							 <input  type="text" class="Text span12" value="" id="ajaxName" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td><input type="text" class="Numeric input-mini" value="" /></td>
+						<td class="aligncenter"><a href="javascript:make_copy(1)" class="btn btn-success btn-mini"><i class="icon-plus icon-white"></i></a></td>
+					</tr>
+			</tbody>
+		</table>
 	</fieldset>
-
-	<div class="row-fluid">
-		<div class="span12">
-			<fieldset>
-			<legend>Bill Items</legend>
-				<table class="table table-condensed table-striped">
-					<thead>	
-						<tr>
-							<th>Product</th>
-							<th>Barcode</th>
-							<th>MRP ON Product</th>
-							<th>MRP</th>
-							<th>VAT %</th>
-							<th>Purchase Price</th>
-							<th>Quantity</th>
-							<th>Net Amount</th>
-							<th width="24px" class="aligncenter"><a href="javascript: DeleteAll()"><i class="icon-trash"></i></a></th>
-						</tr>
-					</thead>
-
-					<tbody>
-							<?php foreach ($purchase_details as $pid) { ?>
-							<tr>					
-								<td><input type="hidden" class="Text span12" name="product_id[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['product_id'] ?>" />
-									<input type="text" class="Text span12" value="<?php echo $pid['name'] ?>" />
-								</td>
-								<td><input type="text" class="Numeric input-mini" name="barcode[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['barcode'] ?>" /></td>
-								<td><input type="text" class="Numeric input-mini" name="mrponpro[<?php echo $pid['id'] ?>]"  value="<?php echo $pid['mrponpro'] ?>" /></td>
-								<td><input type="text" class="Numeric input-mini" name="mrp[<?php echo $pid['id'] ?>]" value="<?php echo $pid['mrp'] ?>" /></td>
-								<td><input type="text" class="Numeric input-mini" name="vatper[<?php echo $pid['id'] ?>]" value="<?php echo $pid['vatper'] ?>" /></td>
-								<td><input type="text" class="Numeric input-mini" name="purchase_price[<?php echo $pid['id'] ?>]" value="<?php echo $pid['purchase_price'] ?>" />
-								</td>
-								<td><input type="text" class="Numeric input-mini" name="quantity[<?php echo $pid['id'] ?>]" value="<?php echo $pid['quantity'] ?>" /></td>
-								<td><input type="text" class="Numeric input-mini" name="netamount" value="<?php echo ($pid['quantity'] * $pid['purchase_price']) + ($pid['quantity'] * $pid['purchase_price'] * ($pid['vatper']/100)) ?>" /></td>
-								
-								<td class="aligncenter"><?php echo form_checkbox(array('name' => 'delete_id['.$pid['id'].']', 'value' => $pid['id'], 'checked' => false, 'class' => 'DeleteCheckbox', 'data-placement' => 'left', 'rel' => 'tooltip', 'data-original-title'=>'Selected Items will be deleted after Update...')); ?></td>
-							</tr>
-							<?php } ?> 
-			 				<tr id="1" style="display: none;">
-								<td><input type="hidden" class="Text span12" name="new_product_id[]"  value="" />
-									<input type="text" class="Text span12" value="" />
-								</td>
-								<td><input type="text" class="Numeric input-mini" name="new_barcode[]"  value="" /></td>
-								<td><input type="text" class="Numeric input-mini" name="new_mrponpro[]"  value="" /></td>
-								<td><input type="text" class="Numeric input-mini" name="new_mrp[]" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" name="new_vatper[]" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" name="new_purchase_price[]" value="" />
-								</td>
-								<td><input type="text" class="Numeric input-mini" name="new_quantity[]" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" name="new_netamount[]" value="" /></td>
-								<td class="aligncenter"><span id="1"><a href="#" class="btn btn-danger btn-mini"><i class="icon-minus icon-white"></i></a></span></td>
-							</tr>
-
-							<tr id="Blank">
-								<td><input type="hidden" class="Text span12" value="" id="ajaxProductId" />
-									 <input  type="text" class="Text span12" value="" id="ajaxName" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td><input type="text" class="Numeric input-mini" value="" /></td>
-								<td class="aligncenter"><a href="javascript:make_copy(1)" class="btn btn-success btn-mini"><i class="icon-plus icon-white"></i></a></td>
-							</tr>
-					</tbody>
-				</table>
-			</fieldset>
-		</div>
-	</div>
-
+</div>
+<br>
 <div class="form-actions">
-	<button type="submit" name="submit" value="1" class="btn btn-success" id="Update">Update</button>
+	<button type="submit" name="submit" value="1" class="btn btn-success pull-right" id="Update">Update</button>
 </div>
-
 </form>
-
 <?php echo end_widget(); ?>
-
-	</div>
-</div>
-
-
 <script>
 
   $(document).ready(function() {
@@ -144,13 +125,8 @@ echo form_open($this->uri->uri_string(), 'class="form-horizontal"');
       $('.control-group input').keypress(function(e){
       $(e.target).parent().parent().removeClass("error");
       });
-
-
-});
-
-
+	});
 var checked = 1;
-
 function DeleteAll() {
  	if(checked) {
  		$("input.DeleteCheckbox").attr("checked", "checked");
