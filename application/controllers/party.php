@@ -40,7 +40,7 @@ class Party extends CI_Controller {
 		$config['num_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
 		/*pagination Setting End*/
-
+		
 		/*Prepare List View Start*/
 		$data['list'] = array(
 			'heading' => array('ID', 'Name', 'Address', 'Contact'),
