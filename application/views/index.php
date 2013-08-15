@@ -202,7 +202,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         <div class="well sidebar-nav span12">
           <ul class="nav nav-list">
             <li class="nav-header">Feed Data</li>
-            <li><?php echo anchor('party', 'Party List'); ?></li>
+            <li active><?php echo anchor('party', 'Party List'); ?></li>
             <li><?php echo anchor('product', 'Product List'); ?></li>
             <li><?php echo anchor('purchase', 'Purchase List'); ?></li>
             <li class="nav-header">Sales</li>
