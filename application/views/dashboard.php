@@ -1,4 +1,6 @@
-
+<div class="thumbnail span12 center well well-small text-center">
+    <FONT COLOR="BULE"> <B>DashBoard</B></FONT> 
+</div>
 <script type="text/javascript">
   $(function(){       
     $('*[data-href]').click(function(){

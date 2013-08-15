@@ -5,6 +5,10 @@
 			parent::__construct();
 		}
 		public function index() {
+			$sudata =array (
+						'current_tab' => 'account'
+					);
+			$this->session->set_userdata($sudata);
 			$canlog=$this->radhe->canlogin();
 			if ($canlog!=1)
 			{

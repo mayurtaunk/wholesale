@@ -3,6 +3,10 @@
 class Barcode extends CI_Controller {
 	public function index() 
 	{
+		$sudata =array (
+						'current_tab' => 'barcode'
+					);
+		$this->session->set_userdata($sudata);
 		$data['page'] = "barcode_print";
 		$data['title'] = "Barcode";
 		$this->load->view('index',$data);

@@ -1,3 +1,6 @@
+<div class="thumbnail span12 center well well-small text-center">
+  	<FONT COLOR="BULE"> <B>Add | Update Party Information</B></FONT> 
+</div>
 <?php
 	echo start_widget('Party Information', anchor('party', '<span class="icon"><i class="icon-list"></i></span>'), 'nopadding');
 	echo form_open($this->uri->uri_string(), 'class="form-horizontal"');

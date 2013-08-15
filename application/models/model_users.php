@@ -22,6 +22,7 @@ class Model_users extends CI_Model {
 						'search_party' => '',
 						'search_purchase' => '',
 						'search_sales' => '',
+						'current_tab' => '',
 						'company_id' => $defval['value']
 					);
 				$this->session->set_userdata($data);

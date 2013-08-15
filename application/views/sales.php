@@ -1,3 +1,6 @@
+<div class="thumbnail span12 center well well-small text-center">
+  	<FONT COLOR="BULE"> <B>Add | Update Sales Details</B></FONT> 
+</div>
 <?php
 	echo start_widget('Sales Entry', anchor('sales', '<span class="icon"><i class="icon-list"></i></span>'), 'nopadding');
 	echo form_open($this->uri->uri_string(), 'class="form-horizontal"');

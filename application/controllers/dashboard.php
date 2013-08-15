@@ -8,6 +8,10 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function index() {
+		$sudata =array (
+						'current_tab' => 'dash'
+					);
+			$this->session->set_userdata($sudata);
 		/*User Validation Start*/
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
@@ -81,6 +85,7 @@ class Dashboard extends CI_Controller {
 						else
 						{
 							$sql="SELECT PR.name, 
+									 PD.barcode,
         				             CASE 
         				             WHEN (SUM(SD.quantity)) IS NULL THEN PD.quantity 
         				             ELSE (pd.quantity - sum(sd.quantity)) 

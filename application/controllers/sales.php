@@ -5,6 +5,10 @@ class Sales extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
+		$sudata =array (
+						'current_tab' => 'sales'
+					);
+			$this->session->set_userdata($sudata);
 		/*User Validation Start*/
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)

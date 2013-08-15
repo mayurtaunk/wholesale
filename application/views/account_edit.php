@@ -1,6 +1,6 @@
-
-<div class="row-fluid">
-	<div class="span10">
+<div class="thumbnail span12 center well well-small text-center">
+  	<FONT COLOR="BULE"> <B>Update Account Details</B></FONT> 
+</div>
 <?php
 echo start_widget('Add Account', anchor('account', '<span class="icon"><i class="icon-list"></i></span>'), 'nopadding');
 echo form_open($this->uri->uri_string(), 'class="form-horizontal"');

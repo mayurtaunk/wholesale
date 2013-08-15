@@ -178,7 +178,7 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="divider-vertical"></li>
-              <li><a href=<?php echo base_url("index.php/main/master") ?>><i class="icon-home icon-white"></i> Home</a></li>
+              <li <?php if($this->session->userdata('current_tab') == 'dash') { echo "class='active'"; } ?>><a href=<?php echo base_url("index.php/main/master") ?>><i class="icon-home icon-white"></i> Home</a></li>
             </ul>
             <div class="pull-right">
               <ul class="nav pull-right">
@@ -202,28 +202,35 @@ $this->output->set_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         <div class="well sidebar-nav span12">
           <ul class="nav nav-list">
             <li class="nav-header">Feed Data</li>
-            <li active><?php echo anchor('party', 'Party List'); ?></li>
-            <li><?php echo anchor('product', 'Product List'); ?></li>
-            <li><?php echo anchor('purchase', 'Purchase List'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'party') { echo "class='active'"; } ?>>
+            <?php echo anchor('party', 'Party List'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'product') { echo "class='active'"; } ?>>
+            <?php echo anchor('product', 'Product List'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'purchase') { echo "class='active'"; } ?>>
+            <?php echo anchor('purchase', 'Purchase List'); ?></li>
             <li class="nav-header">Sales</li>
-            <li><?php echo anchor('sales', 'Sales List'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'sales') { echo "class='active'"; } ?>>
+              <?php echo anchor('sales', 'Sales List'); ?></li>
+            </li>
             <li class="nav-header">Print</li>
-            <li><?php echo anchor('barcode', 'Print Barcode'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'barcode') { echo "class='active'"; } ?>>
+              <?php echo anchor('barcode', 'Print Barcode'); ?></li>
+            </li>
             <li class="nav-header">Banking</li>
-       <!-- <li><?php echo anchor('account', 'Add Account'); ?></li> -->
-            <li><?php echo anchor('transaction/edit/0', 'Make a Transaction'); ?></li>
+            <!-- <li ><?php echo anchor('account', 'Add Account'); ?></li> -->
+            <li <?php if($this->session->userdata('current_tab') == 'trans') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/0', 'Make a Transaction'); ?></li>
             <li class="nav-header">Reports</li>
-            <li><?php echo anchor('reports/sale_report', 'Sale Report'); ?></li>
-            <li><?php echo anchor('reports/account_statement', 'Account Statement'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'sale_rep') { echo "class='active'"; } ?>><?php echo anchor('reports/sale_report', 'Sale Report'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'account_rep') { echo "class='active'"; } ?>><?php echo anchor('reports/account_statement', 'Account Statement'); ?></li>
             <li><a href="#">Yearly Report(Finacial)</a></li>
             <li class="nav-header">Out Bound Transaction</li>
-            <li><?php echo anchor('transaction/edit/lightbill', 'Light Bills'); ?></li>
-            <li><?php echo anchor('transaction/edit/telephonebill', 'Telephone Bills'); ?></li>
-            <li><?php echo anchor('transaction/edit/employeesalary','Employee Salary');?></li>
-            <li><?php echo anchor('transaction/edit/taxes','Taxes');?></li>
-            <li><?php echo anchor('transaction/edit/other','Others');?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'translight') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/lightbill', 'Light Bills'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'transtele') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/telephonebill', 'Telephone Bills'); ?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'transsal') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/employeesalary','Employee Salary');?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'tax') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/taxes','Taxes');?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'other') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/other','Others');?></li>
             <li class="nav-header">In Bound Transaction</li>
-            <li><?php echo anchor('transaction/edit/inbound','In Bound');?></li>
+            <li <?php if($this->session->userdata('current_tab') == 'inbnd') { echo "class='active'"; } ?>><?php echo anchor('transaction/edit/inbound','In Bound');?></li>
           </ul>
         </div><!--/.well -->
       </div><!--/span-->

@@ -1,3 +1,6 @@
+<div class="thumbnail span12 center well well-small text-center">
+  	<FONT COLOR="BULE"> <B>Print Barcode</B></FONT> 
+</div>
 <?php
 if(isset($popup))
 echo start_widget('Print Barcode');
@@ -32,7 +35,7 @@ echo form_open($this->uri->uri_string()."/print_barcode", 'class="form-horizonta
 	</div>
 </div>
 <div class="form-actions">
-	<button type="submit" name="submit" value="1" class="btn btn-success" id="Update">Print</button>
+	<button type="submit" name="submit" value="1" class="btn btn-success pull-right" id="Update">Print</button>
 </div>
 
 </form>

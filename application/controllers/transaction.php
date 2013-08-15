@@ -59,6 +59,88 @@ class Transaction extends CI_Controller {
 	}
 
 	public function edit($id) {
+		switch ($id) {
+			case '0':
+				if ($this->session->userdata('current_tab') != 'trans')
+				{
+					$sudata =array (
+								'current_tab' => 'trans'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/0');
+			
+				}
+				break;
+			case 'lightbill' :
+				if ($this->session->userdata('current_tab') != 'translight')
+				{
+					$sudata =array (
+								'current_tab' => 'translight'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/lightbill');
+			
+				}
+				break;
+			case 'telephonebill' :
+				if ($this->session->userdata('current_tab') != 'transtele')
+				{
+					$sudata =array (
+								'current_tab' => 'transtele'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/telephonebill');
+			
+				}
+				break;
+			case 'employeesalary' :
+				if ($this->session->userdata('current_tab') != 'transsal')
+				{
+					$sudata =array (
+								'current_tab' => 'transsal'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/employeesalary');
+			
+				}
+				break;
+			case 'taxes' :
+				if ($this->session->userdata('current_tab') != 'tax')
+				{
+					$sudata =array (
+								'current_tab' => 'tax'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/taxes');
+			
+				}
+				break;
+			case 'other' :
+				if ($this->session->userdata('current_tab') != 'other')
+				{
+					$sudata =array (
+								'current_tab' => 'other'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/other');
+			
+				}
+				break;
+			case 'inbound' :
+				if ($this->session->userdata('current_tab') != 'inbnd')
+				{
+					$sudata =array (
+								'current_tab' => 'inbnd'
+							);
+					$this->session->set_userdata($sudata);
+					redirect('transaction/edit/inbound');
+			
+				}
+				break;
+			
+			
+		}
+		
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{

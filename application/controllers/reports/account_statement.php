@@ -6,6 +6,10 @@ class Account_statement extends CI_controller {
 	}
 
 	function index() {
+		$sudata =array (
+						'current_tab' => 'account_rep'
+					);
+			$this->session->set_userdata($sudata);
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1) {
 			redirect('main/login');

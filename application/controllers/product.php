@@ -9,6 +9,10 @@ class Product extends CI_Controller {
 
 
 	public function index() {
+		$sudata =array (
+						'current_tab' => 'product'
+					);
+		$this->session->set_userdata($sudata);
 		$canlog=$this->radhe->canlogin();
 		if ($canlog!=1)
 		{
