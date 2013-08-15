@@ -488,7 +488,7 @@ class Sales extends CI_Controller {
 			$sql = "SELECT distinct PD.id, PD.barcode 
 			FROM purchase_details PD INNER JOIN purchases P ON P.id = PD.purchase_id 
 			WHERE PD.barcode LIKE '%$search%' AND PD.sold = 0 AND P.company_id = ".$this->session->userdata['company_id'].
-			" ORDER BY PD.barcode";
+			"GROUP BY PD.barcode ORDER BY PD.barcode";
 			$this->_getautocomplete($sql);
 		
 	}

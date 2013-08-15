@@ -46,7 +46,7 @@ class Barcode extends CI_Controller {
 			$sql = "SELECT barcode as name,id
 			FROM purchase_details
 			WHERE barcode LIKE '%$search%' 
-			ORDER BY barcode";
+			 GROUP BY barcode ORDER BY barcode";
 			$this->_getautocomplete($sql);
 		
 	}
